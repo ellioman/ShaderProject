@@ -1,4 +1,4 @@
-﻿Shader "Custom/StencilMask_1_Diffuse"
+﻿Shader "Custom/StencilMask_2_Diffuse"
 {
 	Properties
 	{
