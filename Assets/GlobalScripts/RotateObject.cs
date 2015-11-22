@@ -9,7 +9,6 @@ public class RotateObject : MonoBehaviour
 	[SerializeField] protected float speed;
 	[SerializeField] protected Vector3 axis;
 
-
 	#endregion
 
 
