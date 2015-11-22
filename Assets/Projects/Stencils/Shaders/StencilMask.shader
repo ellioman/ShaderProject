@@ -1,6 +1,12 @@
 ﻿// This shader is used to write the "Ref" number, in the Stencil part, to the Stencil Buffer.
-Shader "Stencils/StencilMask_3"
+Shader "Stencils/StencilMask"
 {
+	// What variables do we want sent in to the shader?
+	Properties
+	{
+		_StencilVal ("stencilVal", Range(0, 255)) = 1
+	}
+		
 	SubShader 
 	{
 		Tags
@@ -12,7 +18,7 @@ Shader "Stencils/StencilMask_3"
 		ZWrite off
 		Stencil 
 		{
-			Ref 3
+			Ref [_StencilVal]
 			Comp always
 			Pass replace
 		}

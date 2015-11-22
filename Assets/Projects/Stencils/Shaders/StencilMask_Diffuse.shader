@@ -1,9 +1,10 @@
 ﻿// This shader only renders if the stencil ref number matches the one in the Stencil Buffer
-Shader "Stencils/StencilMask_2_Diffuse"
+Shader "Stencils/StencilMask_Diffuse"
 {
 	// What variables do we want sent in to the shader?
 	Properties
 	{
+		_StencilVal ("stencilVal", Range(0, 255)) = 1
 		_Color ("Main Color", Color) = (1,1,1,1)
 		_MainTex ("Base (RGB) Trans (A)", 2D) = "white" {}
 	}
@@ -15,7 +16,7 @@ Shader "Stencils/StencilMask_2_Diffuse"
 		{
 			// The value to be compared against (if Comp is anything else than always) and/or the value to be
 			// written to the buffer (if either Pass, Fail or ZFail is set to replace). 0–255 integer.
-			Ref 2
+			Ref [_StencilVal]
 			
 			// The function used to compare the reference value to the current contents of the buffer.
 			// Here we use Equal because we only want to render when the stencil matched the "Ref" value above
