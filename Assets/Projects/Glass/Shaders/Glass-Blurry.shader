@@ -68,28 +68,47 @@ Shader "Glass/Blurry"
 				float4 _GrabTexture_TexelSize;
 				half4 frag( v2f i ) : COLOR
 				{
-					float offsetVal = 5f;
-					float4 aaa = i.uvgrab;
+					float offsetVal = 195f;
+					float4 uv = i.uvgrab;
+					half4 col;
 					
-					aaa.y = i.uvgrab.y + _GrabTexture_TexelSize.y * offsetVal;
+					// Top level
+					uv.y = i.uvgrab.y + _GrabTexture_TexelSize.y * offsetVal;
 					
-					aaa.x = i.uvgrab.x + _GrabTexture_TexelSize.x * offsetVal;
-					half4 a = tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(aaa));
-					tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(aaa));
+					uv.x = i.uvgrab.x + _GrabTexture_TexelSize.x * offsetVal;
+					col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
 					
-					aaa.x = i.uvgrab.x - _GrabTexture_TexelSize.x * offsetVal;
-					half4 b = tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(aaa));
+					uv.x = i.uvgrab.x;
+					col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
+
+					uv.x = i.uvgrab.x - _GrabTexture_TexelSize.x * offsetVal;
+					col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
 					
-					aaa.y = i.uvgrab.y - _GrabTexture_TexelSize.y * offsetVal;
+					// Middle level
+					uv.y = i.uvgrab.y;
 					
-					aaa.x = i.uvgrab.x + _GrabTexture_TexelSize.x * offsetVal;
-					half4 c = tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(aaa));
-					tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(aaa));
+					uv.x = i.uvgrab.x + _GrabTexture_TexelSize.x * offsetVal;
+					col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
 					
-					aaa.x = i.uvgrab.x - _GrabTexture_TexelSize.x * offsetVal;
-					half4 d = tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(aaa));
+					uv.x = i.uvgrab.x;
+					col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
+
+					uv.x = i.uvgrab.x - _GrabTexture_TexelSize.x * offsetVal;
+					col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
 					
-					return (a + b + c + d) / 4f;
+					// Bottom level
+					uv.y = i.uvgrab.y - _GrabTexture_TexelSize.y * offsetVal;
+					
+					uv.x = i.uvgrab.x + _GrabTexture_TexelSize.x * offsetVal;
+					col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
+					
+					uv.x = i.uvgrab.x;
+					col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
+
+					uv.x = i.uvgrab.x - _GrabTexture_TexelSize.x * offsetVal;
+					col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
+					
+					return col / 9f;
 				}
 				ENDCG
 			}
