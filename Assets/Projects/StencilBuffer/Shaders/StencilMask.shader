@@ -9,11 +9,16 @@ Shader "Stencils/StencilMask"
 		
 	SubShader 
 	{
+		// Subshaders use tags to tell how and when they 
+		// expect to be rendered to the rendering engine
 		Tags
 		{
 			"RenderType"="Opaque"
 			"Queue"="Geometry-100"
 		}
+		
+		// The Stencil Buffer
+		// Here we always pass and replace the stencil value with the one in _StencilVal
 		ColorMask 0
 		ZWrite off
 		Stencil 
@@ -26,6 +31,7 @@ Shader "Stencils/StencilMask"
 		Pass
 		{
 			CGPROGRAM
+			
 				// What functions should we use for the vertex and fragment shaders?
 				#pragma vertex vert
 				#pragma fragment frag
@@ -41,7 +47,7 @@ Shader "Stencils/StencilMask"
 					float4 pos : SV_POSITION;
 				};
 				
-				// The vertex shader
+				// The Vertex Shader
 				v2f vert(appdata v) 
 				{
 					v2f o;
@@ -49,11 +55,12 @@ Shader "Stencils/StencilMask"
 					return o;
 				}
 				
-				// The fragment shader
+				// The Fragment Shader
 				half4 frag(v2f i) : COLOR 
 				{
 					return half4(1,1,0,1);
 				}
+				
 			ENDCG
 		}
 	}
