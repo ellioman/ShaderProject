@@ -17,7 +17,10 @@ Shader "Stencils/StencilMask"
 			"Queue"="Geometry-100"
 		}
 		
-		// The Stencil Buffer
+		// ---------------------------
+		// Stencil Buffer
+		// ----------------------------
+		
 		// Here we always pass and replace the stencil value with the one in _StencilVal
 		ColorMask 0
 		ZWrite off
@@ -36,27 +39,37 @@ Shader "Stencils/StencilMask"
 				#pragma vertex vert
 				#pragma fragment frag
 				
+				
+				// ---------------------------
+				// Variables
+				// ----------------------------
+				
 				// What gets sent in the vertex and fragment shaders?
 				struct appdata 
 				{
 					float4 vertex : POSITION;
 				};
 				
-				struct v2f 
+				struct fragmentInput 
 				{
 					float4 pos : SV_POSITION;
 				};
 				
+				
+				// ---------------------------
+				// Shaders
+				// ----------------------------
+				
 				// The Vertex Shader
-				v2f vert(appdata v) 
+				fragmentInput vert(appdata v) 
 				{
-					v2f o;
+					fragmentInput o;
 					o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
 					return o;
 				}
 				
 				// The Fragment Shader
-				half4 frag(v2f i) : COLOR 
+				half4 frag(fragmentInput i) : COLOR 
 				{
 					return half4(1,1,0,1);
 				}

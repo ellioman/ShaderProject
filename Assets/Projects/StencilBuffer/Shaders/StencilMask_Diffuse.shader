@@ -11,7 +11,19 @@ Shader "Stencils/StencilMask_Diffuse"
 
 	SubShader
 	{
+		// Subshaders use tags to tell how and when they 
+		// expect to be rendered to the rendering engine
+		Tags
+		{
+			"Queue"="Transparent"
+			"IgnoreProjector"="True"
+			"RenderType"="Transparent"
+		}
+		LOD 200
+		
+		// ---------------------------
 		// Stencil Buffer: http://docs.unity3d.com/Manual/SL-Stencil.html
+		// ----------------------------
 		Stencil
 		{
 			// The value to be compared against (if Comp is anything else than always) and/or the value to be
@@ -31,17 +43,15 @@ Shader "Stencils/StencilMask_Diffuse"
 			Fail Keep
 		}
 		
-		Tags
-		{
-			"Queue"="Transparent"
-			"IgnoreProjector"="True"
-			"RenderType"="Transparent"
-		}
-		LOD 200
-
 		CGPROGRAM
 		#pragma surface surf Lambert alpha
-
+		
+		
+		// ---------------------------
+		// Variables
+		// ----------------------------
+		
+		// These need to be declared again so the fragment shader can use it
 		sampler2D _MainTex;
 		fixed4 _Color;
 
@@ -49,7 +59,13 @@ Shader "Stencils/StencilMask_Diffuse"
 		{
 			float2 uv_MainTex;
 		};
+		
+		
+		// ---------------------------
+		// Shaders
+		// ----------------------------
 
+		// The Surface Shader
 		void surf (Input IN, inout SurfaceOutput o)
 		{
 			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;
