@@ -20,25 +20,36 @@ Shader "Simple/SolidColor"
 	            // Include some commonly used helper functions
 	            #include "UnityCG.cginc"
 	 			
+	 			
+	 			// ---------------------------
+				// Variables
+				// ----------------------------
+	 			
 	 			// What variables do I want in the Vertex & Fragment shaders?
-	            struct v2f
+	            struct fragmentInput
 	            {
 	                float4 pos : SV_POSITION;
 	            };
 	 			
-	 			fixed4 _Color; // This needs to be declared so the fragment shader can use it
+	 			// These need to be declared again so the fragment shader can use it
+	 			fixed4 _Color; 
+	 			
+	 			
+	 			// ---------------------------
+				// Shaders
+				// ----------------------------
 	 			
 	 			// The Vertex Shader 
 	 			// appdata_base is a Unity struct with position, normal and one tex coordinate
-	            v2f vert(appdata_base v)
+	            fragmentInput vert(appdata_base v)
 	            {
-	                v2f o;
-	                o.pos = mul (UNITY_MATRIX_MVP, v.vertex);
+	                fragmentInput o;
+	                o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
 	                return o;
 	            }
 	 			
 	 			// The Fragment Shader
-	            fixed4 frag(v2f i) : COLOR
+	            fixed4 frag(fragmentInput i) : COLOR
 	            {
 	                return _Color;
 	            }
