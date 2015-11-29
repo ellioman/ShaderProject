@@ -22,8 +22,13 @@ Shader "Glass/Blurry"
 			
 			GrabPass 
 			{
-				"_GrabTexture"								
+				// Name of the variable holding the GrabPass output
+				"_GrabTexture"
+				
+				// Pass name						
 				Name "BASE"
+				
+				// Tags for the pass
 				Tags
 				{
 					"LightMode" = "Always"
@@ -32,6 +37,7 @@ Shader "Glass/Blurry"
 	 		
 			Pass
 			{
+				// Pass name
 				Name "BASE"
 				
 				// Subshaders use tags to tell how and when they 
@@ -53,7 +59,7 @@ Shader "Glass/Blurry"
 					
 					// ---------------------------
 					// Variables
-					// ----------------------------
+					// ---------------------------
 
 					struct appdata_t
 					{
@@ -68,7 +74,7 @@ Shader "Glass/Blurry"
 						float4 uvgrab : TEXCOORD1;
 					};
 					
-					// These need to be declared again so the fragment shader can use it
+					// User-specified properties
 					sampler2D _GrabTexture;
 					float4 _GrabTexture_TexelSize;
 					

@@ -19,6 +19,11 @@ Shader "Simple/ApplyTexture"
 	            
 	            // Include some commonly used helper functions
 	            #include "UnityCG.cginc"
+			
+			
+				// ---------------------------
+				// Variables
+				// ---------------------------
 	 			
 	            // What variables do I want in the Vertex & Fragment shaders?
 	            struct vertexInput
@@ -27,25 +32,31 @@ Shader "Simple/ApplyTexture"
             	    float4 texcoord0 : TEXCOORD0;
 	            };
 
-	            struct fragmentInput
+	            struct vertexOutput
 	            {
 	                float4 position : SV_POSITION;
 	                float4 texcoord0 : TEXCOORD0;
 	            };
 	            
-	            sampler2D _MainTex; // This needs to be declared so the fragment shader can use it
+	            // User-specified properties
+	            sampler2D _MainTex;
+	 			
+	 			
+	 			// ---------------------------
+				// Shaders
+				// ----------------------------
 				
 				// The Vertex Shader 
-	            fragmentInput vert(vertexInput i)
+	            vertexOutput vert(vertexInput i)
 	            {
-	                fragmentInput o;
+	                vertexOutput o;
 	                o.position = mul (UNITY_MATRIX_MVP, i.vertex);
 	                o.texcoord0 = i.texcoord0;
 	                return o;
 	            }
 	            
 	            // The Fragment Shader
-	            fixed4 frag(fragmentInput i) : SV_Target
+	            fixed4 frag(vertexOutput i) : SV_Target
 	            {
 	           		//return tex2Dproj( _MainTex, UNITY_PROJ_COORD(i.texcoord0));
 	          		return tex2D( _MainTex, i.texcoord0 );

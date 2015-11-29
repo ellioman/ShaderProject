@@ -42,7 +42,7 @@ Shader "Stencils/StencilMask"
 				
 				// ---------------------------
 				// Variables
-				// ----------------------------
+				// ---------------------------
 				
 				// What gets sent in the vertex and fragment shaders?
 				struct appdata 
@@ -50,7 +50,7 @@ Shader "Stencils/StencilMask"
 					float4 vertex : POSITION;
 				};
 				
-				struct fragmentInput 
+				struct vertexOutput 
 				{
 					float4 pos : SV_POSITION;
 				};
@@ -61,15 +61,15 @@ Shader "Stencils/StencilMask"
 				// ----------------------------
 				
 				// The Vertex Shader
-				fragmentInput vert(appdata v) 
+				vertexOutput vert(appdata v) 
 				{
-					fragmentInput o;
+					vertexOutput o;
 					o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
 					return o;
 				}
 				
 				// The Fragment Shader
-				half4 frag(fragmentInput i) : COLOR 
+				half4 frag(vertexOutput i) : COLOR 
 				{
 					return half4(1,1,0,1);
 				}

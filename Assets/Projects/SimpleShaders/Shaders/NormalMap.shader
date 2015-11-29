@@ -1,85 +1,61 @@
-﻿// The Shader takes two textures and blends them together using the _BlendValue
-Shader "Simple/NormalMap"
-{
-	// What variables do we want sent in to the shader?
+﻿  // The Shader takes a color and a normal texture and uses them to do normal mapping with a surface shader.
+  Shader "Mapping/NormalMapSurfaceShader"
+  {
+  	// What variables do we want sent in to the shader?
 	Properties
 	{
-		_MainTex ("Base (RGB)", 2D) = "white" {}
-		_NormalMap ("Base (RGB)", 2D) = "white" {} 
-	}
-	
+      _MainTex ("Main Texture", 2D) = "white" {}
+      _NormalMap ("Normal Map", 2D) = "bump" {}
+      _Occlusion ("Occlusion", 2D) = "white" {}
+      _Specular ("Specular Map", 2D) = "white" {}
+    }
+    
     SubShader
     {
-        Pass
-        {
-            CGPROGRAM
- 			
-	 			// What functions should we use for the vertex and fragment shaders?
-	            #pragma vertex vert
-	            #pragma fragment frag
-	            
-	            // Include some commonly used helper functions
-	            #include "UnityCG.cginc"
-	 			
-	 			
-	 			// ---------------------------
-				// Variables
-				// ----------------------------
-	 			
-	            // What variables do I want in the Vertex & Fragment shaders?
-	            struct vertexInput
-	            {
-            	    float4 vertex : POSITION;
-            	    float4 texcoord : TEXCOORD0;
-	            };
-
-	            struct fragmentInput
-	            {
-	                float4 position : SV_POSITION;
-	                float2 mainTexUV : TEXCOORD0;
-	                float2 secondTexUV : TEXCOORD1;
-	            };
-	            
-	        	// These need to be declared again so the fragment shader can use it
-	            sampler2D _MainTex; 
-	            sampler2D _NormalMap;
-				
-				// These are created by Unity when we use the TRANSFORM_TEX Macro in the
-				// vertex shader. XY values controls the texture tiling and ZW the offset
-				float4 _MainTex_ST;
-	            float4 _NormalMap_ST;
-				
-				
-				// ---------------------------
-				// Shaders
-				// ----------------------------
-				
-				// The Vertex Shader 
-	            fragmentInput vert(vertexInput i)
-	            {
-	                fragmentInput o;
-	                o.position = mul(UNITY_MATRIX_MVP, i.vertex);
-	                
-	                // We use Unity's TRANSFORM_TEX macro to scale and offset the texture
-	                // coordinates using the tiling and offset from the Unity editor.
-	                o.mainTexUV = TRANSFORM_TEX(i.texcoord, _MainTex);
-	                o.secondTexUV = TRANSFORM_TEX(i.texcoord, _NormalMap);
-	                return o;
-	            }
-	            
-	            // The Fragment Shader
-	            fixed4 frag(fragmentInput i) : COLOR
-	            {
-	            	// Get the color value from the textures
-	          		float4 a = tex2D(_MainTex, i.mainTexUV);
-	          		float4 b = tex2D(_NormalMap, i.secondTexUV);
-	          		
-	          		// Blend the two color values
-	          		return a;
-	            }
- 
-            ENDCG
-        }
-    }
-    Fallback "VertexLit"
+      Tags
+      {
+      	"RenderType" = "Opaque"
+      }
+      
+      CGPROGRAM
+      
+      	// What functions should we use for the vertex and fragment shaders?
+		#pragma surface surf StandardSpecular
+	      
+		// ---------------------------
+		// Variables
+		// ----------------------------
+		
+		// What variables do I want in the Vertex & Fragment shaders?
+		struct Input
+		{
+			float2 uv_MainTex;
+			float2 uv_NormalMap;
+			float2 uv_Occlusion;
+			float2 uv_Specular;
+		};
+		
+		// User-specified properties
+		sampler2D _MainTex;
+		sampler2D _NormalMap;
+		sampler2D _Occlusion;
+		sampler2D _Specular;
+		
+		// ---------------------------
+		// Shaders
+		// ----------------------------
+		
+		// The Surface Shader
+		void surf (Input IN, inout SurfaceOutputStandardSpecular o)
+		{
+			o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb;
+			o.Occlusion = tex2D(_Occlusion, IN.uv_Occlusion).rgb;
+	        o.Normal = UnpackNormal (tex2D(_NormalMap, IN.uv_NormalMap));
+	        o.Specular = tex2D(_Specular, IN.uv_Specular).rgb;
+		}
+		
+      ENDCG
+    } 
+    
+    Fallback "Diffuse"
 }

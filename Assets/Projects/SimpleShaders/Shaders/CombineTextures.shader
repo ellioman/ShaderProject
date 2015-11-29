@@ -34,14 +34,14 @@ Shader "Simple/CombineTextures"
             	    float4 texcoord : TEXCOORD0;
 	            };
 
-	            struct fragmentInput
+	            struct vertexOutput
 	            {
 	                float4 position : SV_POSITION;
 	                float2 mainTexUV : TEXCOORD0;
 	                float2 secondTexUV : TEXCOORD1;
 	            };
 	            
-	           // These need to be declared again so the fragment shader can use it
+	        	// User-specified properties
 	            sampler2D _MainTex; 
 	            sampler2D _SecondTex;
 	            float _BlendValue;
@@ -57,9 +57,9 @@ Shader "Simple/CombineTextures"
 				// ----------------------------
 				
 				// The Vertex Shader 
-	            fragmentInput vert(vertexInput i)
+	            vertexOutput vert(vertexInput i)
 	            {
-	                fragmentInput o;
+	                vertexOutput o;
 	                o.position = mul(UNITY_MATRIX_MVP, i.vertex);
 	                
 	                // We use Unity's TRANSFORM_TEX macro to scale and offset the texture
@@ -70,7 +70,7 @@ Shader "Simple/CombineTextures"
 	            }
 	            
 	            // The Fragment Shader
-	            fixed4 frag(fragmentInput i) : COLOR
+	            fixed4 frag(vertexOutput i) : COLOR
 	            {
 	            	// Get the color value from the textures
 	          		float4 a = tex2D(_MainTex, i.mainTexUV);

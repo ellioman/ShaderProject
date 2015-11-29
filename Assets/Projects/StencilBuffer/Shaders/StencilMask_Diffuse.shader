@@ -51,14 +51,15 @@ Shader "Stencils/StencilMask_Diffuse"
 		// Variables
 		// ----------------------------
 		
-		// These need to be declared again so the fragment shader can use it
-		sampler2D _MainTex;
-		fixed4 _Color;
-
+		// What variables do I want in the Vertex & Fragment shaders?
 		struct Input
 		{
 			float2 uv_MainTex;
 		};
+		
+		// User-specified properties
+		sampler2D _MainTex;
+		fixed4 _Color;
 		
 		
 		// ---------------------------

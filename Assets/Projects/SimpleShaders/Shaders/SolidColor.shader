@@ -26,12 +26,12 @@ Shader "Simple/SolidColor"
 				// ----------------------------
 	 			
 	 			// What variables do I want in the Vertex & Fragment shaders?
-	            struct fragmentInput
+	            struct vertexOutput
 	            {
 	                float4 pos : SV_POSITION;
 	            };
 	 			
-	 			// These need to be declared again so the fragment shader can use it
+	 			// User-specified properties
 	 			fixed4 _Color; 
 	 			
 	 			
@@ -41,15 +41,15 @@ Shader "Simple/SolidColor"
 	 			
 	 			// The Vertex Shader 
 	 			// appdata_base is a Unity struct with position, normal and one tex coordinate
-	            fragmentInput vert(appdata_base v)
+	            vertexOutput vert(appdata_base v)
 	            {
-	                fragmentInput o;
+	                vertexOutput o;
 	                o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
 	                return o;
 	            }
 	 			
 	 			// The Fragment Shader
-	            fixed4 frag(fragmentInput i) : COLOR
+	            fixed4 frag(vertexOutput i) : COLOR
 	            {
 	                return _Color;
 	            }
