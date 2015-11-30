@@ -6,7 +6,8 @@ Shader "Simple/UnlitRGBCube"
 		Pass
 		{ 
 			CGPROGRAM 
-
+				
+				// What functions should we use for the vertex and fragment shaders?
 				#pragma vertex vert // vert function is the vertex shader 
 				#pragma fragment frag // frag function is the fragment shader
 
@@ -26,13 +27,18 @@ Shader "Simple/UnlitRGBCube"
 	            	float4 pos : SV_POSITION;
 					float4 col : TEXCOORD0;
 	            };
+	            
 
-				// The Vertex Shader
+				// ---------------------------
+				// Shaders
+				// ----------------------------
+				
+				// The Vertex Shader 
 				vertexOutput vert(vertexInput i) 
 				{
 					vertexOutput output;
 
-					output.pos =  mul(UNITY_MATRIX_MVP, i.vertex);
+					output.pos = mul(UNITY_MATRIX_MVP, i.vertex);
 					output.col = i.vertex + float4(0.5, 0.5, 0.5, 0.0);
 					
 					// Here the vertex shader writes output data
