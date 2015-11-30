@@ -1,5 +1,5 @@
 ﻿// The Shader uses the _Color input given and colors the object with it.
-Shader "Simple/SolidColor"
+Shader "Simple/UnlitSolidColor"
 {
 	// What variables do we want sent in to the shader?
 	Properties

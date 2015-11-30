@@ -7,6 +7,7 @@ I created this repository to keep track of all kinds of shader code that I'll be
 
 ### List of Projects in this Repository ###
 * Simple Shaders
+	* RGB Cube
 	* Unlit Coloring
 	* Texture mapping
 	* Combine two textures
@@ -19,7 +20,9 @@ I created this repository to keep track of all kinds of shader code that I'll be
 ## Requirements ##
 The project must be run on Unity3D version 5 or newer.
 
-## Thank Yous ##
+## Thank Yous / Resources ##
 
 * Noisecrime for his [Stencil examples](http://forum.unity3d.com/threads/unity-4-2-stencils-for-portal-rendering.191890/)
 * Käy Vriend for his [Free game dev resources](http://kay-vriend.blogspot.dk/2012/09/medieval-stonework.html)
+* Wikibooks for [the tutorials] (https://en.wikibooks.org/wiki/Cg_Programming/Unity)
+* Unity3d wiki for [their example shaders] (http://wiki.unity3d.com/index.php/Shaders)
