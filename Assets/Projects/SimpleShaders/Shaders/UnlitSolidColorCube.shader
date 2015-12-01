@@ -32,7 +32,7 @@ Shader "Simple/UnlitSolidColor"
 	            };
 	 			
 	 			// User-specified properties
-	 			fixed4 _Color; 
+	 			fixed4 _Color;
 	 			
 	 			
 	 			// ---------------------------
