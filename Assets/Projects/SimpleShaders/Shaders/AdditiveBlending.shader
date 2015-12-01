@@ -20,7 +20,7 @@ Shader "Simple/AdditiveBlending"
         {
         	// don't write to depth buffer in order not to occlude other objects
         	ZWrite Off 
-        	cull off
+        	
         	// Use additive blending
         	// float4 result = float4(1.0) * fragment_output + float4(1.0) * pixel_color;
         	Blend one one
