@@ -1,5 +1,5 @@
-﻿// The Shader outputs a transparent object using alpha blending
-Shader "Simple/AlphaBlending"
+﻿// The Shader outputs adds the fragment output color to the color in the framebuffer by using additive blending 
+Shader "Simple/AdditiveBlending"
 {
 	// What variables do we want sent in to the shader?
 	Properties
@@ -20,9 +20,9 @@ Shader "Simple/AlphaBlending"
         	// don't write to depth buffer in order not to occlude other objects
         	ZWrite Off 
         	
-        	// Use alpha blending
-        	// float4 result = float4(1.0) * fragment_output + (float4(1.0) - fragment_output.aaaa) * pixel_color;
-        	Blend SrcAlpha OneMinusSrcAlpha
+        	// Use additive blending
+        	// float4 result = float4(1.0) * fragment_output + float4(1.0) * pixel_color;
+        	Blend one one
             
             CGPROGRAM
  			
