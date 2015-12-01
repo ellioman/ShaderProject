@@ -50,7 +50,7 @@ Shader "Simple/ApplyTexture"
 	            vertexOutput vert(vertexInput i)
 	            {
 	                vertexOutput o;
-	                o.position = mul (UNITY_MATRIX_MVP, i.vertex);
+	                o.position = mul(UNITY_MATRIX_MVP, i.vertex);
 	                o.texcoord0 = i.texcoord0;
 	                return o;
 	            }
@@ -59,7 +59,7 @@ Shader "Simple/ApplyTexture"
 	            fixed4 frag(vertexOutput i) : SV_Target
 	            {
 	           		//return tex2Dproj( _MainTex, UNITY_PROJ_COORD(i.texcoord0));
-	          		return tex2D( _MainTex, i.texcoord0 );
+	          		return tex2D(_MainTex, i.texcoord0);
 	            }
  
             ENDCG

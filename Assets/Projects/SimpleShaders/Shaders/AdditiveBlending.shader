@@ -4,6 +4,7 @@ Shader "Simple/AdditiveBlending"
 	// What variables do we want sent in to the shader?
 	Properties
 	{
+		_MainTex ("Texture to blend", 2D) = "black" {}
 		_Color ("Color", Color) = (1,1,1,1)
 	}
 	
@@ -19,11 +20,11 @@ Shader "Simple/AdditiveBlending"
         {
         	// don't write to depth buffer in order not to occlude other objects
         	ZWrite Off 
-        	
+        	cull off
         	// Use additive blending
         	// float4 result = float4(1.0) * fragment_output + float4(1.0) * pixel_color;
         	Blend one one
-            
+
             CGPROGRAM
  			
 	 			// What functions should we use for the vertex and fragment shaders?
@@ -42,15 +43,18 @@ Shader "Simple/AdditiveBlending"
 	            struct vertexInput
 	            {
             	    float4 vertex : POSITION;
+            	    float4 texcoord0 : TEXCOORD0;
 	            };
 
 	            struct vertexOutput
 	            {
 	                float4 position : SV_POSITION;
+	                float4 texcoord0 : TEXCOORD0;
 	            };
 	 			
 	 			// User-specified properties
 	 			fixed4 _Color;
+	 			sampler2D _MainTex;
 	 			
 	 			
 	 			// ---------------------------
@@ -62,13 +66,15 @@ Shader "Simple/AdditiveBlending"
 				{
 					vertexOutput o;
 	                o.position = mul(UNITY_MATRIX_MVP, i.vertex);
+	                o.texcoord0 = i.texcoord0;
 	                return o;
 				}
 	            
 	            // The Fragment Shader
 	            fixed4 frag(vertexOutput i) : Color
 	            {
-	           		return _Color;
+	            	return tex2D(_MainTex, i.texcoord0) * _Color;
+	           		//return _Color;
 	            }
  
             ENDCG
