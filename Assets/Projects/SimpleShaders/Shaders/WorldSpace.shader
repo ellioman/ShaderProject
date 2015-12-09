@@ -1,4 +1,4 @@
-﻿Shader "Simple/WorldSpaceExample"
+﻿Shader "Ellioman/Simple/WorldSpaceExample"
 {
 	// What variables do we want sent in to the shader?
 	Properties

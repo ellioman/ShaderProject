@@ -1,5 +1,5 @@
 ﻿// This shader only renders if the stencil ref number matches the one in the Stencil Buffer
-Shader "Stencils/StencilMask_Diffuse"
+Shader "Ellioman/Stencils/StencilMask_Diffuse"
 {
 	// What variables do we want sent in to the shader?
 	Properties

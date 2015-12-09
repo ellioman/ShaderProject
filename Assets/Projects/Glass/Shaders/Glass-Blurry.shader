@@ -1,5 +1,5 @@
 // Blurs the contents of the screen behind the object
-Shader "Glass/Blurry"
+Shader "Ellioman/Glass/Blurry"
 {
 	Category
 	{

@@ -1,5 +1,5 @@
 ﻿// This shader is used to write the "Ref" number, in the Stencil part, to the Stencil Buffer.
-Shader "Stencils/StencilMask"
+Shader "Ellioman/Stencils/StencilMask"
 {
 	// What variables do we want sent in to the shader?
 	Properties

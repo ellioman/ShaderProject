@@ -2,7 +2,7 @@
 // Uses a normal map to distort the image behind, and
 // an additional texture to tint the color.
 
-Shader "FX/Glass/Stained BumpDistort"
+Shader "Ellioman/Glass/Stained BumpDistort"
 {
 	Properties
 	{

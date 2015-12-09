@@ -1,5 +1,5 @@
 ﻿// The Shader uses the _Color input given and colors the object with it.
-Shader "Simple/UnlitRGBCube"
+Shader "Ellioman/Simple/UnlitRGBCube"
 {
 	SubShader
 	{ 

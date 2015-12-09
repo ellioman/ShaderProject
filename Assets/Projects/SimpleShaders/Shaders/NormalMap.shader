@@ -1,5 +1,5 @@
 ﻿  // The Shader takes a color and a normal texture and uses them to do normal mapping with a surface shader.
-  Shader "Mapping/NormalMapSurfaceShader"
+  Shader "Ellioman/Mapping/NormalMapSurfaceShader"
   {
   	// What variables do we want sent in to the shader?
 	Properties

@@ -1,5 +1,5 @@
 ﻿// The Shader outputs adds the fragment output color to the color in the framebuffer by using additive blending 
-Shader "Simple/AdditiveBlending"
+Shader "Ellioman/Simple/AdditiveBlending"
 {
 	// What variables do we want sent in to the shader?
 	Properties

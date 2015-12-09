@@ -1,5 +1,5 @@
 ﻿// The Shader uses the _MainTex input given and colors the object with it
-Shader "Simple/ApplyTexture"
+Shader "Ellioman/Simple/ApplyTexture"
 {
 	// What variables do we want sent in to the shader?
 	Properties
