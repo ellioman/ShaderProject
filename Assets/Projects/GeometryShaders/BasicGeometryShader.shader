@@ -1,151 +1,115 @@
-﻿Shader "Ellioman/GeometryShaders/Basic" 
- {        
-     Properties 
-     {
-         _MainTex ("TileTexture", 2D) = "white" {}
-         _PointSize("Point Size", Float) = 1.0
-     }
-     
-     SubShader 
-     {
-         LOD 200
-         
-         Pass 
-         {
-             CGPROGRAM
- 
-             #pragma only_renderers d3d11
-             #pragma target 4.0
-             
-             #include "UnityCG.cginc"
- 
-             #pragma vertex   myVertexShader
-             #pragma geometry myGeometryShader
-             #pragma fragment myFragmentShader
-             
-             #define TAM 36
-                         
-             struct vIn // Into the vertex shader
-             {
-                 float4 vertex : POSITION;
-                 float4 color  : COLOR0;
-             };
-             
-             struct gIn // OUT vertex shader, IN geometry shader
-             {
-                 float4 pos : SV_POSITION;
-                 float4 col : COLOR0;
-             };
-             
-              struct v2f // OUT geometry shader, IN fragment shader 
-             {
-                 float4 pos           : SV_POSITION;
-                 float2 uv_MainTex : TEXCOORD0;
-                 float4 col : COLOR0;
-             };
-             
-             float4       _MainTex_ST;
-             sampler2D _MainTex; 
-             float     _PointSize;            
-             // ----------------------------------------------------
-             gIn myVertexShader(vIn v)
-             {
-                 gIn o; // Out here, into geometry shader
-                 // Passing on color to next shader (using .r/.g there as tile coordinate)
-                 o.col = v.color;                
-                 // Passing on center vertex (tile to be built by geometry shader from it later)
-                 o.pos = v.vertex;
-  
-                 return o;
-             }
-             
-             // ----------------------------------------------------
-             
-             [maxvertexcount(TAM)] 
-             // ----------------------------------------------------
-             // Using "point" type as input, not "triangle"
-             void myGeometryShader(point gIn vert[1], inout TriangleStream<v2f> triStream)
-             {                            
-                 float f = _PointSize/20.0f;  //half size
-                 
-                 const float4 vc[TAM] = { float4( -f,  f,  f, 0.0f), float4(  f,  f,  f, 0.0f), float4(  f,  f, -f, 0.0f),    //Top                                 
-                                          float4(  f,  f, -f, 0.0f), float4( -f,  f, -f, 0.0f), float4( -f,  f,  f, 0.0f),    //Top
-                                          
-                                          float4(  f,  f, -f, 0.0f), float4(  f,  f,  f, 0.0f), float4(  f, -f,  f, 0.0f),     //Right
-                                          float4(  f, -f,  f, 0.0f), float4(  f, -f, -f, 0.0f), float4(  f,  f, -f, 0.0f),     //Right
-                                          
-                                          float4( -f,  f, -f, 0.0f), float4(  f,  f, -f, 0.0f), float4(  f, -f, -f, 0.0f),     //Front
-                                          float4(  f, -f, -f, 0.0f), float4( -f, -f, -f, 0.0f), float4( -f,  f, -f, 0.0f),     //Front
-                                          
-                                          float4( -f, -f, -f, 0.0f), float4(  f, -f, -f, 0.0f), float4(  f, -f,  f, 0.0f),    //Bottom                                         
-                                          float4(  f, -f,  f, 0.0f), float4( -f, -f,  f, 0.0f), float4( -f, -f, -f, 0.0f),     //Bottom
-                                          
-                                          float4( -f,  f,  f, 0.0f), float4( -f,  f, -f, 0.0f), float4( -f, -f, -f, 0.0f),    //Left
-                                          float4( -f, -f, -f, 0.0f), float4( -f, -f,  f, 0.0f), float4( -f,  f,  f, 0.0f),    //Left
-                                          
-                                          float4( -f,  f,  f, 0.0f), float4( -f, -f,  f, 0.0f), float4(  f, -f,  f, 0.0f),    //Back
-                                          float4(  f, -f,  f, 0.0f), float4(  f,  f,  f, 0.0f), float4( -f,  f,  f, 0.0f)     //Back
-                                          };
-                                          
-                 
-                 const float2 UV1[TAM] = { float2( 0.0f,    0.0f ), float2( 1.0f,    0.0f ), float2( 1.0f,    0.0f ),         //Esta em uma ordem
-                                           float2( 1.0f,    0.0f ), float2( 1.0f,    0.0f ), float2( 1.0f,    0.0f ),         //aleatoria qualquer.
-                                           
-                                           float2( 0.0f,    0.0f ), float2( 1.0f,    0.0f ), float2( 1.0f,    0.0f ), 
-                                           float2( 1.0f,    0.0f ), float2( 1.0f,    0.0f ), float2( 1.0f,    0.0f ),
-                                           
-                                           float2( 0.0f,    0.0f ), float2( 1.0f,    0.0f ), float2( 1.0f,    0.0f ), 
-                                           float2( 1.0f,    0.0f ), float2( 1.0f,    0.0f ), float2( 1.0f,    0.0f ),
-                                           
-                                           float2( 0.0f,    0.0f ), float2( 1.0f,    0.0f ), float2( 1.0f,    0.0f ), 
-                                           float2( 1.0f,    0.0f ), float2( 1.0f,    0.0f ), float2( 1.0f,    0.0f ),
-                                           
-                                           float2( 0.0f,    0.0f ), float2( 1.0f,    0.0f ), float2( 1.0f,    0.0f ), 
-                                           float2( 1.0f,    0.0f ), float2( 1.0f,    0.0f ), float2( 1.0f,    0.0f ),
-                                           
-                                           float2( 0.0f,    0.0f ), float2( 1.0f,    0.0f ), float2( 1.0f,    0.0f ), 
-                                           float2( 1.0f,    0.0f ), float2( 1.0f,    0.0f ), float2( 1.0f,    0.0f )                                            
-                                             };    
-                                                             
-                 const int TRI_STRIP[TAM]  = {  0, 1, 2,  3, 4, 5,
-                                                6, 7, 8,  9,10,11,
-                                               12,13,14, 15,16,17,
-                                               18,19,20, 21,22,23,
-                                               24,25,26, 27,28,29,
-                                               30,31,32, 33,34,35  
-                                               }; 
-                                                             
-                 v2f v[TAM];
-                 int i;
-                 
-                 // Assign new vertices positions 
-                 for (i=0;i<TAM;i++) { v[i].pos = vert[0].pos + vc[i]; v[i].col = vert[0].col;    }
- 
-                 // Assign UV values
-                 for (i=0;i<TAM;i++) v[i].uv_MainTex = TRANSFORM_TEX(UV1[i],_MainTex); 
-                 
-                 // Position in view space
-                 for (i=0;i<TAM;i++) { v[i].pos = mul(UNITY_MATRIX_MVP, v[i].pos); }
-                     
-                 // Build the cube tile by submitting triangle strip vertices
-                 for (i=0;i<TAM/3;i++)
-                 { 
-                     triStream.Append(v[TRI_STRIP[i*3+0]]);
-                     triStream.Append(v[TRI_STRIP[i*3+1]]);
-                     triStream.Append(v[TRI_STRIP[i*3+2]]);    
-                                     
-                     triStream.RestartStrip();
-                 }
-              }
-              
-              // ----------------------------------------------------
-             float4 myFragmentShader(v2f IN) : COLOR
-             {
-                 //return float4(1.0,0.0,0.0,1.0);
-                 return IN.col;
-             }
- 
-             ENDCG
-         }
-     } 
- }
+﻿Shader "Custom/GS Billboard" 
+{
+	Properties 
+	{
+		_SpriteTex ("Base (RGB)", 2D) = "white" {}
+		_Size ("Size", Range(0, 3)) = 0.5
+	}
+
+	SubShader 
+	{
+		Pass
+		{
+			Tags { "RenderType"="Opaque" }
+			LOD 200
+		
+			CGPROGRAM
+				#pragma target 5.0
+				#pragma vertex VS_Main
+				#pragma fragment FS_Main
+				#pragma geometry GS_Main
+				#include "UnityCG.cginc" 
+
+				// **************************************************************
+				// Data structures												*
+				// **************************************************************
+				struct GS_INPUT
+				{
+					float4	pos		: POSITION;
+					float3	normal	: NORMAL;
+					float2  tex0	: TEXCOORD0;
+				};
+
+				struct FS_INPUT
+				{
+					float4	pos		: POSITION;
+					float2  tex0	: TEXCOORD0;
+				};
+
+
+				// **************************************************************
+				// Vars															*
+				// **************************************************************
+
+				float _Size;
+				float4x4 _VP;
+				Texture2D _SpriteTex;
+				SamplerState sampler_SpriteTex;
+
+				// **************************************************************
+				// Shader Programs												*
+				// **************************************************************
+
+				// Vertex Shader ------------------------------------------------
+				GS_INPUT VS_Main(appdata_base v)
+				{
+					GS_INPUT output = (GS_INPUT)0;
+
+					output.pos =  mul(_Object2World, v.vertex);
+					output.normal = v.normal;
+					output.tex0 = float2(0, 0);
+
+					return output;
+				}
+
+
+
+				// Geometry Shader -----------------------------------------------------
+				[maxvertexcount(4)]
+				void GS_Main(point GS_INPUT p[1], inout TriangleStream<FS_INPUT> triStream)
+				{
+					float3 up = float3(0, 1, 0);
+					float3 look = _WorldSpaceCameraPos - p[0].pos;
+					look.y = 0;
+					look = normalize(look);
+					float3 right = cross(up, look);
+					
+					float halfS = 0.5f * _Size;
+							
+					float4 v[4];
+					v[0] = float4(p[0].pos + halfS * right - halfS * up, 1.0f);
+					v[1] = float4(p[0].pos + halfS * right + halfS * up, 1.0f);
+					v[2] = float4(p[0].pos - halfS * right - halfS * up, 1.0f);
+					v[3] = float4(p[0].pos - halfS * right + halfS * up, 1.0f);
+
+					float4x4 vp = mul(UNITY_MATRIX_MVP, _World2Object);
+					FS_INPUT pIn;
+					pIn.pos = mul(vp, v[0]);
+					pIn.tex0 = float2(1.0f, 0.0f);
+					triStream.Append(pIn);
+
+					pIn.pos =  mul(vp, v[1]);
+					pIn.tex0 = float2(1.0f, 1.0f);
+					triStream.Append(pIn);
+
+					pIn.pos =  mul(vp, v[2]);
+					pIn.tex0 = float2(0.0f, 0.0f);
+					triStream.Append(pIn);
+
+					pIn.pos =  mul(vp, v[3]);
+					pIn.tex0 = float2(0.0f, 1.0f);
+					triStream.Append(pIn);
+				}
+
+
+
+				// Fragment Shader -----------------------------------------------
+				float4 FS_Main(FS_INPUT input) : COLOR
+				{
+					return _SpriteTex.Sample(sampler_SpriteTex, input.tex0);
+				}
+
+			ENDCG
+		}
+	} 
+}
