@@ -1,115 +1,94 @@
-﻿Shader "Custom/GS Billboard" 
+﻿Shader "test/MyShader"
 {
-	Properties 
-	{
-		_SpriteTex ("Base (RGB)", 2D) = "white" {}
-		_Size ("Size", Range(0, 3)) = 0.5
-	}
+    Properties
+    {
+        _MainTex ("Texture", 2D) = "white" {}
+        _Num ("Number", Range(0, 25)) = 1
 
-	SubShader 
-	{
-		Pass
-		{
-			Tags { "RenderType"="Opaque" }
-			LOD 200
-		
-			CGPROGRAM
-				#pragma target 5.0
-				#pragma vertex VS_Main
-				#pragma fragment FS_Main
-				#pragma geometry GS_Main
-				#include "UnityCG.cginc" 
+        _Offset ("Offset", Vector) = (0.0, 0.0, 0.0, 0.0)
+    }
+    SubShader
+    {
+        Tags { "RenderType"="Opaque" }
+        LOD 100
+ cull off
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #pragma geometry geom
+           
+            #include "UnityCG.cginc"
+ 
+            struct appdata
+            {
+                float4 vertex : POSITION;
+                float3 normal : NORMAL;
+                float2 uv : TEXCOORD0;
+            };
+ 
+            struct v2f
+            {
+                float4 vertex : SV_POSITION;
+                float3 normal : NORMAL;
+                float2 uv : TEXCOORD0;
+                float3 worldPosition : TEXCOORD1;
+            };
+ 			
+            sampler2D _MainTex;
+			float4 _MainTex_ST;
+			float4 _Offset;
+			float _Num;
 
-				// **************************************************************
-				// Data structures												*
-				// **************************************************************
-				struct GS_INPUT
-				{
-					float4	pos		: POSITION;
-					float3	normal	: NORMAL;
-					float2  tex0	: TEXCOORD0;
-				};
+            v2f vert (appdata v)
+            {
+                v2f o;
+                o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.normal = v.normal;
+                o.worldPosition = mul(_Object2World, v.vertex).xyz;
 
-				struct FS_INPUT
-				{
-					float4	pos		: POSITION;
-					float2  tex0	: TEXCOORD0;
-				};
+                return o;
+            }
+ 
+            [maxvertexcount(75)]
+            void geom(triangle v2f input[3], inout TriangleStream<v2f> OutputStream)
+            {
+            	
+                v2f test = (v2f)0;
+                float3 normal = normalize(cross(input[1].worldPosition.xyz - input[0].worldPosition.xyz, input[2].worldPosition.xyz - input[0].worldPosition.xyz));
+                float4 curOffset = float4(0.0, 0.0, 0.0, 0.0);
+                for(int k = 0; k < _Num; k++)
+                {
+	                for(int i = 0; i < 3; i++)
+	                {
+	                    test.normal = normal;
+	                    test.uv = input[i].uv;
 
+	                    float4 a = float4(input[i].worldPosition.xyz + curOffset, 1.0);
+	                    a = mul(_World2Object, a);
+	                    test.vertex = mul(UNITY_MATRIX_MVP, a);
 
-				// **************************************************************
-				// Vars															*
-				// **************************************************************
+	                    OutputStream.Append(test);
+	                }
 
-				float _Size;
-				float4x4 _VP;
-				Texture2D _SpriteTex;
-				SamplerState sampler_SpriteTex;
-
-				// **************************************************************
-				// Shader Programs												*
-				// **************************************************************
-
-				// Vertex Shader ------------------------------------------------
-				GS_INPUT VS_Main(appdata_base v)
-				{
-					GS_INPUT output = (GS_INPUT)0;
-
-					output.pos =  mul(_Object2World, v.vertex);
-					output.normal = v.normal;
-					output.tex0 = float2(0, 0);
-
-					return output;
-				}
-
-
-
-				// Geometry Shader -----------------------------------------------------
-				[maxvertexcount(4)]
-				void GS_Main(point GS_INPUT p[1], inout TriangleStream<FS_INPUT> triStream)
-				{
-					float3 up = float3(0, 1, 0);
-					float3 look = _WorldSpaceCameraPos - p[0].pos;
-					look.y = 0;
-					look = normalize(look);
-					float3 right = cross(up, look);
-					
-					float halfS = 0.5f * _Size;
-							
-					float4 v[4];
-					v[0] = float4(p[0].pos + halfS * right - halfS * up, 1.0f);
-					v[1] = float4(p[0].pos + halfS * right + halfS * up, 1.0f);
-					v[2] = float4(p[0].pos - halfS * right - halfS * up, 1.0f);
-					v[3] = float4(p[0].pos - halfS * right + halfS * up, 1.0f);
-
-					float4x4 vp = mul(UNITY_MATRIX_MVP, _World2Object);
-					FS_INPUT pIn;
-					pIn.pos = mul(vp, v[0]);
-					pIn.tex0 = float2(1.0f, 0.0f);
-					triStream.Append(pIn);
-
-					pIn.pos =  mul(vp, v[1]);
-					pIn.tex0 = float2(1.0f, 1.0f);
-					triStream.Append(pIn);
-
-					pIn.pos =  mul(vp, v[2]);
-					pIn.tex0 = float2(0.0f, 0.0f);
-					triStream.Append(pIn);
-
-					pIn.pos =  mul(vp, v[3]);
-					pIn.tex0 = float2(0.0f, 1.0f);
-					triStream.Append(pIn);
-				}
-
-
-
-				// Fragment Shader -----------------------------------------------
-				float4 FS_Main(FS_INPUT input) : COLOR
-				{
-					return _SpriteTex.Sample(sampler_SpriteTex, input.tex0);
-				}
-
-			ENDCG
-		}
-	} 
+	                curOffset.xyz += _Offset.xyz;
+	                OutputStream.RestartStrip();
+                }
+            }
+           
+            fixed4 frag (v2f i) : SV_Target
+            {
+                // sample the texture
+                fixed4 col = tex2D(_MainTex, i.uv);
+ 
+                float3 lightDir = float3(-1, 1, -0.25);
+                float ndotl = dot(i.normal, normalize(lightDir));
+ 
+                return col * ndotl;
+            }
+            ENDCG
+        }
+    }
 }
