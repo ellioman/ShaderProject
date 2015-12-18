@@ -1,5 +1,5 @@
 ﻿// 
-Shader "Ellioman/2D/Rotation"
+Shader "Ellioman/Simple/RotateUV"
 {
 	// What variables do we want sent in to the shader?
 	Properties
@@ -51,6 +51,10 @@ Shader "Ellioman/2D/Rotation"
 
 				float4 CalculateRotation(float4 uv)
 	            {
+	            	// Small play with the Tiling a little bit
+	            	//float change = 0.05;
+	            	//_MainTex_ST.xy *= ((1.0 - change) + _SinTime.x * _CosTime.a * change);
+
 	            	// Scale and offset the UV with the values in the Editor
 					uv.xy = TRANSFORM_TEX(uv, _MainTex).xy;
 
@@ -59,7 +63,7 @@ Shader "Ellioman/2D/Rotation"
 
 	                // Calculate the value we need to shift the center to (0,0)
 	                // using the tiling and offset set in the Editor (_MainTex_ST)
-	                float2 div = (_MainTex_ST.xy / 2.0) + _MainTex_ST.ba;
+	                float2 div = (_MainTex_ST.xy / 2.0)  + _MainTex_ST.ba;
 
 	                // Shift the center of the coordinates to (0,0)
 	                uv.xy -= div; 
@@ -67,6 +71,7 @@ Shader "Ellioman/2D/Rotation"
 	                // Create the Rotation Matrix
 					float s, c;
 					sincos(radians(rotation), s, c); // compute the sin and cosine
+
 					float2x2 rotationMatrix = float2x2(c, -s, s, c);
 
 					// Use the rotation matrix to rotate the UV coordinates
