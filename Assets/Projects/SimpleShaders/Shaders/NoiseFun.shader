@@ -5,6 +5,7 @@ Shader "Ellioman/Simple/NoiseFun"
 	Properties
 	{
 	  _MainTex ("Texture (RGB)", 2D) = "white" {}
+	  _HeightScale ("Height Scale", range(0, 300)) = 50
 	}
 
 	SubShader
@@ -41,7 +42,7 @@ Shader "Ellioman/Simple/NoiseFun"
 	            // User-specified properties
 	            sampler2D _MainTex;
 	 			float4 _MainTex_ST;
-
+	 			float _HeightScale;
 
 	 			// ---------------------------
 				// Functions
@@ -59,11 +60,10 @@ Shader "Ellioman/Simple/NoiseFun"
 				// The Vertex Shader 
 	            vertexOutput vert(vertexInput i)
 	            {
-	            	float time = _SinTime.z;
 	                vertexOutput o;
 
-	                float3 kkk = (2.0 + time) * rand(i.vertex.xyz) * 50;
-	                float4 k = float4(i.vertex.x, kkk.y, i.vertex.zw);
+	                float yVal = (_SinTime.w * rand(i.vertex.xyz)) * _HeightScale;
+	                float4 k = float4(i.vertex.x, yVal, i.vertex.zw);
 	                o.position = mul(UNITY_MATRIX_MVP, k);
 	                o.texcoord0.xy = TRANSFORM_TEX(i.texcoord0, _MainTex);
 	                return o;
