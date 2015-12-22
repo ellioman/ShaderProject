@@ -1,10 +1,10 @@
 // Blurs the contents of the screen behind the object
-Shader "Ellioman/Glass/Blurry"
+Shader "Ellioman/GrabPassShifter"
 {
-Properties
-		{
-			_Blurryness ("Distortion", range (0,1024)) = 10
-		}
+	Properties
+	{
+		_Blurryness ("Distortion", range (0,1024)) = 10
+	}
 	Category
 	{
 		// Subshaders use tags to tell how and when they 
@@ -116,41 +116,10 @@ Properties
 						
 						// Top level
 						uv.y = i.uvgrab.y + _GrabTexture_TexelSize.y * offsetVal;
-						
-						uv.x = i.uvgrab.x + _GrabTexture_TexelSize.x * offsetVal;
-						col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
-						
-						uv.x = i.uvgrab.x;
-						col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
 
-						uv.x = i.uvgrab.x - _GrabTexture_TexelSize.x * offsetVal;
-						col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
-						
-						// Middle level
-						uv.y = i.uvgrab.y;
-						
-						uv.x = i.uvgrab.x + _GrabTexture_TexelSize.x * offsetVal;
-						col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
-						
-						uv.x = i.uvgrab.x;
-						col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
+						col = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(uv));
 
-						uv.x = i.uvgrab.x - _GrabTexture_TexelSize.x * offsetVal;
-						col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
-						
-						// Bottom level
-						uv.y = i.uvgrab.y - _GrabTexture_TexelSize.y * offsetVal;
-						
-						uv.x = i.uvgrab.x + _GrabTexture_TexelSize.x * offsetVal;
-						col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
-						
-						uv.x = i.uvgrab.x;
-						col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
-
-						uv.x = i.uvgrab.x - _GrabTexture_TexelSize.x * offsetVal;
-						col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
-						
-						return col / 9;
+						return col;
 					}
 					
 				ENDCG
