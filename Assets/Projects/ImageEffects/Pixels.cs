@@ -5,7 +5,22 @@ using System.Collections;
 public class Pixels : MonoBehaviour
 {
 	// Unity Editor Variables
-	[SerializeField] Material mat;
+	[SerializeField] protected Material mat;
+	[SerializeField] protected int endPixelSizeVal;
+	[SerializeField] protected int speed;
+
+	// Protected Instance Variables
+	protected float pixelSizeVal = 1024;
+
+
+	protected void Update()
+	{
+		if (pixelSizeVal > endPixelSizeVal)
+		{
+			mat.SetFloat("_PixelSize", pixelSizeVal);
+			pixelSizeVal -= speed * Time.deltaTime;
+		}
+	}
 
 	// Called after all rendering is complete to render image.
 	public void OnRenderImage(RenderTexture source, RenderTexture destination)
