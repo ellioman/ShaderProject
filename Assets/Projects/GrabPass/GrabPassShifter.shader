@@ -3,7 +3,8 @@ Shader "Ellioman/GrabPassShifter"
 {
 	Properties
 	{
-		_Blurryness ("Distortion", range (0,1024)) = 10
+		_XDirection ("X Direction", range(-50,50)) = 0
+		_YDirection ("Y Direction", range(-50,50)) = 0
 	}
 	Category
 	{
@@ -48,7 +49,7 @@ Shader "Ellioman/GrabPassShifter"
 				// expect to be rendered to the rendering engine
 				Tags
 				{
-				"Queue"="Transparent+1000"
+					"Queue"="Transparent+1000"
 					"LightMode" = "Always"
 				}
 				
@@ -82,8 +83,9 @@ Shader "Ellioman/GrabPassShifter"
 					// User-specified properties
 					sampler2D _GrabTexture;
 					float4 _GrabTexture_TexelSize;
-					float _Blurryness;
-					
+					float _XDirection;
+					float _YDirection;
+
 					// ---------------------------
 					// Shaders
 					// ----------------------------
@@ -110,14 +112,10 @@ Shader "Ellioman/GrabPassShifter"
 					// The Fragment Shader				
 					half4 frag(v2f i) : COLOR
 					{
-						float offsetVal = _Blurryness;
-						float4 uv = i.uvgrab;
-						half4 col = half4(0.0, 0.0, 0.0, 0.0);
-						
-						// Top level
-						uv.y = i.uvgrab.y + _GrabTexture_TexelSize.y * offsetVal;
+						float2 offsetVec = (float2(_XDirection, _YDirection));
+						float4 uv = i.uvgrab + _GrabTexture_TexelSize * float4(offsetVec.x, offsetVec.y, 0.0, 0.0);
 
-						col = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(uv));
+						half4 col = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(uv));
 
 						return col;
 					}

@@ -1,4 +1,4 @@
-﻿Shader "test/MyShader"
+﻿Shader "Ellioman/GeometryShader"
 {
     Properties
     {

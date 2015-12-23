@@ -3,7 +3,7 @@ Shader "Ellioman/Pixels"
 {
 	Properties
 	{
-		_PixelSize ("Pixel Size", range (1,1000)) = 1
+		_PixelSize ("Pixel Size", range (1,1024)) = 1
 	}
 	Category
 	{
