@@ -15,19 +15,24 @@ Shader "Ellioman/Simple/CombineTextures"
         {
             CGPROGRAM
  			
-	 			// What functions should we use for the vertex and fragment shaders?
+	 			// Pragmas
 	            #pragma vertex vert
 	            #pragma fragment frag
 	            
-	            // Include some commonly used helper functions
+	            // Helper functions
 	            #include "UnityCG.cginc"
 	 			
-	 			
-	 			// ---------------------------
-				// Variables
-				// ----------------------------
-	 			
-	            // What variables do I want in the Vertex & Fragment shaders?
+	 			// User Defined Variables
+	            uniform sampler2D _MainTex; 
+	            uniform sampler2D _SecondTex;
+	            uniform float _BlendValue;
+
+	            // These are created by Unity when we use the TRANSFORM_TEX Macro in the
+				// vertex shader. XY values controls the texture tiling and ZW the offset
+				float4 _MainTex_ST;
+	            float4 _SecondTex_ST;
+
+	 			// Base Input Structs
 	            struct vertexInput
 	            {
             	    float4 vertex : POSITION;
@@ -40,22 +45,7 @@ Shader "Ellioman/Simple/CombineTextures"
 	                float2 mainTexUV : TEXCOORD0;
 	                float2 secondTexUV : TEXCOORD1;
 	            };
-	            
-	        	// User-specified properties
-	            sampler2D _MainTex; 
-	            sampler2D _SecondTex;
-	            float _BlendValue;
-				
-				// These are created by Unity when we use the TRANSFORM_TEX Macro in the
-				// vertex shader. XY values controls the texture tiling and ZW the offset
-				float4 _MainTex_ST;
-	            float4 _SecondTex_ST;
-				
-				
-				// ---------------------------
-				// Shaders
-				// ----------------------------
-				
+
 				// The Vertex Shader 
 	            vertexOutput vert(vertexInput i)
 	            {
@@ -79,7 +69,7 @@ Shader "Ellioman/Simple/CombineTextures"
 	          		// Blend the two color values
 	          		return lerp(a, b, _BlendValue);
 	            }
- 
+ 			
             ENDCG
         }
     }

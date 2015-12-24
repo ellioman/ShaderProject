@@ -1,4 +1,4 @@
-﻿// This shader only renders if the stencil ref number matches the one in the Stencil Buffer
+﻿// This shader only renders if the stencil ref number does not matches the one in the Stencil Buffer
 Shader "Ellioman/Stencils/StencilMaskIgnore_Diffuse"
 {
 	// What variables do we want sent in to the shader?
@@ -11,7 +11,7 @@ Shader "Ellioman/Stencils/StencilMaskIgnore_Diffuse"
 
 	SubShader
 	{
-		// Stencil Buffer: http://docs.unity3d.com/Manual/SL-Stencil.html
+		// Stencil Buffer
 		Stencil
 		{
 			// The value to be compared against (if Comp is anything else than always) and/or the value to be
@@ -41,28 +41,18 @@ Shader "Ellioman/Stencils/StencilMaskIgnore_Diffuse"
 
 		CGPROGRAM
 		
-			// What function should we use for the surface shader?
+			// Pragmas
 			#pragma surface surf Lambert alpha
 			
+			// User Defined Variables
+			uniform sampler2D _MainTex;
+			uniform fixed4 _Color;
 			
-			// ---------------------------
-			// Variables
-			// ---------------------------
-			
-			// What variables do I want in the Vertex & Fragment shaders?
+			// Base Input Structs
 			struct Input
 			{
 				float2 uv_MainTex;
 			};
-			
-			// User-specified properties
-			sampler2D _MainTex;
-			fixed4 _Color;
-		 	
-		 	
-		 	// ---------------------------
-			// Shaders
-			// ----------------------------
 
 			// The Surface Shader
 			void surf (Input IN, inout SurfaceOutput o)

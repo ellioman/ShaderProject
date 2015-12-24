@@ -1,5 +1,5 @@
 ﻿// The Shader uses the _MainTex input given and colors the object with it
-Shader "Ellioman/Simple/ApplyTexture"
+Shader "Ellioman/ApplyTexture"
 {
 	// What variables do we want sent in to the shader?
 	Properties
@@ -13,19 +13,17 @@ Shader "Ellioman/Simple/ApplyTexture"
         {
             CGPROGRAM
  			
-	 			// What functions should we use for the vertex and fragment shaders?
+	 			// Pragmas
 	            #pragma vertex vert
 	            #pragma fragment frag
 	            
-	            // Include some commonly used helper functions
+	            // Helper functions
 	            #include "UnityCG.cginc"
-			
-			
-				// ---------------------------
-				// Variables
-				// ---------------------------
+
+	            // User Defined Variables
+	            uniform sampler2D _MainTex;
 	 			
-	            // What variables do I want in the Vertex & Fragment shaders?
+	            // Base Input Structs
 	            struct vertexInput
 	            {
             	    float4 vertex : POSITION;
@@ -37,14 +35,6 @@ Shader "Ellioman/Simple/ApplyTexture"
 	                float4 position : SV_POSITION;
 	                float4 texcoord0 : TEXCOORD0;
 	            };
-	            
-	            // User-specified properties
-	            sampler2D _MainTex;
-	 			
-	 			
-	 			// ---------------------------
-				// Shaders
-				// ----------------------------
 				
 				// The Vertex Shader 
 	            vertexOutput vert(vertexInput i)
@@ -58,10 +48,9 @@ Shader "Ellioman/Simple/ApplyTexture"
 	            // The Fragment Shader
 	            fixed4 frag(vertexOutput i) : SV_Target
 	            {
-	           		//return tex2Dproj( _MainTex, UNITY_PROJ_COORD(i.texcoord0));
 	          		return tex2D(_MainTex, i.texcoord0);
 	            }
- 
+ 			
             ENDCG
         }
     }

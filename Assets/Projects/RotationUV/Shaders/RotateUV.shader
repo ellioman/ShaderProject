@@ -1,11 +1,11 @@
-﻿// 
-Shader "Ellioman/Simple/RotateUV"
+﻿// Rotates the uv coordinates of the texture
+Shader "Ellioman/RotateUV"
 {
 	// What variables do we want sent in to the shader?
 	Properties
 	{
-	  _MainTex ("Texture (RGB)", 2D) = "white" {}
-	  _RotationSpeed ("Rotation Speed", Float) = 2.0
+		_MainTex ("Texture (RGB)", 2D) = "white" {}
+		_RotationSpeed ("Rotation Speed", Float) = 2.0
 	}
 
 	SubShader
@@ -14,20 +14,20 @@ Shader "Ellioman/Simple/RotateUV"
         {
             CGPROGRAM
  			
-	 			// What functions should we use for the vertex and fragment shaders?
+	 			// Pragmas
 	            #pragma vertex vert
 	            #pragma fragment frag
 	            
-	            // Include some commonly used helper functions
+	            // Helper functions
 	            #include "UnityCG.cginc"
-			
-			
-				// ---------------------------
-				// Variables
-				// ---------------------------
-	 			
-	            // What variables do I want in the Vertex & Fragment shaders?
-	            struct vertexInput
+	            
+	            // User Defined Variables
+	            uniform sampler2D _MainTex;
+	 			uniform float _RotationSpeed;
+	 			uniform float4 _MainTex_ST;
+				
+				// Base Input Structs
+				struct vertexInput
 	            {
             	    float4 vertex : POSITION;
             	    float4 texcoord0 : TEXCOORD0;
@@ -38,17 +38,8 @@ Shader "Ellioman/Simple/RotateUV"
 	                float4 position : SV_POSITION;
 	                float4 texcoord0 : TEXCOORD0;
 	            };
-	            
-	            // User-specified properties
-	            sampler2D _MainTex;
-	 			float _RotationSpeed;
-	 			float4 _MainTex_ST;
 
-
-	 			// ---------------------------
-				// Functions
-				// ----------------------------
-
+				// Rotates the UV Coordinate sent as a parameter
 				float4 CalculateRotation(float4 uv)
 	            {
 	            	// Small play with the Tiling a little bit
@@ -83,10 +74,6 @@ Shader "Ellioman/Simple/RotateUV"
 	                return uv;
 	            }
 
-	 			// ---------------------------
-				// Shaders
-				// ----------------------------
-
 				// The Vertex Shader 
 	            vertexOutput vert(vertexInput i)
 	            {
@@ -99,7 +86,7 @@ Shader "Ellioman/Simple/RotateUV"
 	            // The Fragment Shader
 	            fixed4 frag(vertexOutput i) : SV_Target
 	            {
-	          		return tex2D(_MainTex, i.texcoord0);// + float4(c, s, 0.0, 0.0));
+	          		return tex2D(_MainTex, i.texcoord0);
 	            }
  
             ENDCG

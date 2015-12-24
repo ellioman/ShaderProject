@@ -4,39 +4,44 @@
     {
         _MainTex ("Texture", 2D) = "white" {}
         _Num ("Number", Range(0, 25)) = 1
-
         _Offset ("Offset", Vector) = (0.0, 0.0, 0.0, 0.0)
         _EndScale ("End Scale", Vector) = (1.0, 1.0, 1.0, 1.0)
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags
+        {
+        	"RenderType"="Opaque"
+        }
         LOD 100
  
         Pass
         {
             CGPROGRAM
 
-	            // What functions should we use for the vertex and fragment shaders?
+	            // Pragmas
 	            #pragma vertex vert
 	            #pragma fragment frag
 	            #pragma geometry geom
 
-	            // Include some commonly used helper functions
+	            // Helper functions
 	            #include "UnityCG.cginc"
 
-	            // ---------------------------
-				// Variables
-				// ---------------------------
+	            // User Defined Variables
+	            uniform sampler2D _MainTex;
+				uniform float4 _MainTex_ST;
+				uniform float4 _Offset;
+				uniform float _Num;
+				uniform float4 _EndScale;
 
-		 		// What variables do I want in the Vertex & Fragment shaders?
+		 		// Base Input Structs
 	            struct appdata
 	            {
 	                float4 vertex : POSITION;
 	                float3 normal : NORMAL;
 	                float2 uv : TEXCOORD0;
 	            };
-	 
+	 			
 	            struct v2f
 	            {
 	                float4 vertex : SV_POSITION;
@@ -44,17 +49,6 @@
 	                float2 uv : TEXCOORD0;
 	                float3 worldPosition : TEXCOORD1;
 	            };
-
-	            // User-specified properties
-	            sampler2D _MainTex;
-				float4 _MainTex_ST;
-				float4 _Offset;
-				float _Num;
-				float4 _EndScale;
-
-				// ---------------------------
-				// Shaders
-				// ----------------------------
 					
 				// The Vertex Shader 
 	            v2f vert (appdata v)

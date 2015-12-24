@@ -1,5 +1,5 @@
 ﻿// The Shader outputs a transparent object using alpha blending
-Shader "Ellioman/Simple/AlphaBlending"
+Shader "Ellioman/AlphaBlending"
 {
 	// What variables do we want sent in to the shader?
 	Properties
@@ -10,7 +10,7 @@ Shader "Ellioman/Simple/AlphaBlending"
 	
     SubShader
     {
-    	// draw after all opaque geometry has been drawn
+    	// Draw after all opaque geometry has been drawn
     	Tags
     	{
     		"Queue" = "Transparent"
@@ -18,7 +18,7 @@ Shader "Ellioman/Simple/AlphaBlending"
          
         Pass
         {
-        	// don't write to depth buffer in order not to occlude other objects
+        	// Don't write to depth buffer in order not to occlude other objects
         	ZWrite Off 
         	
         	// Use alpha blending
@@ -27,17 +27,16 @@ Shader "Ellioman/Simple/AlphaBlending"
             
             CGPROGRAM
  			
-	 			// What functions should we use for the vertex and fragment shaders?
+	 			// Pragmas
 	            #pragma vertex vert
 	            #pragma fragment frag
 	            
-	            // Include some commonly used helper functions
+	            // Helper functions
 	            #include "UnityCG.cginc"
-			
-			
-				// ---------------------------
-				// Variables
-				// ---------------------------
+
+	            // User Defined Variables
+	 			uniform fixed4 _Color;
+	 			uniform sampler2D _MainTex;
 	 			
 	            // What variables do I want in the Vertex & Fragment shaders?
 	            struct vertexInput
@@ -51,15 +50,6 @@ Shader "Ellioman/Simple/AlphaBlending"
 	                float4 position : SV_POSITION;
 	                float4 texcoord0 : TEXCOORD0;
 	            };
-	 			
-	 			// User-specified properties
-	 			fixed4 _Color;
-	 			sampler2D _MainTex;
-	 			
-	 			
-	 			// ---------------------------
-				// Shaders
-				// ----------------------------
 				
 				// The Vertex Shader 
 				vertexOutput vert(vertexInput i)
@@ -74,9 +64,8 @@ Shader "Ellioman/Simple/AlphaBlending"
 	            fixed4 frag(vertexOutput i) : Color
 	            {
 					return tex2D(_MainTex, i.texcoord0) * _Color;
-	           		//return _Color;
 	            }
- 
+ 			
             ENDCG
         }
     }

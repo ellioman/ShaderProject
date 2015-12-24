@@ -1,10 +1,12 @@
 // Blurs the contents of the screen behind the object
 Shader "Ellioman/Pixels"
 {
+	// What variables do we want sent in to the shader?
 	Properties
 	{
 		_PixelSize ("Pixel Size", range (1,1024)) = 1
 	}
+
 	Category
 	{
 		// Subshaders use tags to tell how and when they 
@@ -18,12 +20,7 @@ Shader "Ellioman/Pixels"
 
 		SubShader
 		{
-			// ---------------------------
-			// GrabPass
-			// This pass grabs the screen behind the object into a texture.
-			// We can access the result in the next pass as _GrabTexture
-			// ----------------------------
-			
+			// Grab the screen behind the object and put it into _GrabTexture
 			GrabPass 
 			{
 				// Name of the variable holding the GrabPass output
@@ -48,24 +45,26 @@ Shader "Ellioman/Pixels"
 				// expect to be rendered to the rendering engine
 				Tags
 				{
-				"Queue"="Transparent+1000"
+					"Queue"="Transparent+1000"
 					"LightMode" = "Always"
 				}
 				
 				CGPROGRAM
 				
-					// What functions should we use for the vertex and fragment shaders?
+					// Pragmas
 					#pragma vertex vert
 					#pragma fragment frag
 					#pragma fragmentoption ARB_precision_hint_fastest
 					
-					// Include some commonly used helper functions
+					// Helper functions
 					#include "UnityCG.cginc"
 					
-					// ---------------------------
-					// Variables
-					// ---------------------------
+					// User Defined Variables
+					uniform sampler2D _GrabTexture;
+					uniform float4 _GrabTexture_TexelSize;
+					uniform float _PixelSize;
 
+					// Base Input Structs
 					struct appdata_t
 					{
 						float4 vertex : POSITION;
@@ -78,15 +77,6 @@ Shader "Ellioman/Pixels"
 						float2 uv : TEXCOORD0;
 						float4 uvgrab : TEXCOORD1;
 					};
-					
-					// User-specified properties
-					sampler2D _GrabTexture;
-					float4 _GrabTexture_TexelSize;
-					float _PixelSize;
-					
-					// ---------------------------
-					// Shaders
-					// ----------------------------
 		 			
 		 			// The Vertex Shader 
 					v2f vert (appdata_t v)
@@ -129,9 +119,7 @@ Shader "Ellioman/Pixels"
 			}
 		}
 
-		// ------------------------------------------------------------------
 		// Fallback for older cards and Unity non-Pro
-		
 		SubShader
 		{
 			Blend DstColor Zero

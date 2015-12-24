@@ -16,12 +16,9 @@ Shader "Ellioman/Stencils/StencilMask"
 			"RenderType"="Opaque"
 			"Queue"="Geometry-100"
 		}
-		
-		// ---------------------------
+
 		// Stencil Buffer
-		// ----------------------------
-		
-		// Here we always pass and replace the stencil value with the one in _StencilVal
+		// Always pass and replace the stencil value with the one in _StencilVal
 		ColorMask 0
 		ZWrite off
 		Stencil 
@@ -34,17 +31,12 @@ Shader "Ellioman/Stencils/StencilMask"
 		Pass
 		{
 			CGPROGRAM
-			
-				// What functions should we use for the vertex and fragment shaders?
+				
+				// Pragmas
 				#pragma vertex vert
 				#pragma fragment frag
 				
-				
-				// ---------------------------
-				// Variables
-				// ---------------------------
-				
-				// What gets sent in the vertex and fragment shaders?
+				// Base Input Structs
 				struct appdata 
 				{
 					float4 vertex : POSITION;
@@ -54,12 +46,7 @@ Shader "Ellioman/Stencils/StencilMask"
 				{
 					float4 pos : SV_POSITION;
 				};
-				
-				
-				// ---------------------------
-				// Shaders
-				// ----------------------------
-				
+
 				// The Vertex Shader
 				vertexOutput vert(appdata v) 
 				{

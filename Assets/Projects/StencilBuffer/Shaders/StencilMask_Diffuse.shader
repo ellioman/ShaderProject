@@ -20,10 +20,8 @@ Shader "Ellioman/Stencils/StencilMask_Diffuse"
 			"RenderType"="Transparent"
 		}
 		LOD 200
-		
-		// ---------------------------
+
 		// Stencil Buffer: http://docs.unity3d.com/Manual/SL-Stencil.html
-		// ----------------------------
 		Stencil
 		{
 			// The value to be compared against (if Comp is anything else than always) and/or the value to be
@@ -44,35 +42,27 @@ Shader "Ellioman/Stencils/StencilMask_Diffuse"
 		}
 		
 		CGPROGRAM
-		#pragma surface surf Lambert alpha
-		
-		
-		// ---------------------------
-		// Variables
-		// ----------------------------
-		
-		// What variables do I want in the Vertex & Fragment shaders?
-		struct Input
-		{
-			float2 uv_MainTex;
-		};
-		
-		// User-specified properties
-		sampler2D _MainTex;
-		fixed4 _Color;
-		
-		
-		// ---------------------------
-		// Shaders
-		// ----------------------------
 
-		// The Surface Shader
-		void surf (Input IN, inout SurfaceOutput o)
-		{
-			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;
-			o.Albedo = c.rgb;
-			o.Alpha = c.a;
-		}
+			// Pragmas
+			#pragma surface surf Lambert alpha
+
+			// User Defined Variables
+			uniform sampler2D _MainTex;
+			uniform fixed4 _Color;
+
+			// Base Input Structs
+			struct Input
+			{
+				float2 uv_MainTex;
+			};
+
+			// The Surface Shader
+			void surf (Input IN, inout SurfaceOutput o)
+			{
+				fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;
+				o.Albedo = c.rgb;
+				o.Alpha = c.a;
+			}
 		
 		ENDCG
 	}

@@ -23,15 +23,16 @@ Shader "Ellioman/Dissolve/Dissolving"
 		
 		CGPROGRAM
 
-			// What functions should we use for the vertex and fragment shaders?
-			//if you're not planning on using shadows, remove "addshadow" for better performance
+			// Pragmas
+			// If you're not planning on using shadows, remove "addshadow" for better performance
 			#pragma surface surf Lambert addshadow
 
-			// ---------------------------
-			// Variables
-			// ---------------------------
-	 			
-	        // What variables do I want in the Vertex & Fragment shaders?
+			// User Defined Variables
+			uniform sampler2D _MainTex;
+			uniform sampler2D _SliceGuide;
+			uniform float _SliceAmount;
+
+			// Base Input Structs
 			struct Input
 			{
 				float2 uv_MainTex;
@@ -39,15 +40,7 @@ Shader "Ellioman/Dissolve/Dissolving"
 				float _SliceAmount;
 			};
 
-			// User-specified properties
-			sampler2D _MainTex;
-			sampler2D _SliceGuide;
-			float _SliceAmount;
-
-			// ---------------------------
-			// Shaders
-			// ----------------------------
-
+			// Surface Shader
 			void surf (Input IN, inout SurfaceOutput o)
 			{
 				// Get the value for this pixel from the slice guide...
@@ -59,6 +52,7 @@ Shader "Ellioman/Dissolve/Dissolving"
 				// Otherwise we just display the picture
 				o.Albedo = tex2D (_MainTex, IN.uv_MainTex).rgb;
 			}
+		
 		ENDCG
 	} 
 	Fallback "Diffuse"

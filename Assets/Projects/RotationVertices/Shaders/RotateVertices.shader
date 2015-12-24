@@ -1,11 +1,11 @@
-﻿// 
-Shader "Ellioman/Simple/RotateVertices"
+﻿// Rotates the vertices of the object
+Shader "Ellioman/RotateVertices"
 {
 	// What variables do we want sent in to the shader?
 	Properties
 	{
-	  _MainTex ("Texture (RGB)", 2D) = "white" {}
-	  _RotationSpeed ("Rotation Speed", Float) = 2.0
+		_MainTex ("Texture (RGB)", 2D) = "white" {}
+		_RotationSpeed ("Rotation Speed", Float) = 2.0
 	}
 
 	SubShader
@@ -14,19 +14,19 @@ Shader "Ellioman/Simple/RotateVertices"
         {
             CGPROGRAM
  			
-	 			// What functions should we use for the vertex and fragment shaders?
+	 			// Pragmas
 	            #pragma vertex vert
 	            #pragma fragment frag
 	            
-	            // Include some commonly used helper functions
+	            // Helper functions
 	            #include "UnityCG.cginc"
-			
-			
-				// ---------------------------
-				// Variables
-				// ---------------------------
-	 			
-	            // What variables do I want in the Vertex & Fragment shaders?
+	            
+	            // User Defined Variables
+	            uniform sampler2D _MainTex;
+	 			uniform float _RotationSpeed;
+	 			uniform float4 _MainTex_ST;
+				
+	            // Base Input Structs
 	            struct vertexInput
 	            {
             	    float4 vertex : POSITION;
@@ -38,17 +38,8 @@ Shader "Ellioman/Simple/RotateVertices"
 	                float4 position : SV_POSITION;
 	                float4 texcoord0 : TEXCOORD0;
 	            };
-	            
-	            // User-specified properties
-	            sampler2D _MainTex;
-	 			float _RotationSpeed;
-	 			float4 _MainTex_ST;
 
-
-	 			// ---------------------------
-				// Functions
-				// ----------------------------
-
+				// Rotates the UV Coordinate sent as a parameter
 				float4 CalculateRotation(float4 pos)
 	            {
 					// How much rotation do we have right now?
@@ -64,10 +55,6 @@ Shader "Ellioman/Simple/RotateVertices"
 
 	                return pos;
 	            }
-
-	 			// ---------------------------
-				// Shaders
-				// ----------------------------
 
 				// The Vertex Shader 
 	            vertexOutput vert(vertexInput i)

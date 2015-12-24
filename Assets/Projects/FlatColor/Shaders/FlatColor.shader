@@ -1,5 +1,5 @@
 ﻿// The Shader uses the _Color input given and colors the object with it.
-Shader "Ellioman/Simple/UnlitSolidColor"
+Shader "Ellioman/FlatColor"
 {
 	// What variables do we want sent in to the shader?
 	Properties
@@ -13,32 +13,22 @@ Shader "Ellioman/Simple/UnlitSolidColor"
         {
             CGPROGRAM
  			
-	 			// What functions should we use for the vertex and fragment shaders?
+	 			// Pragmas
 	            #pragma vertex vert
 	            #pragma fragment frag
 	            
-	            // Include some commonly used helper functions
+	            // Helper functions
 	            #include "UnityCG.cginc"
-	 			
-	 			
-	 			// ---------------------------
-				// Variables
-				// ----------------------------
-	 			
-	 			// What variables do I want in the Vertex & Fragment shaders?
+
+	            // User Defined Variables
+	 			uniform fixed4 _Color;
+
+	 			// Base Input Structs
 	            struct vertexOutput
 	            {
 	                float4 pos : SV_POSITION;
 	            };
-	 			
-	 			// User-specified properties
-	 			fixed4 _Color;
-	 			
-	 			
-	 			// ---------------------------
-				// Shaders
-				// ----------------------------
-	 			
+
 	 			// The Vertex Shader 
 	 			// appdata_base is a Unity struct with position, normal and one tex coordinate
 	            vertexOutput vert(appdata_base v)
@@ -53,7 +43,7 @@ Shader "Ellioman/Simple/UnlitSolidColor"
 	            {
 	                return _Color;
 	            }
- 
+ 			
             ENDCG
         }
     }

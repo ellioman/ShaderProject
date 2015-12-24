@@ -25,19 +25,19 @@ Shader "Ellioman/Silhouette/Silhouette"
 			Blend SrcAlpha OneMinusSrcAlpha
 
 			CGPROGRAM 
-
-	 			// What functions should we use for the vertex and fragment shaders?
+				
+	 			// Pragmas
 	            #pragma vertex vert
 	            #pragma fragment frag
 	            
-	            // Include some commonly used helper functions
+	            // Helper functions
 	            #include "UnityCG.cginc"
-	            
-				// ---------------------------
-				// Variables
-				// ---------------------------
-	 			
-	            // What variables do I want in the Vertex & Fragment shaders?
+
+	            // User Defined Variables
+				uniform float4 _Color;
+				uniform float _SilhuettePower;
+
+				// Base Input Structs
 				struct vertexInput
 				{
 					float4 vertex : POSITION;
@@ -49,16 +49,7 @@ Shader "Ellioman/Silhouette/Silhouette"
 					float3 normal : TEXCOORD;
 					float3 viewDir : TEXCOORD1;
 				};
-				
-				// User-specified properties
-				uniform float4 _Color;
-				uniform float _SilhuettePower;
-				
-				
-				// ---------------------------
-				// Shaders
-				// ----------------------------
-				
+
 				// The Vertex Shader 
 				vertexOutput vert(vertexInput input) 
 				{

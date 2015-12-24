@@ -1,4 +1,6 @@
-﻿Shader "Ellioman/Simple/WorldSpaceExample"
+﻿// The shader checks the distance between the fragment and (0,0,0) in
+// World Space and colors differantely whether it is inside or outside
+Shader "Ellioman/Simple/WorldSpaceExample"
 {
 	// What variables do we want sent in to the shader?
 	Properties
@@ -14,16 +16,16 @@
 		{
 			CGPROGRAM
 
-				// What functions should we use for the vertex and fragment shaders?
+				// Pragmas
 				#pragma vertex vert  
 				#pragma fragment frag 
+				
+				// User-specified properties
+				uniform float _Size;
+				uniform fixed4 _ColorInside;
+				uniform fixed4 _ColorOutside;
 
-
-				// ---------------------------
-				// Variables
-				// ----------------------------
-
-				// What variables do I want in the Vertex & Fragment shaders?
+				// Base Input Structs
 				struct vertexInput
 				{
 					float4 vertex : POSITION;
@@ -34,17 +36,7 @@
 					float4 pos : SV_POSITION;
 					float4 position_in_world_space : TEXCOORD0;
 				};
-				
-				// User-specified properties
-				float _Size;
-				fixed4 _ColorInside;
-				fixed4 _ColorOutside;
-				
-				
-				// ---------------------------
-				// Shaders
-				// ----------------------------
-				
+
 				// The Vertex Shader
 				vertexOutput vert(vertexInput input) 
 				{

@@ -14,19 +14,19 @@ Shader "Ellioman/Simple/Noise"
         {
             CGPROGRAM
  			
-	 			// What functions should we use for the vertex and fragment shaders?
+	 			// Pragmas
 	            #pragma vertex vert
 	            #pragma fragment frag
 	            
 	            // Include some commonly used helper functions
 	            #include "UnityCG.cginc"
-			
-			
-				// ---------------------------
-				// Variables
-				// ---------------------------
-	 			
-	            // What variables do I want in the Vertex & Fragment shaders?
+
+	            // User Defined Variables
+	            uniform sampler2D _MainTex;
+	 			uniform float4 _MainTex_ST;
+	 			uniform float _HeightScale;
+
+	            // Base Input Structs
 	            struct vertexInput
 	            {
             	    float4 vertex : POSITION;
@@ -38,24 +38,12 @@ Shader "Ellioman/Simple/Noise"
 	                float4 position : SV_POSITION;
 	                float4 texcoord0 : TEXCOORD0;
 	            };
-	            
-	            // User-specified properties
-	            sampler2D _MainTex;
-	 			float4 _MainTex_ST;
-	 			float _HeightScale;
 
-	 			// ---------------------------
-				// Functions
-				// ----------------------------
-
+				// Random function
 				float rand(float3 co)
 				{
 					return frac(sin( dot(co.xyz ,float3(12.9898,78.233,45.5432) )) * 43758.5453);
 				}
-
-	 			// ---------------------------
-				// Shaders
-				// ----------------------------
 
 				// The Vertex Shader 
 	            vertexOutput vert(vertexInput i)
@@ -72,9 +60,9 @@ Shader "Ellioman/Simple/Noise"
 	            // The Fragment Shader
 	            fixed4 frag(vertexOutput i) : SV_Target
 	            {
-	          		return tex2D(_MainTex, i.texcoord0);// + float4(c, s, 0.0, 0.0));
+	          		return tex2D(_MainTex, i.texcoord0);
 	            }
- 
+ 			
             ENDCG
         }
     }
