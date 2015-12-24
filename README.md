@@ -36,5 +36,6 @@ The project must be run on Unity3D version 5 or newer.
 
 * Noisecrime for his [Stencil examples](http://forum.unity3d.com/threads/unity-4-2-stencils-for-portal-rendering.191890/)
 * Käy Vriend for his [Free game dev resources](http://kay-vriend.blogspot.dk/2012/09/medieval-stonework.html)
-* Wikibooks for [the tutorials] (https://en.wikibooks.org/wiki/Cg_Programming/Unity)
-* Unity3d wiki for [their example shaders] (http://wiki.unity3d.com/index.php/Shaders)
+* Wikibooks for [the tutorials](https://en.wikibooks.org/wiki/Cg_Programming/Unity)
+* Unity3d wiki for [their example shaders](http://wiki.unity3d.com/index.php/Shaders)
+* cgcookie for their free [beginner](https://cgcookie.com/archive/noob-to-pro-shader-writing-for-unity-4-beginner/), [intermediate](https://cgcookie.com/archive/noob-to-pro-shader-writing-for-unity-4-intermediate/) and [surface shader](https://cgcookie.com/archive/introduction-to-surface-shaders-in-unity/) tutorials
