@@ -10,6 +10,8 @@ I created this repository to keep track of all kinds of shader code that I'll be
 * AdditiveBlending
 * AlphaBlending
 * ApplyTexture
+* BlackWhite
+* Blur
 * CombineTextures
 * Dissolve
 * FlatColor
@@ -17,18 +19,16 @@ I created this repository to keep track of all kinds of shader code that I'll be
 * GeometryShaders
 * GlassStained
 * GrabPass
-* ImageEffects
-	* Blur
-	* Pixelation
 * Noise
 * NormalMapping
+* Pixelation
 * RotationUV
 * RotationVertices
 * Silhuette
 * StencilBuffer
 * VertexPosition
 * WorldSpace
-* Black And White
+
 
 ## Requirements ##
 The project must be run on Unity3D version 5 or newer.
