@@ -6,19 +6,38 @@ public class Pixels : MonoBehaviour
 {
 	// Unity Editor Variables
 	[SerializeField] protected Material mat;
+	[SerializeField] protected int startPixelSizeVal;
 	[SerializeField] protected int endPixelSizeVal;
 	[SerializeField] protected int speed;
 
+	// Protected Const Variables
+	protected string PIXEL_SIZE_NAME = "_PixelSize";
+
 	// Protected Instance Variables
-	protected float pixelSizeVal = 1024;
+	protected bool isDoneAnimating = false;
+	protected float pixelSizeVal = 100;
 
+	// Constructor
+	protected void Awake()
+	{
+		mat.SetFloat(PIXEL_SIZE_NAME, startPixelSizeVal);
+	}
 
+	// Called once every fram
 	protected void Update()
 	{
-		if (pixelSizeVal > endPixelSizeVal)
+		if (!isDoneAnimating)
 		{
-			mat.SetFloat("_PixelSize", pixelSizeVal);
-			pixelSizeVal -= speed * Time.deltaTime;
+			float curVal = mat.GetFloat(PIXEL_SIZE_NAME);
+			if (curVal != endPixelSizeVal)
+			{
+				mat.SetFloat(PIXEL_SIZE_NAME, pixelSizeVal);
+				pixelSizeVal = Mathf.Clamp(pixelSizeVal - speed * Time.deltaTime, endPixelSizeVal, startPixelSizeVal);
+			}
+			else
+			{
+				isDoneAnimating = true;
+			}
 		}
 	}
 
