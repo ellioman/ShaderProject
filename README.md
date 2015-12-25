@@ -28,6 +28,7 @@ I created this repository to keep track of all kinds of shader code that I'll be
 * StencilBuffer
 * VertexPosition
 * WorldSpace
+* Black And White
 
 ## Requirements ##
 The project must be run on Unity3D version 5 or newer.
@@ -39,3 +40,4 @@ The project must be run on Unity3D version 5 or newer.
 * Wikibooks for [the tutorials](https://en.wikibooks.org/wiki/Cg_Programming/Unity)
 * Unity3d wiki for [their example shaders](http://wiki.unity3d.com/index.php/Shaders)
 * cgcookie for their free [beginner](https://cgcookie.com/archive/noob-to-pro-shader-writing-for-unity-4-beginner/), [intermediate](https://cgcookie.com/archive/noob-to-pro-shader-writing-for-unity-4-intermediate/) and [surface shader](https://cgcookie.com/archive/introduction-to-surface-shaders-in-unity/) tutorials
+* Alan Zucconi for his [tutorials](http://www.alanzucconi.com/2015/07/08/screen-shaders-and-postprocessing-effects-in-unity3d/)
