@@ -12,6 +12,7 @@ I created this repository to keep track of all kinds of shader code that I'll be
 * ApplyTexture
 * BlackWhite
 * Blur
+* Cel Shading
 * CombineTextures
 * Dissolve
 * FlatColor
