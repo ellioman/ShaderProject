@@ -86,11 +86,9 @@ Shader "Ellioman/Glass/Stained BumpDistort"
 						v2f o;
 						o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
 						#if UNITY_UV_STARTS_AT_TOP
-						float scale = -1.0;
-						#else
-						float scale = 1.0;
+						o.vertex.y *= -1;
 						#endif
-						o.uvgrab.xy = (float2(o.vertex.x, o.vertex.y*scale) + o.vertex.w) * 0.5;
+						o.uvgrab.xy = (float2(o.vertex.x, o.vertex.y) + o.vertex.w) * 0.5;
 						o.uvgrab.zw = o.vertex.zw;
 						o.uvbump = TRANSFORM_TEX(v.texcoord, _BumpMap);
 						o.uvmain = TRANSFORM_TEX(v.texcoord, _MainTex);
