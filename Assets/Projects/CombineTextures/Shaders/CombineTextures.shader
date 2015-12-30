@@ -1,5 +1,5 @@
 ﻿// The Shader takes two textures and blends them together using the _BlendValue
-Shader "Ellioman/Simple/CombineTextures"
+Shader "Ellioman/CombineTextures"
 {
 	// What variables do we want sent in to the shader?
 	Properties
