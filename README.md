@@ -12,7 +12,7 @@ I created this repository to keep track of all kinds of shader code that I'll be
 * ApplyTexture
 * BlackWhite
 * Blur
-* Cel Shading
+* CelShading
 * CombineTextures
 * Dissolve
 * FlatColor
@@ -27,8 +27,10 @@ I created this repository to keep track of all kinds of shader code that I'll be
 * RotationVertices
 * Silhuette
 * StencilBuffer
+* Tint
 * VertexPosition
 * WorldSpace
+* Zoom
 
 
 ## Requirements ##
