@@ -1,6 +1,6 @@
 ﻿// The shader checks the distance between the fragment and (0,0,0) in
 // World Space and colors differantely whether it is inside or outside
-Shader "Ellioman/Simple/WorldSpaceExample"
+Shader "Ellioman/WorldSpaceExample"
 {
 	// What variables do we want sent in to the shader?
 	Properties

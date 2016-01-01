@@ -1,5 +1,5 @@
 ﻿// Tutorial: https://en.wikibooks.org/wiki/Cg_Programming/Unity/Silhouette_Enhancement
-Shader "Ellioman/Silhouette/Silhouette"
+Shader "Ellioman/Silhouette"
 {
 	// What variables do we want sent in to the shader?
 	Properties

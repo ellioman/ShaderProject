@@ -1,10 +1,11 @@
-// 
-Shader "Ellioman/BlackWhiteGrabPass"
+﻿// 
+Shader "Ellioman/ZoomGrabPass"
 {
 	// What variables do we want sent in to the shader?
 	Properties
 	{
-		_bwBlend ("Black & White blend", Range (0, 1)) = 0
+		_ZoomVal ("ZoomValue", Range (0, 1)) = 0
+		_Adjust ("Zoom Pos Adjust", Range (0, 100)) = 0
 	}
 
 	Category
@@ -62,7 +63,8 @@ Shader "Ellioman/BlackWhiteGrabPass"
 					// User Defined Variables
 					uniform sampler2D _GrabTexture;
 					uniform float4 _GrabTexture_TexelSize;
-					uniform float _bwBlend;
+					uniform float _ZoomVal;
+					uniform float _Adjust;
 
 					// Base Input Structs
 					struct appdata_t
@@ -97,24 +99,38 @@ Shader "Ellioman/BlackWhiteGrabPass"
 						return o;
 					}
 
+		            // Maps a vector to a new range
+		            float2 map(half2 uv, float lower, float upper)
+		            {
+					    float p = upper - lower;
+					    half2 k = half2(uv.x * p, uv.y * p);
+					    k.x += lower;
+					    k.y += lower;
+					    return k;
+		            }
+
 					// The Fragment Shader				
 					half4 frag(v2f i) : COLOR
 					{
-						float4 c = tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(i.uvgrab));
+//						i.uvgrab.xy = map(i.uvgrab, -0.5, 0.5).xy;
+						float4 uv = i.uvgrab;
+//						uv.x += ;
+						float val = _ZoomVal;// / _GrabTexture_TexelSize;
+						float val2 = _Adjust;
 
-						// The three magic numbers represent the sensitivity of the Human eye
-						// to the R, G and B components. This is taken from
-						// http://www.alanzucconi.com/2015/07/08/screen-shaders-and-postprocessing-effects-in-unity3d/
-						float lum = c.r*.3 + c.g*.59 + c.b*.11;
-						float3 bw = float3(lum, lum, lum); 
-
-						float4 result = c;
-						result.rgb = lerp(c.rgb, bw, _bwBlend);
-
-						return result;
-					}
-					
-				ENDCG
+						uv.xy = map(uv, val, 1.0);
+						uv.x += val2;
+						uv.y += val2;
+//						uv.xy -= 0.5;
+		            	// Get the color value using the new UV
+		            	float4 res = tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
+	//	            	float4 res = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(uv));
+	//	            	res.r = 1.0;
+	
+						return res;
+		            }
+	 			
+	            ENDCG
 			}
 		}
 

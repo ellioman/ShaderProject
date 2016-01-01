@@ -1,5 +1,5 @@
 ﻿// 
-Shader "Ellioman/Simple/Noise"
+Shader "Ellioman/Noise"
 {
 	// What variables do we want sent in to the shader?
 	Properties
