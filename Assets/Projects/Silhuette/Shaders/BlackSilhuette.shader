@@ -60,7 +60,7 @@ Shader "Ellioman/SilhouetteBlack"
 					// from the vertex position in world space to the camera position in world space
 					output.viewDir = normalize(_WorldSpaceCameraPos - mul(_Object2World, input.vertex).xyz);
 					output.normal = normalize(mul(float4(input.normal, 0.0), _Object2World).xyz);
-					input.vertex.xyz += input.normal * 0.15;
+					input.vertex.xyz += output.normal * 0.15;
 					output.pos = mul(UNITY_MATRIX_MVP, input.vertex);
 					
 					return output;
