@@ -5,9 +5,14 @@ Shader "Ellioman/WorldSpaceExample"
 	// What variables do we want sent in to the shader?
 	Properties
 	{
-		_Size ("Size", Range(0, 10)) = 0.5
-		_ColorInside ("Color Inside", Color) = (1,1,1,1)
-		_ColorOutside ("Color Outside", Color) = (1,1,1,1)
+		[HideInInspector] _WorldPos1 ("WorldPos1", Vector) = (0,0,0,1)
+		[HideInInspector] _WorldPos2 ("WorldPos2", Vector) = (0,0,0,1)
+		[HideInInspector] _WorldPos3 ("WorldPos3", Vector) = (0,0,0,1)
+		[HideInInspector] _Size1 ("Size", float) = 0.5
+		[HideInInspector] _Size2 ("Size", float) = 0.5
+		[HideInInspector] _Size3 ("Size", float) = 0.5
+		[HideInInspector] _ColorInside ("Color Inside", Color) = (1,1,1,1)
+		[HideInInspector] _ColorOutside ("Color Outside", Color) = (1,1,1,1)
 	}
 	
 	SubShader
@@ -21,7 +26,12 @@ Shader "Ellioman/WorldSpaceExample"
 				#pragma fragment frag 
 				
 				// User-specified properties
-				uniform float _Size;
+				uniform float _Size1;
+				uniform float _Size2;
+				uniform float _Size3;
+				uniform fixed4 _WorldPos1;
+				uniform fixed4 _WorldPos2;
+				uniform fixed4 _WorldPos3;
 				uniform fixed4 _ColorInside;
 				uniform fixed4 _ColorOutside;
 
@@ -54,10 +64,12 @@ Shader "Ellioman/WorldSpaceExample"
 				{
 					// computes the distance between the fragment position 
 					// and the origin (the 4th coordinate should always be 1 for points).
-					float dist = distance(input.position_in_world_space, float4(0.0, 0.0, 0.0, 1.0));
+					float dist1 = distance(input.position_in_world_space, float4(_WorldPos1.x, _WorldPos1.y, _WorldPos1.z, 1.0));
+					float dist2 = distance(input.position_in_world_space, float4(_WorldPos2.x, _WorldPos2.y, _WorldPos2.z, 1.0));
+					float dist3 = distance(input.position_in_world_space, float4(_WorldPos3.x, _WorldPos3.y, _WorldPos3.z, 1.0));
 					
 					// color near origin
-					if (dist < _Size)
+					if (dist1 < _Size1 || dist2 < _Size2 || dist3 < _Size3)
 					{
 						return _ColorInside;
 					}
