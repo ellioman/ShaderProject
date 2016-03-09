@@ -7,8 +7,8 @@ Shader "Ellioman/Wave"
 	Properties
 	{
 		_Color ("Color", Color) = (0,0,0,0)
-		_BumpAmt ("Distortion", range (0,1024)) = 10
-		_BumpMap ("Normalmap", 2D) = "bump" {}
+		_Distortion ("Distortion", range (0,1024)) = 10
+		_NormalMap ("Normalmap", 2D) = "bump" {}
 	}
 
 	Category
@@ -75,15 +75,15 @@ Shader "Ellioman/Wave"
 					};
 					
 					// User-specified properties
-					float _BumpAmt;
-					sampler2D _GrabTexture;
-					float4 _GrabTexture_TexelSize;
-					sampler2D _BumpMap;
+					float _Distortion;
 					float4 _Color;
+					float4 _GrabTexture_TexelSize;
+					sampler2D _NormalMap;
+					sampler2D _GrabTexture;
 
 					// These are created by Unity when we use the TRANSFORM_TEX Macro in the
 					// vertex shader. XY values controls the texture tiling and ZW the offset
-					float4 _BumpMap_ST;
+					float4 _NormalMap_ST;
 					float4 _MainTex_ST;
 
 					v2f vert (appdata_t v)
@@ -98,7 +98,7 @@ Shader "Ellioman/Wave"
 						o.uvmain = v.texcoord;
 						o.uvgrab.xy = (float2(o.vertex.x, o.vertex.y) + o.vertex.w) * 0.5;
 						o.uvgrab.zw = o.vertex.zw;
-						o.uvbump = TRANSFORM_TEX(v.texcoord, _BumpMap);
+						o.uvbump = TRANSFORM_TEX(v.texcoord, _NormalMap);
 						return o;
 					}
 					
@@ -106,9 +106,9 @@ Shader "Ellioman/Wave"
 					half4 frag(v2f i) : COLOR
 					{
 						// calculate perturbed coordinates
-						half2 bump = UnpackNormal(tex2D(_BumpMap, i.uvbump)).rg; // we could optimize this by just reading the x & y without reconstructing the Z
+						half2 bump = UnpackNormal(tex2D(_NormalMap, i.uvbump)).rg; // we could optimize this by just reading the x & y without reconstructing the Z
 
-						float2 offset = bump * _BumpAmt * _GrabTexture_TexelSize.xy;
+						float2 offset = bump * _Distortion * _GrabTexture_TexelSize.xy;
 						i.uvgrab.x = offset.x * i.uvgrab.z + i.uvgrab.x;
 						i.uvgrab.y = offset.y * i.uvgrab.z + i.uvgrab.y;
 

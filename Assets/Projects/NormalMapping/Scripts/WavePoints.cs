@@ -15,8 +15,6 @@ public class WavePoints : MonoBehaviour
 	// 
 	float radius = 5f;
 	int numOfPoints = 360;
-	bool _needsReset = true;
-	[SerializeField] Shader _shader;
 
 
 	protected List<Wave> waves = new List<Wave>();
@@ -29,6 +27,11 @@ public class WavePoints : MonoBehaviour
 		public Vector3[] nrm = null;
 		public Vector2[] uv0 = null;
 		public int[] idx = null;
+	}
+
+	protected void Start()
+	{
+		_material.hideFlags = HideFlags.DontSave;
 	}
 
 	// Creates the wave and calculates the points on the wave
@@ -50,8 +53,6 @@ public class WavePoints : MonoBehaviour
 		wave.nrm = new Vector3[wave.vtx.Length];		// Each vertice needs a normal
 		wave.uv0 = new Vector2[wave.vtx.Length];		// 
 		wave.idx = new int[numOfPoints * 12];		// 
-
-
 
 		int indTemp = 0;
 		for (int i = 0; i < numOfPoints; i++)
@@ -122,13 +123,7 @@ public class WavePoints : MonoBehaviour
 
 	void Update()
 	{
-		if (_needsReset)
-		{
-			ResetResources();
-			_needsReset = false;
-		}
-
-		_material.SetFloat("_BumpAmt", distortion);
+		_material.SetFloat("_Distortion", distortion);
 		_material.SetColor("_Color", color);
 
 		for (int w = 0; w < waves.Count; w++)
@@ -136,23 +131,12 @@ public class WavePoints : MonoBehaviour
 			CalculateVertices(waves[w]);
 		}
 
+
 		if (Input.GetKeyUp(KeyCode.A))
 		{
 			CreateWaveBatchAndPoints();
 		}
 	}
-
-	void ResetResources()
-	{
-//		if (_mesh) DestroyImmediate(_mesh);
-//		if (_material) DestroyImmediate(_material);
-
-
-//		_shader = new Shader();
-//		_material = new Material(_shader);
-		_material.hideFlags = HideFlags.DontSave;
-	}
-
 
 	void CalculateVertices(Wave wave)
 	{
@@ -168,7 +152,6 @@ public class WavePoints : MonoBehaviour
 
 			indTemp += 6;
 		}
-
 
 		wave._mesh.vertices = wave.vtx;
 		Graphics.DrawMesh(wave._mesh, transform.localToWorldMatrix, _material, 0);
