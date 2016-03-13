@@ -11,18 +11,29 @@ public class ApplyShader : MonoBehaviour
 
     public Texture initialTexture; // first texture
 
-    void Start ()
+    void Awake()
     {
-        Graphics.Blit(initialTexture, texture);
-
-        buffer = new RenderTexture(texture.width, texture.height, texture.depth, texture.format);
+		buffer = RenderTexture.GetTemporary(texture.width, texture.height, texture.depth, texture.format);
+		Graphics.Blit(initialTexture, texture);
+//        buffer = new RenderTexture(texture.width, texture.height, texture.depth, texture.format);
+//		buffer = RenderTexture.GetTemporary(texture.width, texture.height, texture.depth, texture.format);
+		RenderTexture.ReleaseTemporary(buffer);
     }
+
+	void Start ()
+	{
+//		Graphics.Blit(initialTexture, texture);
+		//        buffer = new RenderTexture(texture.width, texture.height, texture.depth, texture.format);
+//		buffer = RenderTexture.GetTemporary(texture.width, texture.height, texture.depth, texture.format);
+	}
     
     // Postprocess the image
     public void UpdateTexture()
     {
+		buffer = RenderTexture.GetTemporary(texture.width, texture.height, texture.depth, texture.format);
         Graphics.Blit(texture, buffer, material);
         Graphics.Blit(buffer, texture);
+		RenderTexture.ReleaseTemporary(buffer);
     }
 
     // Updates regularly
