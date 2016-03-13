@@ -6,6 +6,7 @@ Shader "Ellioman/NormalMapSurfaceShader"
 	{
 		_MainTex ("Main Texture", 2D) = "white" {}
 		_NormalMap ("Normal Map", 2D) = "bump" {}
+		_NormalMapIntensity ("Normal Map Intensity", range(0, 10)) = 1
 		_Occlusion ("Occlusion", 2D) = "white" {}
 		_Specular ("Specular Map", 2D) = "white" {}
 	}
@@ -27,6 +28,7 @@ Shader "Ellioman/NormalMapSurfaceShader"
 			uniform sampler2D _NormalMap;
 			uniform sampler2D _Occlusion;
 			uniform sampler2D _Specular;
+			uniform float _NormalMapIntensity;
 
 			// Base Input Structs
 			struct Input
@@ -42,8 +44,12 @@ Shader "Ellioman/NormalMapSurfaceShader"
 			{
 				o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb;
 				o.Occlusion = tex2D(_Occlusion, IN.uv_Occlusion).rgb;
-				o.Normal = UnpackNormal (tex2D(_NormalMap, IN.uv_NormalMap));
 				o.Specular = tex2D(_Specular, IN.uv_Specular).rgb;
+
+				fixed3 n = UnpackNormal (tex2D(_NormalMap, IN.uv_NormalMap)).rgb;
+				n.x *= _NormalMapIntensity;
+				n.y *= _NormalMapIntensity;
+				o.Normal = normalize(n);
 			}
 		
 		ENDCG

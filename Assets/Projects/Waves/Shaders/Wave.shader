@@ -17,7 +17,6 @@ Shader "Ellioman/Wave"
 		Tags
 		{
 			"Queue"="Transparent+100"
-
 			"RenderType"="Transparent"
 		}
 
@@ -106,7 +105,7 @@ Shader "Ellioman/Wave"
 					half4 frag(v2f i) : COLOR
 					{
 						// calculate perturbed coordinates
-						half2 bump = UnpackNormal(tex2D(_NormalMap, i.uvbump)).rg; // we could optimize this by just reading the x & y without reconstructing the Z
+						half2 bump = UnpackNormal(tex2D(_NormalMap, i.uvbump)).rg;
 
 						float2 offset = bump * _Distortion * _GrabTexture_TexelSize.xy;
 						i.uvgrab.x = offset.x * i.uvgrab.z + i.uvgrab.x;
