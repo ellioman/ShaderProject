@@ -26,12 +26,14 @@ I created this repository to keep track of all kinds of shader code that I'll be
 * RotationUV
 * RotationVertices
 * Silhuette
+* Smoke
 * StencilBuffer
 * Tint
 * VertexPosition
+* VolumetricExplosion
+* Waves
 * WorldSpace
 * Zoom
-
 
 ## Requirements ##
 The project must be run on Unity3D version 5 or newer.
@@ -43,4 +45,4 @@ The project must be run on Unity3D version 5 or newer.
 * Wikibooks for [the tutorials](https://en.wikibooks.org/wiki/Cg_Programming/Unity)
 * Unity3d wiki for [their example shaders](http://wiki.unity3d.com/index.php/Shaders)
 * cgcookie for their free [beginner](https://cgcookie.com/archive/noob-to-pro-shader-writing-for-unity-4-beginner/), [intermediate](https://cgcookie.com/archive/noob-to-pro-shader-writing-for-unity-4-intermediate/) and [surface shader](https://cgcookie.com/archive/introduction-to-surface-shaders-in-unity/) tutorials
-* Alan Zucconi for his [tutorials](http://www.alanzucconi.com/2015/07/08/screen-shaders-and-postprocessing-effects-in-unity3d/)
+* Alan Zucconi for his [tutorials](http://www.alanzucconi.com/2015/07/08/screen-shaders-and-postprocessing-effects-in-unity3d/) and [Unity 5.x Shaders and Effects Cookbook](http://www.amazon.com/gp/product/B019ZNWJ5G?psc=1&redirect=true&ref_=oh_aui_d_detailpage_o00_)
