@@ -21,6 +21,7 @@ I created this repository to keep track of all kinds of shader code that I'll be
 * GlassStained
 * GrabPass
 * Noise
+* NormalExtrusion
 * NormalMapping
 * Pixelation
 * RotationUV
