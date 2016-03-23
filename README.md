@@ -3,7 +3,11 @@
 ## Description ##
 A container for all sorts of handy shaders in Unity3D.
 
-I created this repository to keep track of all kinds of shader code that I'll be creating while I'm getting back into shader programming and understanding how to use them inside Unity3D. It is my goal of eventually ending up with a rather nice looking database of all sorts of useful shaders that are well commented and understandable for me as well as others who are interested in subject.
+This repository was created to store all the shader code that I'll be creating inside Unity3D while getting back into shader programming. It is my goal of eventually ending up with a rather nice looking database of all sorts of useful shaders that are well commented and understandable to me and anyone interested in the subject.
+
+Everything in this repository is meant to be educational so don't hesitate to whatever you find useful in here (Wouldn't mind getting a "hey look at what we did with your shader" notification though :).
+
+Iif you have any questions, something to contribute or just want to chat then feel free hit me up on  [Twitter](https://twitter.com/ellioman) or ellioman at ellioman.com
 
 ### List of Projects in this Repository ###
 	
