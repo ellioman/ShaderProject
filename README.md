@@ -14,32 +14,40 @@ If you have any questions, something to contribute or just want to chat then fee
 * AdditiveBlending
 * AlphaBlending
 * ApplyTexture
-* BlackWhite
-* Blur
-* CelShading
 * CombineTextures
-* DepthTexture
 * Dissolve
 * FlatColor
 * FlatRGBColor
 * GeometryShaders
-* GlassStained
 * GrabPass
-* Noise
+	* BlackWhite
+	* Blur
+	* GlassStained
+	* Pixelation
+	* PixelShifting
+	* Tint
+	* Zoom
 * NormalExtrusion
 * NormalMapping
-* Pixelation
+* PostProcessing
+	* BlackWhite
+	* BlendModes
+	* BrightnessSaturationContrast
+	* DepthTexture
+	* Overlay
+	* Pixelation
+	* Tint
+	* Zoom
 * RotationUV
 * RotationVertices
 * Silhuette
 * Smoke
 * StencilBuffer
-* Tint
-* VertexPosition
+* ToonShading
+* VertexManipulation
 * VolumetricExplosion
 * Waves
 * WorldSpace
-* Zoom
 
 ## Requirements ##
 The project must be run on Unity3D version 5 or newer.
