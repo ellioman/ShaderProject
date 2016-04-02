@@ -3,12 +3,20 @@ using System.Collections;
 
 public class SpotLightMove : MonoBehaviour
 {
-	[SerializeField] protected  float speed;
+	#region Variables
+
+	// Unity Editor Variables
+	[SerializeField] protected float speed;
 
 	// Protected Instance Variables
 	protected float vertExtent = 0f;
 	protected float horzExtent = 0f;
 	protected Vector3 target = Vector2.zero;
+
+	#endregion
+
+
+	#region MonoBehaviour
 
 	// Use this for initialization
 	protected void Start()
@@ -31,6 +39,11 @@ public class SpotLightMove : MonoBehaviour
 		transform.position += (target - transform.position).normalized * speed * Time.deltaTime;
 	}
 
+	#endregion
+
+
+	#region Protected Functions
+
 	protected void SetNewTarget()
 	{
 		target.x = Random.Range(-horzExtent, horzExtent);
@@ -39,4 +52,6 @@ public class SpotLightMove : MonoBehaviour
 		target.x = Mathf.Clamp(target.x, -horzExtent, horzExtent);
 		target.z = Mathf.Clamp(target.z, -vertExtent, vertExtent);
 	}
+
+	#endregion
 }

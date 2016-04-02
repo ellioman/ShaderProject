@@ -3,14 +3,16 @@ using System.Collections;
 
 public class VolumetricExplosionController : MonoBehaviour
 {
+	#region Variables
+
+	// Unity Editor Variables
 	[SerializeField] Transform explosionPrefab;
 
-	// Use this for initialization
-	protected void Start()
-	{
-	
-	}
-	
+	#endregion
+
+
+	#region MonoBehaviour
+
 	// Update is called once per frame
 	protected void Update ()
 	{
@@ -19,4 +21,6 @@ public class VolumetricExplosionController : MonoBehaviour
 			Instantiate(explosionPrefab);
 		}
 	}
+
+	#endregion
 }

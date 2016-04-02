@@ -4,6 +4,8 @@ using System.Collections;
 [ExecuteInEditMode]
 public class Pixels : MonoBehaviour
 {
+	#region Variables
+
 	// Unity Editor Variables
 	[SerializeField] protected Material mat;
 	[SerializeField] protected int startPixelSizeVal;
@@ -17,13 +19,18 @@ public class Pixels : MonoBehaviour
 	protected bool isDoneAnimating = false;
 	protected float pixelSizeVal = 100;
 
-	// Constructor
+	#endregion
+
+
+	#region MonoBehaviour
+
+	// Awake is called when the script instance is being loaded.
 	protected void Awake()
 	{
 		mat.SetFloat(PIXEL_SIZE_NAME, startPixelSizeVal);
 	}
 
-	// Called once every fram
+	// Update is called once per frame
 	protected void Update()
 	{
 		if (!isDoneAnimating)
@@ -42,10 +49,12 @@ public class Pixels : MonoBehaviour
 	}
 
 	// Called after all rendering is complete to render image. Postprocessing effects.
-	public void OnRenderImage(RenderTexture source, RenderTexture destination)
+	protected void OnRenderImage(RenderTexture source, RenderTexture destination)
 	{
 		// Copy the source Render Texture to the destination,
 		// applying the material along the way.
 		Graphics.Blit(source, destination, mat);
 	}
+
+	#endregion
 }

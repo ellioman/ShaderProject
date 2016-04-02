@@ -64,7 +64,7 @@ public class DepthTexture : MonoBehaviour
 			// Copy the source Render Texture to the destination,
 			// applying the material along the way.
 			Mat.SetFloat("_DepthPower", depthPower);
-			Graphics.Blit(sourceTexture, destTexture, mat);
+			Graphics.Blit(sourceTexture, destTexture, Mat);
 		}
 		else
 		{
@@ -72,6 +72,8 @@ public class DepthTexture : MonoBehaviour
 		}
 	}
 
+	// Called when the behaviour becomes disabled, inactive or when 
+	// the object is destroyed and can be used for any cleanup code
 	protected void OnDisable()
 	{
 		if (mat)

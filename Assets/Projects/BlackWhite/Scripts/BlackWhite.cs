@@ -4,6 +4,8 @@ using System.Collections;
 [ExecuteInEditMode]
 public class BlackWhite : MonoBehaviour
 {
+	#region Variables
+
 	// Unity Editor Variables
 	[SerializeField] protected Material mat;
 	[SerializeField] protected float speed;
@@ -14,7 +16,12 @@ public class BlackWhite : MonoBehaviour
 	// Protected Instance Variables
 	protected float bwBlendVal = 0;
 
-	// Called once every fram
+	#endregion
+
+
+	#region MonoBehaviour
+
+	// Update is called once per frame
 	protected void Update()
 	{
 		bwBlendVal = Mathf.Sin(Time.time * speed) * 0.5f + 0.5f;
@@ -28,4 +35,6 @@ public class BlackWhite : MonoBehaviour
 		// applying the material along the way.
 		Graphics.Blit(source, destination, mat);
 	}
+
+	#endregion
 }

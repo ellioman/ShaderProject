@@ -4,23 +4,57 @@ using System.Collections;
 [ExecuteInEditMode]
 public class Zoom : MonoBehaviour
 {
+	#region Variables
+
 	// Unity Editor Variables
-	[SerializeField] protected Material mat;
+	[SerializeField] protected Shader shader;
 	[SerializeField] protected Transform obj;
 
 	// Protected Const Variables
 	protected string ZOOM_POS = "_ZoomViewPointPos";
 
 	// Protected Instance Variables
-	float xMin = 0f;
-	float xMax = 0f;
-	float yMin = 0f;
-	float yMax = 0f;
+	protected float xMin = 0f;
+	protected float xMax = 0f;
+	protected float yMin = 0f;
+	protected float yMax = 0f;
+	protected Material mat;
+
+	// Public Properties
+	public Material Mat
+	{
+		get
+		{
+			if (mat == null)
+			{
+				mat = new Material(shader);
+				mat.hideFlags = HideFlags.HideAndDontSave;
+			}
+			return mat;
+		}
+	}
+
+	#endregion
+
+
+	#region MonoBehaviour
 
 	// Called on the frame when a script is enabled just before 
 	// any of the Update methods is called the first time.
 	protected void Start()
 	{
+		if (!SystemInfo.supportsImageEffects)
+		{
+			enabled = false; 
+			return;
+		}
+
+		if (!shader || !shader.isSupported)
+		{
+			enabled = false;
+			return;
+		}
+
 		float dist = Vector3.Distance(transform.position, Vector3.zero);
 		Vector2 leftBottom = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, dist));
 		Vector2 rightTop = Camera.main.ViewportToWorldPoint(new Vector3(1f, 1f, dist));
@@ -31,7 +65,7 @@ public class Zoom : MonoBehaviour
 		yMax = rightTop.y;
 	}
 
-	// Called once every fram
+	// Update is called once per frame
 	protected void Update()
 	{
 		Vector3 pos = obj.position;
@@ -41,18 +75,37 @@ public class Zoom : MonoBehaviour
 
 		Vector3 viewPortPos = Camera.main.WorldToViewportPoint(obj.position);
 
-		mat.SetFloat("_T", viewPortPos.x);
-		mat.SetFloat("_V", viewPortPos.y);
+		Mat.SetFloat("_T", viewPortPos.x);
+		Mat.SetFloat("_V", viewPortPos.y);
 	}
 
 	// Called after all rendering is complete to render image. Postprocessing effects.
-	public void OnRenderImage(RenderTexture source, RenderTexture destination)
+	protected void OnRenderImage(RenderTexture sourceTexture, RenderTexture destTexture)
 	{
-		// Copy the source Render Texture to the destination,
-		// applying the material along the way.
-		Graphics.Blit(source, destination, mat);
+		if (shader != null)
+		{
+			// Copy the source Render Texture to the destination,
+			// applying the material along the way.
+			Graphics.Blit(sourceTexture, destTexture, Mat);
+		}
+		else
+		{
+			Graphics.Blit(sourceTexture, destTexture);
+		}
 
 		Vector3 viewPortPos = Camera.main.WorldToViewportPoint(obj.position);
 		Debug.Log(viewPortPos);
 	}
+
+	// Called when the behaviour becomes disabled, inactive or when 
+	// the object is destroyed and can be used for any cleanup code
+	protected void OnDisable()
+	{
+		if (mat)
+		{
+			DestroyImmediate(mat);
+		}
+	}
+
+	#endregion
 }

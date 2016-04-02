@@ -3,16 +3,24 @@ using System.Collections;
 
 public class WorldSpace2 : MonoBehaviour
 {
+	#region Variables
+
+	// Unity Editor Variables
 	[SerializeField] protected Transform obj1;
 	[SerializeField] protected Transform obj2;
 	[SerializeField] protected Transform obj3;
 	[SerializeField] protected Transform obj4;
 	[SerializeField] protected Shader shader;
 
+	// Protected Instance Variables
 	protected Material mat;
 	protected Mesh mesh;
 	protected bool shouldReset = true;
 
+	#endregion
+
+
+	#region MonoBehaviour
 
 	// Update is called once per frame
 	protected void Update()
@@ -23,14 +31,13 @@ public class WorldSpace2 : MonoBehaviour
 			shouldReset = false;
 		}
 
-//		mat.SetVector("_Position1", obj1.position);
-//		mat.SetVector("_Position2", obj2.position);
-//		mat.SetVector("_Position3", obj3.position);
-//		mat.SetVector("_Position4", obj4.position);
-
-
 		Graphics.DrawMesh(mesh, transform.localToWorldMatrix, mat, 0); 
 	}
+
+	#endregion
+
+
+	#region Protected Functions
 
 	protected void ResetResources()
 	{
@@ -58,10 +65,10 @@ public class WorldSpace2 : MonoBehaviour
 		var i_tmp = 0;
 		for (var instance = 0; instance < instanceCount; instance++)
 		{
-			var uv0 = new Vector2(
-				(float)(instance % 40) / 40,
-				(float)(instance / 40) * 40 / instanceCount
-			);
+//			var uv0 = new Vector2(
+//				(float)(instance % 40) / 40,
+//				(float)(instance / 40) * 40 / instanceCount
+//			);
 
 			Vector3 mov = new Vector3(3.0f * instance, 0f, 0f);
 			verts[i_tmp + 0] = verts[i_tmp + 4] = new Vector3(-1, 0, -1) + mov;
@@ -118,4 +125,6 @@ public class WorldSpace2 : MonoBehaviour
 		mesh.SetIndices(idx_tmp, MeshTopology.Triangles, 0);
 		mesh.bounds = new Bounds(Vector3.zero, Vector3.one * 1000);
 	}
+
+	#endregion
 }

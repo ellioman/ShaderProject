@@ -4,19 +4,20 @@ using System.Collections.Generic;
 
 public class WavePoints : MonoBehaviour
 {
-	public Material _material;
-	public Vector3 centerPos = new Vector3(0f, 2f, 0f);
-	public float waveheight;
-	public float speed;
-	public float size;
-	public Color color;
-	public float distortion;
+	#region Variables
 
-	// 
-	float radius = 5f;
-	int numOfPoints = 360;
+	// Unity Editor Variables
+	[SerializeField] protected Material _material;
+	[SerializeField] protected Vector3 centerPos = new Vector3(0f, 2f, 0f);
+	[SerializeField] protected float waveheight;
+	[SerializeField] protected float speed;
+	[SerializeField] protected float size;
+	[SerializeField] protected Color color;
+	[SerializeField] protected float distortion;
 
-
+	// Protected Instance Variables
+	protected float radius = 5f;
+	protected int numOfPoints = 360;
 	protected List<Wave> waves = new List<Wave>();
 	protected class Wave
 	{
@@ -29,12 +30,52 @@ public class WavePoints : MonoBehaviour
 		public int[] idx = null;
 	}
 
+	#endregion
+
+
+	#region MonoBehaviour
+
 	// Called on the frame when a script is enabled just before 
 	// any of the Update methods is called the first time.
 	protected void Start()
 	{
 		_material.hideFlags = HideFlags.DontSave;
 	}
+
+	// Called every fixed framerate frame
+	protected void FixedUpdate()
+	{
+		for (int w = 0; w < waves.Count; w++)
+		{
+			for (int i = 0; i < waves[w].points.Length; i++)
+			{
+				waves[w].points[i] += waves[w].pointsDir[i] * Time.fixedDeltaTime * speed;
+			}
+		}
+	}
+
+	// Update is called once per frame
+	protected void Update()
+	{
+		_material.SetFloat("_Distortion", distortion);
+		_material.SetColor("_Color", color);
+
+		for (int w = 0; w < waves.Count; w++)
+		{
+			CalculateVertices(waves[w]);
+		}
+
+
+		if (Input.GetKeyUp(KeyCode.A))
+		{
+			CreateWaveBatchAndPoints();
+		}
+	}
+
+	#endregion
+
+
+	#region Protected Functions
 
 	// Creates the wave and calculates the points on the wave
 	protected void CreateWaveBatchAndPoints()
@@ -112,35 +153,7 @@ public class WavePoints : MonoBehaviour
 		waves.Add(wave);
 	}
 
-	void FixedUpdate()
-	{
-		for (int w = 0; w < waves.Count; w++)
-		{
-			for (int i = 0; i < waves[w].points.Length; i++)
-			{
-				waves[w].points[i] += waves[w].pointsDir[i] * Time.fixedDeltaTime * speed;
-			}
-		}
-	}
-
-	void Update()
-	{
-		_material.SetFloat("_Distortion", distortion);
-		_material.SetColor("_Color", color);
-
-		for (int w = 0; w < waves.Count; w++)
-		{
-			CalculateVertices(waves[w]);
-		}
-
-
-		if (Input.GetKeyUp(KeyCode.A))
-		{
-			CreateWaveBatchAndPoints();
-		}
-	}
-
-	void CalculateVertices(Wave wave)
+	protected void CalculateVertices(Wave wave)
 	{
 		int indTemp = 0;
 		for (int i = 0; i < numOfPoints; i++)
@@ -158,4 +171,6 @@ public class WavePoints : MonoBehaviour
 		wave._mesh.vertices = wave.vtx;
 		Graphics.DrawMesh(wave._mesh, transform.localToWorldMatrix, _material, 0);
 	}
+
+	#endregion
 }

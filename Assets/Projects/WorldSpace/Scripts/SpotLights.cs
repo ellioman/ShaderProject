@@ -4,6 +4,8 @@ using System.Collections;
 [ExecuteInEditMode]
 public class SpotLights : MonoBehaviour
 {
+	#region Variables
+
 	[System.Serializable]
 	protected class SpotLight
 	{
@@ -11,11 +13,16 @@ public class SpotLights : MonoBehaviour
 		public float size;
 	}
 
+	// Unity Editor Variables
 	[SerializeField] protected SpotLight spotlight1;
 	[SerializeField] protected SpotLight spotlight2;
 	[SerializeField] protected SpotLight spotlight3;
 	[SerializeField] protected Material mat;
 
+	#endregion
+
+
+	#region MonoBehaviour
 
 	// Update is called once per frame
 	protected void Update()
@@ -41,4 +48,6 @@ public class SpotLights : MonoBehaviour
 			}
 		}
 	}
+
+	#endregion
 }

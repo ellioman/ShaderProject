@@ -4,6 +4,8 @@ using System.Collections;
 [ExecuteInEditMode]
 public class Overlay : MonoBehaviour
 {
+	#region Variables
+
 	// Unity Editor Variables
 	[SerializeField] protected float minRandomVal;
 	[SerializeField] protected float maxRandomVal;
@@ -13,20 +15,26 @@ public class Overlay : MonoBehaviour
 	// Protected Const Variables
 	protected string BLEND_VALUE_NAME = "_SecondTex";
 
-//	// Protected Instance Variables
+	// Protected Instance Variables
 	protected int texIndex = 0;
 	protected float time = 0;
 	protected float delay = 0;
 
+	#endregion
 
-	void Start()
+
+	#region MonoBehaviour
+
+	// Called on the frame when a script is enabled just before 
+	// any of the Update methods is called the first time.
+	protected void Start()
 	{
 		mat.SetTexture(BLEND_VALUE_NAME, textures[texIndex]);
 		time = Time.time;
 		texIndex = (texIndex + 1) % textures.Length;
 	}
 
-	// Called once every fram
+	// Update is called once per frame
 	protected void Update()
 	{
 		if (Time.time - time > delay)
@@ -52,4 +60,6 @@ public class Overlay : MonoBehaviour
 		// applying the material along the way.
 		Graphics.Blit(source, destination, mat);
 	}
+
+	#endregion
 }
