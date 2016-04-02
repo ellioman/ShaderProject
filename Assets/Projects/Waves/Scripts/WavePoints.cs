@@ -29,6 +29,8 @@ public class WavePoints : MonoBehaviour
 		public int[] idx = null;
 	}
 
+	// Called on the frame when a script is enabled just before 
+	// any of the Update methods is called the first time.
 	protected void Start()
 	{
 		_material.hideFlags = HideFlags.DontSave;

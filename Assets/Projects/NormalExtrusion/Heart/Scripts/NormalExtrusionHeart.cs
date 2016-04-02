@@ -10,7 +10,8 @@ public class NormalExtrusionHeart : MonoBehaviour
 	protected Material mat = null;
 	protected float startTime = 0f;
 
-	// Use this for initialization
+	// Called on the frame when a script is enabled just before 
+	// any of the Update methods is called the first time.
 	protected void Start()
 	{
 		Renderer r = GetComponent<Renderer>();

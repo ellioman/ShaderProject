@@ -45,7 +45,7 @@ public class Overlay : MonoBehaviour
 		}
 	}
 
-	// Called after all rendering is complete to render image.
+	// Called after all rendering is complete to render image. Postprocessing effects.
 	public void OnRenderImage(RenderTexture source, RenderTexture destination)
 	{
 		// Copy the source Render Texture to the destination,

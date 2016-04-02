@@ -17,6 +17,8 @@ public class Zoom : MonoBehaviour
 	float yMin = 0f;
 	float yMax = 0f;
 
+	// Called on the frame when a script is enabled just before 
+	// any of the Update methods is called the first time.
 	protected void Start()
 	{
 		float dist = Vector3.Distance(transform.position, Vector3.zero);
@@ -43,7 +45,7 @@ public class Zoom : MonoBehaviour
 		mat.SetFloat("_V", viewPortPos.y);
 	}
 
-	// Called after all rendering is complete to render image.
+	// Called after all rendering is complete to render image. Postprocessing effects.
 	public void OnRenderImage(RenderTexture source, RenderTexture destination)
 	{
 		// Copy the source Render Texture to the destination,
