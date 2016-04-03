@@ -1,4 +1,5 @@
-﻿Shader "Custom/NewSurfaceShader" {
+﻿Shader "Ellioman/SilhuetteSurfaceShader"
+{
 	Properties {
 		_Color ("Color", Color) = (1,1,1,1)
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
@@ -21,7 +22,7 @@
 		CGPROGRAM
 
 		// Pragmas
-		#pragma surface surf Lambert alpha:fade nolighting
+		#pragma surface surf Lambert alpha:fade
 
 		// Use shader model 3.0 target, to get nicer looking lighting
 		#pragma target 3.0
