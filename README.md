@@ -7,7 +7,7 @@ This repository was created to store all the shader code that I'll be creating i
 
 Everything in this repository is meant to be educational so don't hesitate to whatever you find useful in here (Wouldn't mind getting a "hey look at what we did with your shader" notification though :).
 
-If you have any questions, something to contribute or just want to chat then feel free hit me up on  [Twitter](https://twitter.com/ellioman) or ellioman at ellioman.com
+If you have any questions, something to contribute or just want to chat then feel free hit me up on  [Twitter](https://twitter.com/ellioman) or by email: ellioman at ellioman.com
 
 ### List of Projects in this Repository ###
 	
@@ -41,11 +41,11 @@ If you have any questions, something to contribute or just want to chat then fee
 * RotationUV
 * RotationVertices
 * Silhuette
-* Smoke
 * StencilBuffer
 * ToonShading
 * VertexManipulation
 * VolumetricExplosion
+* Water
 * Waves
 * WorldSpace
 
