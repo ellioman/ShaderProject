@@ -44,6 +44,8 @@ If you have any questions, something to contribute or just want to chat then fee
 * StencilBuffer
 * ToonShading
 * VertexManipulation
+	* Flag
+	* Scale
 * VolumetricExplosion
 * Water
 * Waves
