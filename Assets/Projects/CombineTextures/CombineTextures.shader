@@ -56,6 +56,7 @@ Shader "Ellioman/CombineTextures"
 	                // coordinates using the tiling and offset from the Unity editor.
 	                o.mainTexUV = TRANSFORM_TEX(i.texcoord, _MainTex);
 	                o.secondTexUV = TRANSFORM_TEX(i.texcoord, _SecondTex);
+
 	                return o;
 	            }
 	            
