@@ -27,6 +27,10 @@ If you have any questions, something to contribute or just want to chat then fee
 	* PixelShifting
 	* Tint
 	* Zoom
+* Masks
+	* AlphaMask
+	* ColorMask
+	* ColorAlphaMask
 * NormalExtrusion
 * NormalMapping
 * PostProcessing
