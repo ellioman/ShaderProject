@@ -5,11 +5,11 @@ A container for all sorts of handy shaders in Unity3D.
 
 This repository was created to store all the shader code that I'll be creating inside Unity3D while getting back into shader programming. It is my goal of eventually ending up with a rather nice looking database of all sorts of useful shaders that are well commented and understandable to me and anyone interested in the subject.
 
-Everything in this repository is meant to be educational so don't hesitate to whatever you find useful in here (Wouldn't mind getting a "hey look at what we did with your shader" notification though :).
+Everything in this repository is purely meant to be educational so don't hesitate to whatever you find useful in here (Wouldn't mind getting a "hey look at what we did with your shader" notification though :).
 
 If you have any questions, something to contribute or just want to chat then feel free hit me up on  [Twitter](https://twitter.com/ellioman) or by email: ellioman at ellioman.com
 
-### List of Projects in this Repository ###
+### List of Shaders-Projects in this Repository ###
 	
 * AdditiveBlending
 * AlphaBlending
@@ -46,6 +46,7 @@ If you have any questions, something to contribute or just want to chat then fee
 * RotationVertices
 * Silhuette
 * StencilBuffer
+* TextureAtlas
 * ToonShading
 * VertexManipulation
 	* Flag
