@@ -6,6 +6,7 @@
         _TextureColumns ("Texture Columns", float) = 1
         _TextureRows ("Texture Rows", float) = 1
         _AnimationSpeed ("Animation Speed", float) = 1
+        _Test ("Test Speed", float) = 1
     }
 
     CGINCLUDE
@@ -14,6 +15,7 @@
 	float _TextureColumns;
 	float _TextureRows;
 	float _AnimationSpeed;
+	float _Test;
 
 	// Base Input Structs
 	struct vertexInput
@@ -37,7 +39,7 @@
         float time = floor(_Time.x * _AnimationSpeed);
 
         float xPos = time % _TextureColumns;
-        float yPos = floor(time / _TextureRows);
+        float yPos = floor(time / _TextureColumns) % _TextureRows;
 
 		float texWidth = (1.0 / _TextureColumns);
 		float texHeight = (1.0 / _TextureRows);
@@ -53,10 +55,7 @@
 	// The Fragment Shader
     fixed4 frag(vertexOutput i) : COLOR
 	{
-		// Get the colors from the RenderTexture and the uv's
-		// from the v2f_img struct
-		fixed4 renderTex = tex2D(_MainTex, i.texcoord0.xy);
-		return renderTex;
+		return tex2D(_MainTex, i.texcoord0.xy);
 	}
 
     ENDCG
