@@ -7,7 +7,7 @@ This repository was created to store all the shader code that I'll be creating i
 
 Everything in this repository is purely meant to be educational so don't hesitate to whatever you find useful in here (Wouldn't mind getting a "hey look at what we did with your shader" notification though :).
 
-If you have any questions, something to contribute or just want to chat then feel free hit me up on  [Twitter](https://twitter.com/ellioman) or by email: ellioman at ellioman.com
+If you have any questions, something to contribute or just want to chat then feel free hit me up on  [Twitter](https://twitter.com/ellioman) or by email: ellioman at ellioman.com 
 
 ### List of Shaders-Projects in this Repository ###
 	
