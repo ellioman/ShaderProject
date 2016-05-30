@@ -16,7 +16,7 @@ Shader "Ellioman/GrabPassShifter"
 			"Queue"="Transparent+100"
 			"RenderType"="Opaque"
 		}
-
+		
 		SubShader
 		{
 			// ---------------------------
@@ -54,48 +54,40 @@ Shader "Ellioman/GrabPassShifter"
 				}
 				
 				CGPROGRAM
-				
 					// What functions should we use for the vertex and fragment shaders?
-					#pragma vertex vert
-					#pragma fragment frag
+					#pragma vertex vertexShader
+					#pragma fragment fragmentShader
 					#pragma fragmentoption ARB_precision_hint_fastest
 					
 					// Include some commonly used helper functions
 					#include "UnityCG.cginc"
 					
-					// ---------------------------
-					// Variables
-					// ---------------------------
-
-					struct appdata_t
+					// User Defined Variables
+					sampler2D _GrabTexture;
+					float4 _GrabTexture_TexelSize;
+					float _XDirection;
+					float _YDirection;
+					
+					// Base Input Structs
+					struct VSInput
 					{
 						float4 vertex : POSITION;
 						float2 texcoord: TEXCOORD0;
 					};
-
-					struct v2f
+					
+					struct VSOutput
 					{
 						float4 vertex : POSITION;
 						float2 uv : TEXCOORD0;
 						float4 uvgrab : TEXCOORD1;
 					};
 					
-					// User-specified properties
-					sampler2D _GrabTexture;
-					float4 _GrabTexture_TexelSize;
-					float _XDirection;
-					float _YDirection;
-
-					// ---------------------------
-					// Shaders
-					// ----------------------------
-		 			
 		 			// The Vertex Shader 
-					v2f vert (appdata_t v)
+					VSOutput vertexShader(VSInput IN)
 					{
-						v2f o;
-						o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
-						o.uv =  v.texcoord.xy;
+						VSOutput OUT;
+						OUT.vertex = mul(UNITY_MATRIX_MVP, IN.vertex);
+						OUT.uv = IN.texcoord.xy;
 						
 						#if UNITY_UV_STARTS_AT_TOP
 						float scale = -1.0;
@@ -103,27 +95,23 @@ Shader "Ellioman/GrabPassShifter"
 						float scale = 1.0;
 						#endif
 						
-						o.uvgrab.xy = (float2(o.vertex.x, o.vertex.y*scale) + o.vertex.w) * 0.5;
-						o.uvgrab.zw = o.vertex.zw;
-						
-						return o;
-					}
-
-					// The Fragment Shader				
-					half4 frag(v2f i) : COLOR
-					{
-						float2 offsetVec = (float2(_XDirection, _YDirection));
-						float4 uv = i.uvgrab + _GrabTexture_TexelSize * float4(offsetVec.x, offsetVec.y, 0.0, 0.0);
-
-						half4 col = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(uv));
-
-						return col;
+						OUT.uvgrab.xy = (float2(OUT.vertex.x, OUT.vertex.y*scale) + OUT.vertex.w) * 0.5;
+						OUT.uvgrab.zw = OUT.vertex.zw;
+						return OUT;
 					}
 					
+					// The Fragment Shader
+					half4 fragmentShader(VSOutput IN) : COLOR
+					{
+						float2 offsetVec = (float2(_XDirection, _YDirection));
+						float4 uv = IN.uvgrab + _GrabTexture_TexelSize * float4(offsetVec.x, offsetVec.y, 0.0, 0.0);
+						half4 col = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(uv));
+						return col;
+					}
 				ENDCG
 			}
 		}
-
+		
 		// ------------------------------------------------------------------
 		// Fallback for older cards and Unity non-Pro
 		

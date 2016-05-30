@@ -7,7 +7,7 @@ Shader "Ellioman/Water"
 		_Distortion ("Distortion", range (0,150)) = 10
 		_NormalMap ("Normalmap", 2D) = "bump" {}
 	}
-
+	
 	Category
 	{
 		// We must be transparent, so other objects are drawn before this one.
@@ -16,11 +16,10 @@ Shader "Ellioman/Water"
 			"Queue"="Transparent+100"
 			"RenderType"="Transparent"
 		}
-
-
+		
 		// Show both sides
 		Cull Off
-
+		
 		SubShader
 		{
 			// This pass grabs the screen behind the object into a texture.
@@ -40,29 +39,34 @@ Shader "Ellioman/Water"
 				Tags { "LightMode" = "Always" }
 				Blend SrcAlpha OneMinusSrcAlpha
 				CGPROGRAM
-				
-					// What functions should we use for the vertex and fragment shaders?
-					#pragma vertex vert
-					#pragma fragment frag
-					
-					
+					// Pragmas
+					#pragma vertex vertexShader
+					#pragma fragment fragmentShader
 					#pragma fragmentoption ARB_precision_hint_fastest
 					
-					// Include some commonly used helper functions
+					// Helper functions
 					#include "UnityCG.cginc"
 					
+					// User Defined Variables
+					float _Distortion;
+					float4 _Color;
+					float4 _GrabTexture_TexelSize;
+					sampler2D _NormalMap;
+					sampler2D _GrabTexture;
 					
-					// ---------------------------
-					// Variables
-					// ---------------------------
-
-					struct appdata_t
+					// These are created by Unity when we use the TRANSFORM_TEX Macro in the
+					// vertex shader. XY values controls the texture tiling and ZW the offset
+					float4 _NormalMap_ST;
+					float4 _MainTex_ST;
+					
+					// Base Input Structs
+					struct VSInput
 					{
 						float4 vertex : POSITION;
 						float2 texcoord: TEXCOORD0;
 					};
-
-					struct v2f
+					
+					struct VSOutput
 					{
 						float4 vertex : POSITION;
 						float4 uvgrab : TEXCOORD0;
@@ -70,57 +74,39 @@ Shader "Ellioman/Water"
 						float2 uvmain : TEXCOORD2;
 					};
 					
-					// User-specified properties
-					float _Distortion;
-					float4 _Color;
-					float4 _GrabTexture_TexelSize;
-					sampler2D _NormalMap;
-					sampler2D _GrabTexture;
-
-					// These are created by Unity when we use the TRANSFORM_TEX Macro in the
-					// vertex shader. XY values controls the texture tiling and ZW the offset
-					float4 _NormalMap_ST;
-					float4 _MainTex_ST;
-
-					v2f vert (appdata_t v)
+					// The Vertex Shader
+					VSOutput vertexShader(VSInput IN)
 					{
-						v2f o;
-						o.vertex.y += sin(_Time.w) * 0.01;
-						o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+						VSOutput OUT;
+						OUT.vertex.y += sin(_Time.w) * 0.01;
+						OUT.vertex = mul(UNITY_MATRIX_MVP, IN.vertex);
 						_NormalMap_ST.z += _Time.x;
-
-
-
-						o.uvmain = v.texcoord;
-						o.uvgrab.xy = (float2(o.vertex.x, o.vertex.y) + o.vertex.w) * .5;
-						o.uvgrab.zw = o.vertex.zw;
-						o.uvbump = TRANSFORM_TEX(v.texcoord, _NormalMap);
-
-
-
-						return o;
+						
+						OUT.uvmain = IN.texcoord;
+						OUT.uvgrab.xy = (float2(OUT.vertex.x, OUT.vertex.y) + OUT.vertex.w) * .5;
+						OUT.uvgrab.zw = OUT.vertex.zw;
+						OUT.uvbump = TRANSFORM_TEX(IN.texcoord, _NormalMap);
+						
+						return OUT;
 					}
 					
-					// Fragment Shader
-					half4 frag(v2f i) : COLOR
+					// The Fragment Shader
+					half4 fragmentShader(VSOutput IN) : COLOR
 					{
 						// calculate perturbed coordinates
-						half2 bump = UnpackNormal(tex2D(_NormalMap, i.uvbump)).rg;
-
+						half2 bump = UnpackNormal(tex2D(_NormalMap, IN.uvbump)).rg;
 						float2 offset = bump * _Distortion * _GrabTexture_TexelSize.xy;
-						i.uvgrab.x = offset.x * i.uvgrab.z + i.uvgrab.x;
-						i.uvgrab.y = offset.y * i.uvgrab.z + i.uvgrab.y;
-
-						half4 col = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(i.uvgrab));
+						IN.uvgrab.x = offset.x * IN.uvgrab.z + IN.uvgrab.x;
+						IN.uvgrab.y = offset.y * IN.uvgrab.z + IN.uvgrab.y;
+						
+						half4 col = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(IN.uvgrab));
 						return col * _Color;
 					}
 				ENDCG
 			}
 		}
 
-		// ------------------------------------------------------------------
 		// Fallback for older cards and Unity non-Pro
-		
 		SubShader
 		{
 			Blend DstColor Zero

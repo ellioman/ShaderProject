@@ -6,7 +6,7 @@ Shader "Ellioman/Blur"
 	{
 		_Blurryness ("Blur Amount", range (0,1024)) = 10
 	}
-
+	
 	Category
 	{
 		// Subshaders use tags to tell how and when they 
@@ -17,7 +17,7 @@ Shader "Ellioman/Blur"
 			"Queue"="Transparent+100"
 			"RenderType"="Opaque"
 		}
-
+		
 		SubShader
 		{
 			// Grab the screen behind the object and put it into _GrabTexture
@@ -26,7 +26,7 @@ Shader "Ellioman/Blur"
 				// Name of the variable holding the GrabPass output
 				"_GrabTexture"
 				
-				// Pass name						
+				// Pass name
 				Name "BASE"
 				
 				// Tags for the pass
@@ -34,8 +34,8 @@ Shader "Ellioman/Blur"
 				{
 					"LightMode" = "Always"
 				}
-	 		}
-	 		
+			}
+			
 			Pass
 			{
 				// Pass name
@@ -52,38 +52,38 @@ Shader "Ellioman/Blur"
 				CGPROGRAM
 				
 					// Pragmas
-					#pragma vertex vert
-					#pragma fragment frag
+					#pragma vertex vertexShader
+					#pragma fragment fragmentShader
 					#pragma fragmentoption ARB_precision_hint_fastest
 					
 					// Helper functions
 					#include "UnityCG.cginc"
-
+					
 					// User Defined Variables
 					uniform sampler2D _GrabTexture;
 					uniform float4 _GrabTexture_TexelSize;
 					uniform float _Blurryness;
-
+					
 					// Base Input Structs
-					struct appdata_t
+					struct VSInput
 					{
 						float4 vertex : POSITION;
 						float2 texcoord: TEXCOORD0;
 					};
-
-					struct v2f
+					
+					struct VSOutput
 					{
 						float4 vertex : POSITION;
 						float2 uv : TEXCOORD0;
 						float4 uvgrab : TEXCOORD1;
 					};
-
+					
 		 			// The Vertex Shader 
-					v2f vert (appdata_t v)
+					VSOutput vertexShader(VSInput IN)
 					{
-						v2f o;
-						o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
-						o.uv =  v.texcoord.xy;
+						VSOutput OUT;
+						OUT.vertex = mul(UNITY_MATRIX_MVP, IN.vertex);
+						OUT.uv =  IN.texcoord.xy;
 						
 						#if UNITY_UV_STARTS_AT_TOP
 						float scale = -1.0;
@@ -91,53 +91,52 @@ Shader "Ellioman/Blur"
 						float scale = 1.0;
 						#endif
 						
-						o.uvgrab.xy = (float2(o.vertex.x, o.vertex.y*scale) + o.vertex.w) * 0.5;
-						o.uvgrab.zw = o.vertex.zw;
-						
-						return o;
+						OUT.uvgrab.xy = (float2(OUT.vertex.x, OUT.vertex.y*scale) + OUT.vertex.w) * 0.5;
+						OUT.uvgrab.zw = OUT.vertex.zw;
+						return OUT;
 					}
-
-					// The Fragment Shader				
-					half4 frag(v2f i) : COLOR
+					
+					// The Fragment Shader
+					half4 fragmentShader(VSOutput IN) : COLOR
 					{
 						float offsetVal = _Blurryness;
-						float4 uv = i.uvgrab;
+						float4 uv = IN.uvgrab;
 						half4 col = half4(0.0, 0.0, 0.0, 0.0);
 						
 						// Top level
-						uv.y = i.uvgrab.y + _GrabTexture_TexelSize.y * offsetVal;
+						uv.y = IN.uvgrab.y + _GrabTexture_TexelSize.y * offsetVal;
 						
-						uv.x = i.uvgrab.x + _GrabTexture_TexelSize.x * offsetVal;
+						uv.x = IN.uvgrab.x + _GrabTexture_TexelSize.x * offsetVal;
 						col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
 						
-						uv.x = i.uvgrab.x;
+						uv.x = IN.uvgrab.x;
 						col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
-
-						uv.x = i.uvgrab.x - _GrabTexture_TexelSize.x * offsetVal;
+						
+						uv.x = IN.uvgrab.x - _GrabTexture_TexelSize.x * offsetVal;
 						col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
 						
 						// Middle level
-						uv.y = i.uvgrab.y;
+						uv.y = IN.uvgrab.y;
 						
-						uv.x = i.uvgrab.x + _GrabTexture_TexelSize.x * offsetVal;
+						uv.x = IN.uvgrab.x + _GrabTexture_TexelSize.x * offsetVal;
 						col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
 						
-						uv.x = i.uvgrab.x;
+						uv.x = IN.uvgrab.x;
 						col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
-
-						uv.x = i.uvgrab.x - _GrabTexture_TexelSize.x * offsetVal;
+						
+						uv.x = IN.uvgrab.x - _GrabTexture_TexelSize.x * offsetVal;
 						col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
 						
 						// Bottom level
-						uv.y = i.uvgrab.y - _GrabTexture_TexelSize.y * offsetVal;
+						uv.y = IN.uvgrab.y - _GrabTexture_TexelSize.y * offsetVal;
 						
-						uv.x = i.uvgrab.x + _GrabTexture_TexelSize.x * offsetVal;
+						uv.x = IN.uvgrab.x + _GrabTexture_TexelSize.x * offsetVal;
 						col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
 						
-						uv.x = i.uvgrab.x;
+						uv.x = IN.uvgrab.x;
 						col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
-
-						uv.x = i.uvgrab.x - _GrabTexture_TexelSize.x * offsetVal;
+						
+						uv.x = IN.uvgrab.x - _GrabTexture_TexelSize.x * offsetVal;
 						col += tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(uv));
 						
 						return col / 9;
@@ -146,7 +145,7 @@ Shader "Ellioman/Blur"
 				ENDCG
 			}
 		}
-
+		
 		// Fallback for older cards and Unity non-Pro
 		SubShader
 		{

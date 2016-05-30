@@ -15,10 +15,9 @@ Shader "Ellioman/Pixelation"
 			Pass
 			{
 				CGPROGRAM
-				
 					// Pragmas
 					#pragma vertex vert_img // Use the helper vertex shader
-					#pragma fragment frag
+					#pragma fragment fragmentShader
 					
 					// Helper functions
 					#include "UnityCG.cginc"
@@ -27,21 +26,20 @@ Shader "Ellioman/Pixelation"
 					uniform float _PixelSize;
 					uniform sampler2D _MainTex;
 					uniform float4 _MainTex_TexelSize;
-
-					// The Fragment Shader				
-					float4 frag(v2f_img i) : COLOR
+					
+					// The Fragment Shader
+					float4 fragmentShader(v2f_img IN) : COLOR
 					{
-						half2 uv = i.uv;
+						half2 uv = IN.uv;
 						if (_PixelSize != 1.0)
 						{
 							_PixelSize *= _MainTex_TexelSize;
-							int xxx = (i.uv.x / _PixelSize);
+							int xxx = (IN.uv.x / _PixelSize);
 							uv.x = xxx * _PixelSize;
-
-							int yyy = (i.uv.y / _PixelSize);
+							
+							int yyy = (IN.uv.y / _PixelSize);
 							uv.y = yyy * _PixelSize;
 						}
-
 						return tex2D(_MainTex, uv);
 					}
 					

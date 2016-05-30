@@ -23,56 +23,51 @@ Shader "Ellioman/Silhouette"
 			
 			// Standard alpha blending
 			Blend SrcAlpha OneMinusSrcAlpha
-
+			
 			CGPROGRAM 
+				// Pragmas
+				#pragma vertex vertexShader
+				#pragma fragment fragmentShader
 				
-	 			// Pragmas
-	            #pragma vertex vert
-	            #pragma fragment frag
-	            
-	            // Helper functions
-	            #include "UnityCG.cginc"
-
-	            // User Defined Variables
+				// Helper functions
+				#include "UnityCG.cginc"
+				
+				// User Defined Variables
 				uniform float4 _Color;
 				uniform float _SilhuettePower;
-
+				
 				// Base Input Structs
-				struct vertexInput
+				struct VSInput
 				{
 					float4 vertex : POSITION;
 					float3 normal : NORMAL;
 				};
-				struct vertexOutput
+				struct VSOutput
 				{
 					float4 pos : SV_POSITION;
 					float3 normal : TEXCOORD;
 					float3 viewDir : TEXCOORD1;
 				};
-
+				
 				// The Vertex Shader 
-				vertexOutput vert(vertexInput input) 
+				VSOutput vertexShader(VSInput IN) 
 				{
-					vertexOutput output;
-
-					// The direction to the viewer can be computed in the vertex shader as the vector
+				// The direction to the viewer can be computed in the vertex shader as the vector
 					// from the vertex position in world space to the camera position in world space
-					output.viewDir = normalize(_WorldSpaceCameraPos - mul(_Object2World, input.vertex).xyz);
-					output.normal = normalize(mul(float4(input.normal, 0.0), _Object2World).xyz);
-					output.pos = mul(UNITY_MATRIX_MVP, input.vertex);
-					
-					return output;
+					VSOutput OUT;
+					OUT.viewDir = normalize(_WorldSpaceCameraPos - mul(_Object2World, IN.vertex).xyz);
+					OUT.normal = normalize(mul(float4(IN.normal, 0.0), _Object2World).xyz);
+					OUT.pos = mul(UNITY_MATRIX_MVP, IN.vertex);
+					return OUT;
 				}
 				
 				// The Fragment Shader 
-				float4 frag(vertexOutput input) : COLOR
+				float4 fragmentShader(VSOutput IN) : COLOR
 				{
-					float3 normalDirection = normalize(input.normal);
-					float3 viewDirection = normalize(input.viewDir);
-					
+					float3 normalDirection = normalize(IN.normal);
+					float3 viewDirection = normalize(IN.viewDir);
 					float dotResults = pow(dot(viewDirection, normalDirection), _SilhuettePower);
 					float newOpacity = min(1.0, _Color.a / abs(dotResults));
-					
 					return float4(_Color.rgb, newOpacity);
 				}
 			

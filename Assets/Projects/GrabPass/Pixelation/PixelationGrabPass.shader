@@ -17,16 +17,16 @@ Shader "Ellioman/PixelationGrabPass"
 			"Queue"="Transparent+100"
 			"RenderType"="Opaque"
 		}
-
+		
 		SubShader
 		{
 			// Grab the screen behind the object and put it into _GrabTexture
-			GrabPass 
+			GrabPass
 			{
 				// Name of the variable holding the GrabPass output
 				"_GrabTexture"
 				
-				// Pass name						
+				// Pass name
 				Name "BASE"
 				
 				// Tags for the pass
@@ -34,15 +34,14 @@ Shader "Ellioman/PixelationGrabPass"
 				{
 					"LightMode" = "Always"
 				}
-	 		}
-	 		
+			}
+			
 			Pass
 			{
 				CGPROGRAM
-				
 					// Pragmas
-					#pragma vertex vert
-					#pragma fragment frag
+					#pragma vertex vertexShader
+					#pragma fragment fragmentShader
 					#pragma fragmentoption ARB_precision_hint_fastest
 					
 					// Helper functions
@@ -52,15 +51,15 @@ Shader "Ellioman/PixelationGrabPass"
 					uniform sampler2D _GrabTexture;
 					uniform float4 _GrabTexture_TexelSize;
 					uniform float _PixelSize;
-
+					
 					// Base Input Structs
-					struct appdata_t
+					struct VSInput
 					{
 						float4 vertex : POSITION;
 						float2 texcoord: TEXCOORD0;
 					};
-
-					struct v2f
+					
+					struct VSOutput
 					{
 						float4 vertex : POSITION;
 						float2 uv : TEXCOORD0;
@@ -68,11 +67,11 @@ Shader "Ellioman/PixelationGrabPass"
 					};
 		 			
 		 			// The Vertex Shader 
-					v2f vert (appdata_t v)
+					VSOutput vertexShader(VSInput IN)
 					{
-						v2f o;
-						o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
-						o.uv =  v.texcoord.xy;
+						VSOutput OUT;
+						OUT.vertex = mul(UNITY_MATRIX_MVP, IN.vertex);
+						OUT.uv = IN.texcoord.xy;
 						
 						#if UNITY_UV_STARTS_AT_TOP
 						float scale = -1.0;
@@ -80,29 +79,28 @@ Shader "Ellioman/PixelationGrabPass"
 						float scale = 1.0;
 						#endif
 						
-						o.uvgrab.xy = (float2(o.vertex.x, o.vertex.y*scale) + o.vertex.w) * 0.5;
-						o.uvgrab.zw = o.vertex.zw;
+						OUT.uvgrab.xy = (float2(OUT.vertex.x, OUT.vertex.y*scale) + OUT.vertex.w) * 0.5;
+						OUT.uvgrab.zw = OUT.vertex.zw;
 						
-						return o;
+						return OUT;
 					}
-
-					// The Fragment Shader				
-					half4 frag(v2f i) : COLOR
+					
+					// The Fragment Shader
+					half4 fragmentShader(VSOutput IN) : COLOR
 					{
-						float4 uv = i.uvgrab;
+						float4 uv = IN.uvgrab;
 						if (_PixelSize != 1.0)
 						{
 							_PixelSize /= 1000;//_ScreenParams.x * 1;
-							int xxx = (i.uvgrab.x / _PixelSize);
+							int xxx = (IN.uvgrab.x / _PixelSize);
 							uv.x = xxx * _PixelSize;
-
-							int yyy = (i.uvgrab.y / _PixelSize);
+							
+							int yyy = (IN.uvgrab.y / _PixelSize);
 							uv.y = yyy * _PixelSize;
 						}
-
+						
 						return tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(uv));
 					}
-					
 				ENDCG
 			}
 		}

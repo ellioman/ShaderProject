@@ -8,7 +8,7 @@ Shader "Ellioman/Stencils/StencilMask_Diffuse"
 		_Color ("Main Color", Color) = (1,1,1,1)
 		_MainTex ("Base (RGB) Trans (A)", 2D) = "white" {}
 	}
-
+	
 	SubShader
 	{
 		// Subshaders use tags to tell how and when they 
@@ -20,7 +20,7 @@ Shader "Ellioman/Stencils/StencilMask_Diffuse"
 			"RenderType"="Transparent"
 		}
 		LOD 200
-
+		
 		// Stencil Buffer: http://docs.unity3d.com/Manual/SL-Stencil.html
 		Stencil
 		{
@@ -42,30 +42,27 @@ Shader "Ellioman/Stencils/StencilMask_Diffuse"
 		}
 		
 		CGPROGRAM
-
 			// Pragmas
-			#pragma surface surf Lambert alpha
-
+			#pragma surface surfaceShader Lambert alpha
+			
 			// User Defined Variables
 			uniform sampler2D _MainTex;
 			uniform fixed4 _Color;
-
+			
 			// Base Input Structs
 			struct Input
 			{
 				float2 uv_MainTex;
 			};
-
+			
 			// The Surface Shader
-			void surf (Input IN, inout SurfaceOutput o)
+			void surfaceShader(Input IN, inout SurfaceOutput o)
 			{
 				fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;
 				o.Albedo = c.rgb;
 				o.Alpha = c.a;
 			}
-		
 		ENDCG
 	}
-	
 	Fallback "Transparent/VertexLit"
 }

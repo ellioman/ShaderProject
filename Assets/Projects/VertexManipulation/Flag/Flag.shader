@@ -22,48 +22,48 @@ Shader "Ellioman/VertexManipulation/Flag"
 		LOD 200
 		
 		CGPROGRAM
-		// Physically based Standard lighting model, and enable shadows on all light types
-		#pragma surface surf Lambert vertex:vert
-
-		// Use shader model 3.0 target, to get nicer looking lighting
-		#pragma target 3.0
-
-		struct Input
-		{
-			float2 uv_MainTex;
-			float3 vertColor;
-		};
-
-		sampler2D _MainTex;
-		half _TintAmount;
-		fixed4 _ColorA;
-		fixed4 _ColorB;
-		float _Speed;
-		float _Frequency;
-		float _Amplitude;
-
-		// The Vertex Function
-		void vert(inout appdata_full v, out Input o)
-		{
-			float time = _Time * _Speed; 
-			float waveValueA = sin(time + v.vertex.x * _Frequency) * _Amplitude;
-
-			v.vertex.xyz = float3(v.vertex.x, v.vertex.y + waveValueA, v.vertex.z - waveValueA * 0.0625);
-			v.normal = normalize(float3(v.normal.x + waveValueA, v.normal.y, v.normal.z));
-
-			o.vertColor = float3(waveValueA, waveValueA, waveValueA);
-			o.uv_MainTex = v.texcoord;
-		}
-
-		void surf (Input IN, inout SurfaceOutput o)
-		{
-			// Albedo comes from a texture tinted by color
-			fixed4 c = tex2D (_MainTex, IN.uv_MainTex);
-			float3 tintColor = lerp(_ColorA, _ColorB, IN.vertColor).rgb;
-
-			o.Albedo = c.rgb * (tintColor * _TintAmount);
-			o.Alpha = c.a;
-		}
+			// Physically based Standard lighting model, and enable shadows on all light types
+			#pragma surface surfaceShader Lambert vertex:vertexShader
+			#pragma target 3.0 // Use shader model 3.0 target, to get nicer looking lighting
+			
+			// User Defined Variables
+			sampler2D _MainTex;
+			half _TintAmount;
+			fixed4 _ColorA;
+			fixed4 _ColorB;
+			float _Speed;
+			float _Frequency;
+			float _Amplitude;
+			
+			// Base Input Structs
+			struct Input
+			{
+				float2 uv_MainTex;
+				float3 vertColor;
+			};
+			
+			// The Vertex Function
+			void vertexShader(inout appdata_full IN, out Input OUT)
+			{
+				float time = _Time * _Speed; 
+				float waveValueA = sin(time + IN.vertex.x * _Frequency) * _Amplitude;
+				
+				IN.vertex.xyz = float3(IN.vertex.x, IN.vertex.y + waveValueA, IN.vertex.z - waveValueA * 0.0625);
+				IN.normal = normalize(float3(IN.normal.x + waveValueA, IN.normal.y, IN.normal.z));
+				
+				OUT.vertColor = float3(waveValueA, waveValueA, waveValueA);
+				OUT.uv_MainTex = IN.texcoord;
+			}
+			
+			// The Surface Shader
+			void surfaceShader(Input IN, inout SurfaceOutput OUT)
+			{
+				// Albedo comes from a texture tinted by color
+				fixed4 c = tex2D (_MainTex, IN.uv_MainTex);
+				float3 tintColor = lerp(_ColorA, _ColorB, IN.vertColor).rgb;
+				OUT.Albedo = c.rgb * (tintColor * _TintAmount);
+				OUT.Alpha = c.a;
+			}
 		ENDCG
 	}
 	FallBack "Diffuse"

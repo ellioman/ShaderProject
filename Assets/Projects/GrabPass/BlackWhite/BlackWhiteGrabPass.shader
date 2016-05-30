@@ -6,7 +6,7 @@ Shader "Ellioman/BlackWhiteGrabPass"
 	{
 		_bwBlend ("Black & White blend", Range (0, 1)) = 0
 	}
-
+	
 	Category
 	{
 		// Subshaders use tags to tell how and when they 
@@ -17,7 +17,7 @@ Shader "Ellioman/BlackWhiteGrabPass"
 			"Queue"="Transparent+100"
 			"RenderType"="Opaque"
 		}
-
+		
 		SubShader
 		{
 			// Grab the screen behind the object and put it into _GrabTexture
@@ -26,7 +26,7 @@ Shader "Ellioman/BlackWhiteGrabPass"
 				// Name of the variable holding the GrabPass output
 				"_GrabTexture"
 				
-				// Pass name						
+				// Pass name
 				Name "BASE"
 				
 				// Tags for the pass
@@ -50,40 +50,39 @@ Shader "Ellioman/BlackWhiteGrabPass"
 				}
 				
 				CGPROGRAM
-				
 					// Pragmas
-					#pragma vertex vert
-					#pragma fragment frag
+					#pragma vertex vertexShader
+					#pragma fragment fragmentShader
 					#pragma fragmentoption ARB_precision_hint_fastest
 					
 					// Helper functions
 					#include "UnityCG.cginc"
-
+					
 					// User Defined Variables
 					uniform sampler2D _GrabTexture;
 					uniform float4 _GrabTexture_TexelSize;
 					uniform float _bwBlend;
-
+					
 					// Base Input Structs
-					struct appdata_t
+					struct VSInput
 					{
 						float4 vertex : POSITION;
 						float2 texcoord: TEXCOORD0;
 					};
-
-					struct v2f
+					
+					struct VSOutput
 					{
 						float4 vertex : POSITION;
 						float2 uv : TEXCOORD0;
 						float4 uvgrab : TEXCOORD1;
 					};
-
-		 			// The Vertex Shader 
-					v2f vert (appdata_t v)
+					
+					// The Vertex Shader 
+					VSOutput vertexShader(VSInput IN)
 					{
-						v2f o;
-						o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
-						o.uv = v.texcoord.xy;
+						VSOutput OUT;
+						OUT.vertex = mul(UNITY_MATRIX_MVP, IN.vertex);
+						OUT.uv = IN.texcoord.xy;
 						
 						#if UNITY_UV_STARTS_AT_TOP
 						float scale = -1.0;
@@ -91,33 +90,30 @@ Shader "Ellioman/BlackWhiteGrabPass"
 						float scale = 1.0;
 						#endif
 						
-						o.uvgrab.xy = (float2(o.vertex.x, o.vertex.y*scale) + o.vertex.w) * 0.5;
-						o.uvgrab.zw = o.vertex.zw;
+						OUT.uvgrab.xy = (float2(OUT.vertex.x, OUT.vertex.y*scale) + OUT.vertex.w) * 0.5;
+						OUT.uvgrab.zw = OUT.vertex.zw;
 						
-						return o;
+						return OUT;
 					}
-
-					// The Fragment Shader				
-					half4 frag(v2f i) : COLOR
+					
+					// The Fragment Shader
+					half4 fragmentShader(VSOutput IN) : COLOR
 					{
-						float4 c = tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(i.uvgrab));
-
+						float4 c = tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(IN.uvgrab));
+						
 						// The three magic numbers represent the sensitivity of the Human eye
 						// to the R, G and B components. This is taken from
 						// http://www.alanzucconi.com/2015/07/08/screen-shaders-and-postprocessing-effects-in-unity3d/
 						float lum = c.r*.3 + c.g*.59 + c.b*.11;
 						float3 bw = float3(lum, lum, lum); 
-
 						float4 result = c;
 						result.rgb = lerp(c.rgb, bw, _bwBlend);
-
 						return result;
 					}
-					
 				ENDCG
 			}
 		}
-
+		
 		// Fallback for older cards and Unity non-Pro
 		SubShader
 		{

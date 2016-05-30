@@ -16,10 +16,9 @@ Shader "Ellioman/CombineTexturesOverlay"
 		Pass
 		{
 			CGPROGRAM
-				
 				// Pragmas
 				#pragma vertex vert_img // Use the helper vertex shader
-				#pragma fragment frag
+				#pragma fragment fragmentShader
 				
 				// Helper functions
 				#include "UnityCG.cginc"
@@ -31,7 +30,7 @@ Shader "Ellioman/CombineTexturesOverlay"
 				uniform float _SecondTexMultiplier;
 				uniform float _ResultMultiplier;
 				uniform float4 _Tint;
-
+				
 				// Maps a vector to a new range
 				half2 map(half2 uv, float lower, float upper)
 				{
@@ -41,29 +40,28 @@ Shader "Ellioman/CombineTexturesOverlay"
 					k.y += lower;
 					return k;
 				}
-
-				// The Fragment Shader				
-				half4 frag(v2f_img i) : COLOR
+				
+				// The Fragment Shader
+				half4 fragmentShader(v2f_img IN) : COLOR
 				{
 					//float zoomVal = (_SinTime * 0.5) + 0.5;
 					//i.uv = map(i.uv, zoomVal * 0.5, 1.0 - zoomVal * 0.5);
 					// Get the color value from the textures
-					float4 a = tex2D(_MainTex, i.uv);
-
+					float4 a = tex2D(_MainTex, IN.uv);
+					
 					// Map the texture UV's so its between 0.05 and 0.95
-					i.uv = map(i.uv, 0.05, 0.95);
-					float4 b = tex2D(_SecondTex, i.uv);
-
+					IN.uv = map(IN.uv, 0.05, 0.95);
+					float4 b = tex2D(_SecondTex, IN.uv);
+					
 					// Blend the two color values
 					float4 c = _ResultMultiplier * (a + b * _SecondTexMultiplier);
 					float lum = c.r*.3 + c.g*.59 + c.b*.11;
 					float3 bw = float3(lum, lum, lum); 
-
+					
 					float4 result = c;
 					result.rgb = bw * _Tint.rgb;
 					return result;
 				}
- 			
 			ENDCG
 		}
 	}

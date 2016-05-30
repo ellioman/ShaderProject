@@ -16,7 +16,7 @@ Shader "Ellioman/Stencils/StencilMask"
 			"RenderType"="Opaque"
 			"Queue"="Geometry-100"
 		}
-
+		
 		// Stencil Buffer
 		// Always pass and replace the stencil value with the one in _StencilVal
 		ColorMask 0
@@ -31,36 +31,34 @@ Shader "Ellioman/Stencils/StencilMask"
 		Pass
 		{
 			CGPROGRAM
-				
 				// Pragmas
-				#pragma vertex vert
-				#pragma fragment frag
+				#pragma vertex vertexShader
+				#pragma fragment fragmentShader
 				
 				// Base Input Structs
-				struct appdata 
+				struct VSInput 
 				{
 					float4 vertex : POSITION;
 				};
 				
-				struct vertexOutput 
+				struct VSOutput 
 				{
 					float4 pos : SV_POSITION;
 				};
-
+				
 				// The Vertex Shader
-				vertexOutput vert(appdata v) 
+				VSOutput vertexShader(VSInput IN) 
 				{
-					vertexOutput o;
-					o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
-					return o;
+					VSOutput OUT;
+					OUT.pos = mul(UNITY_MATRIX_MVP, IN.vertex);
+					return OUT;
 				}
 				
 				// The Fragment Shader
-				half4 frag(vertexOutput i) : COLOR 
+				half4 fragmentShader(VSOutput IN) : COLOR 
 				{
 					return half4(1,1,0,1);
 				}
-				
 			ENDCG
 		}
 	}
