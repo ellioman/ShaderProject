@@ -1,4 +1,4 @@
-﻿Shader "Ellioman/Shading/Diffuse"
+﻿Shader "Ellioman/Shading/Phong"
 {
 	SubShader
 	{
@@ -6,7 +6,7 @@
 		{
 			Tags
 			{
-				"RenderType" = "Opaque"
+				"LightMode" = "ForwardBase"
 			}
 			
 			CGPROGRAM
@@ -53,12 +53,16 @@
 					
 					// Diffuse
 					float4 lightDirection = normalize(_WorldSpaceLightPos0);
-					half NdotL = dot(lightDirection, IN.normal);
-					float4 diffuseTerm = saturate(NdotL);
+					float4 diffuseTerm = saturate( dot(lightDirection, IN.normal));
 					float4 diffuseLight = diffuseTerm * _LightColor0;
 					
+					// Phong
+					float4 cameraPosition = normalize(float4( _WorldSpaceCameraPos,1) - IN.position);
+					float4 reflectionVector = reflect(-lightDirection, float4(IN.normal,1));
+					float4 specularTerm = pow(saturate(dot(reflectionVector, cameraPosition)),15);
+					
 					// Results
-					return ambientLight + diffuseLight;
+					return ambientLight + diffuseLight + specularTerm;
 				}
 			ENDCG
 		}
