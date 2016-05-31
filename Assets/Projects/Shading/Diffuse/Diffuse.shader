@@ -35,7 +35,7 @@
 					float3 normal : NORMAL;
 				};
 				
-				// The Vertex Shader 
+				// The Vertex Shader
 				VSOutput vertexShader(VSInput IN)
 				{
 					VSOutput OUT;

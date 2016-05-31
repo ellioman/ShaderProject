@@ -1,5 +1,10 @@
 ﻿Shader "Ellioman/Shading/Blinn-Phong"
 {
+	// What variables do we want sent in to the shader?
+	Properties
+	{
+		_SpecularPower("Specular Power", float) = 25
+	}
 	SubShader
 	{
 		Pass
@@ -20,6 +25,7 @@
 				
 				// User Defined Variables
 				float4 _LightColor0;
+				float _SpecularPower;
 				
 				// Base Input Structs
 				struct VSInput
@@ -59,7 +65,7 @@
 					// Blinn-Phong
 					float4 cameraPosition = normalize(float4(_WorldSpaceCameraPos,1) - IN.position);
 					float4 halfVector = normalize(lightDirection+cameraPosition);
-					float4 specularTerm = pow(saturate(dot(IN.normal, halfVector)), 25);
+					float4 specularTerm = pow(saturate(dot(IN.normal, halfVector)), _SpecularPower);
 					
 					// Results
 					return ambientLight + diffuseLight + specularTerm;
