@@ -11,11 +11,14 @@ If you have any questions, something to contribute or just want to chat then fee
 
 ### List of Shaders-Projects in this Repository ###
 	
-* AdditiveBlending
-* AlphaBlending
+
 * ApplyTexture
+* Blending
+	* AdditiveBlending
+	* AlphaBlending
 * CombineTextures
 * Dissolve
+* DiscardingFragments
 * FlatColor
 * FlatRGBColor
 * GeometryShaders
@@ -41,7 +44,6 @@ If you have any questions, something to contribute or just want to chat then fee
 	* Overlay
 	* Pixelation
 	* Tint
-	* Zoom
 * RotationUV
 * RotationVertices
 * Shading
@@ -56,11 +58,9 @@ If you have any questions, something to contribute or just want to chat then fee
 * VertexManipulation
 	* Flag
 	* Scale
-	* CurvedWorld
 * VolumetricExplosion
 * Water
 * Waves
-* WorldSpace
 
 ## Requirements ##
 The project must be run on Unity3D version 5 or newer.

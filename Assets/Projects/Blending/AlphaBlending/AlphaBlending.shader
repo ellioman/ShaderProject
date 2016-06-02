@@ -1,5 +1,5 @@
 ﻿// The Shader outputs a transparent object using alpha blending
-Shader "Ellioman/AlphaBlending"
+Shader "Ellioman/Blending/AlphaBlending"
 {
 	// What variables do we want sent in to the shader?
 	Properties
