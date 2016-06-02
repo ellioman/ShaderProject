@@ -36,19 +36,29 @@
 
 		void surfaceShader(Input IN, inout SurfaceOutputStandard o)
 		{
-			float2 aa = step(frac(IN.uv_MainTex * _DiscardScale), float2(_DiscardLimit, _DiscardLimit));
-			if (all(bool2(aa)))
+			// Number of lattice rectangles per unit (scaled) texture coordinate
+			float2 fractionalOfScaledTexCoord = frac(IN.uv_MainTex * _DiscardScale);
+
+			// Check if the fractional part, for both x and y, is greater than the discard limit
+			float2 shouldDiscard = step(fractionalOfScaledTexCoord, float2(_DiscardLimit, _DiscardLimit));
+
+			// discard this fragment if x and y of the fractionalOfScaledTexCoord are greater than _DiscardLimit
+			if (all(bool2(shouldDiscard)))
 			{
 				discard;
 			}
 
-			// Albedo comes from a texture tinted by color
-			fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
-			o.Albedo = c.rgb;
-			// Metallic and smoothness come from slider variables
-			o.Metallic = _Metallic;
-			o.Smoothness = _Glossiness;
-			o.Alpha = _Color.a;
+			// Otherwise we render as normal...
+			else
+			{
+				// Albedo comes from a texture tinted by color
+				fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
+				o.Albedo = c.rgb;
+				// Metallic and smoothness come from slider variables
+				o.Metallic = _Metallic;
+				o.Smoothness = _Glossiness;
+				o.Alpha = _Color.a;
+			}
 		}
 		ENDCG
 	}
