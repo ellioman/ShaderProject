@@ -40,6 +40,7 @@ If you have any questions, something to contribute or just want to chat then fee
 	* BlackWhite
 	* BlendModes
 	* BrightnessSaturationContrast
+	* Camera Fading (Circle and Black bars)
 	* DepthTexture
 	* Overlay
 	* Pixelation
