@@ -57,7 +57,7 @@
 				OUT.vertex = mul(UNITY_MATRIX_MVP, IN.vertex);
 				OUT.uv = TRANSFORM_TEX(IN.uv, _MainTex);
 				OUT.normal = IN.normal;
-				OUT.worldPosition = mul(_Object2World, IN.vertex).xyz;
+				OUT.worldPosition = mul(unity_ObjectToWorld, IN.vertex).xyz;
 				return OUT;
 			}
 			
@@ -79,7 +79,7 @@
 						OUT.uv = input[i].uv;
 						
 						float4 a = float4((curSize * input[i].worldPosition.xyz + curOffset), 1.0);
-						a = mul(_World2Object, a);
+						a = mul(unity_WorldToObject, a);
 						OUT.vertex = mul(UNITY_MATRIX_MVP, a);
 						OutputStream.Append(OUT);
 					}

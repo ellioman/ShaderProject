@@ -16,6 +16,22 @@ Shader "Ellioman/Blending/AlphaBlending"
 			"Queue" = "Transparent"
 		}
 		
+		// Grab the screen behind the object and put it into _GrabTexture
+		GrabPass 
+		{
+			// Name of the variable holding the GrabPass output
+			"_GrabTexture"
+			
+			// Pass name
+			Name "BASE"
+			
+			// Tags for the pass
+			Tags
+			{
+				"LightMode" = "Always"
+			}
+ 		}
+		
 		Pass
 		{
 			// Don't write to depth buffer in order not to occlude other objects

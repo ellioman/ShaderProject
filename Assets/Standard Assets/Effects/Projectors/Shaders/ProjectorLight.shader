@@ -1,5 +1,7 @@
-Shader "Projector/Light" {
-	Properties {
+Shader "Projector/Light"
+{
+	Properties
+	{
 		_Color ("Main Color", Color) = (1,1,1,1)
 		_ShadowTex ("Cookie", 2D) = "" {}
 		_FalloffTex ("FallOff", 2D) = "" {}
@@ -26,15 +28,15 @@ Shader "Projector/Light" {
 				float4 pos : SV_POSITION;
 			};
 			
-			float4x4 _Projector;
-			float4x4 _ProjectorClip;
+			float4x4 unity_Projector;
+			float4x4 unity_ProjectorClip;
 			
 			v2f vert (float4 vertex : POSITION)
 			{
 				v2f o;
 				o.pos = mul (UNITY_MATRIX_MVP, vertex);
-				o.uvShadow = mul (_Projector, vertex);
-				o.uvFalloff = mul (_ProjectorClip, vertex);
+				o.uvShadow = mul (unity_Projector, vertex);
+				o.uvFalloff = mul (unity_ProjectorClip, vertex);
 				UNITY_TRANSFER_FOG(o,o.pos);
 				return o;
 			}

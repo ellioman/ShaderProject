@@ -33,7 +33,7 @@ Shader "Ellioman/CurvedWorld"
 			void vertexShader(inout appdata_full IN)
 			{
 				// Transform the vertex coordinates from model space into world space
-				float4 vv = mul( _Object2World, IN.vertex );
+				float4 vv = mul( unity_ObjectToWorld, IN.vertex );
 				
 				// Now adjust the coordinates to be relative to the camera position
 				vv.xyz -= _WorldSpaceCameraPos.xyz;
@@ -45,7 +45,7 @@ Shader "Ellioman/CurvedWorld"
 				vv = float4( 0.0f, ((vv.z * vv.z) + (vv.x * vv.x)) * - _Curvature, 0.0f, 0.0f );
 				
 				// Now apply the offset back to the vertices in model space
-				IN.vertex += mul(_World2Object, vv);
+				IN.vertex += mul(unity_WorldToObject, vv);
 			}
 			
 			// The Surface Shader

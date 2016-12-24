@@ -26,8 +26,8 @@
 			// User Defined Variables
 			sampler2D _MainTex;
 			sampler2D _RampTex;
-			half _RampOffset;
 			sampler2D _NoiseTex;
+			half _RampOffset;
 			half _Period;
 			half _Amount;
 			half _ClipRange;
@@ -49,11 +49,13 @@
 			// The Surface Shader
 			void surfaceShader(Input IN, inout SurfaceOutput OUT)
 			{
+				// Calculate the U value using the noise texture with the ramp offset.
 				float3 noise = tex2D(_NoiseTex, IN.uv_NoiseTex);
-				float n = saturate(noise.r + _RampOffset);
-				clip(_ClipRange - n);
+				float uVal = saturate(noise.r + _RampOffset - 1.0);
+				clip(_ClipRange - uVal);
 				
-				half4 c = tex2D(_RampTex, float2(n, 0.5));
+				// We use the uVal to fetch the color value from the ramp texture
+				half4 c = tex2D(_RampTex, float2(uVal , 0.5));
 				OUT.Albedo = c.rgb;
 				OUT.Emission = c.rgb * c.a;
 			}

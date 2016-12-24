@@ -57,8 +57,8 @@ Shader "Ellioman/SilhouetteBlack"
 					
 					// The direction to the viewer can be computed in the vertex shader as the vector
 					// from the vertex position in world space to the camera position in world space
-					OUT.viewDir = normalize(_WorldSpaceCameraPos - mul(_Object2World, IN.vertex).xyz);
-					OUT.normal = normalize(mul(float4(IN.normal, 0.0), _Object2World).xyz);
+					OUT.viewDir = normalize(_WorldSpaceCameraPos - mul(unity_ObjectToWorld, IN.vertex).xyz);
+					OUT.normal = normalize(mul(float4(IN.normal, 0.0), unity_ObjectToWorld).xyz);
 					IN.vertex.xyz += OUT.normal * 0.15;
 					OUT.pos = mul(UNITY_MATRIX_MVP, IN.vertex);
 					return OUT;

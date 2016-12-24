@@ -1,5 +1,4 @@
 // WATCH FULL EXPLANATION ON YOUTUBE-VIDEO: https://www.youtube.com/watch?v=3qBDTh9zWrQ 
-
 Shader "Ellioman/ToonShader"
 {
 	Properties
@@ -62,10 +61,10 @@ Shader "Ellioman/ToonShader"
 					VSOutput OUT;
 					
 					// normalDirection
-					OUT.normalDir = normalize(mul(float4(IN.normal, 0.0 ), _World2Object).xyz );
+					OUT.normalDir = normalize(mul(float4(IN.normal, 0.0 ), unity_WorldToObject).xyz );
 					
 					// World position
-					float4 posWorld = mul(_Object2World, IN.vertex);
+					float4 posWorld = mul(unity_ObjectToWorld, IN.vertex);
 					
 					// view direction
 					OUT.viewDir = normalize( _WorldSpaceCameraPos.xyz - posWorld.xyz ); //vector from object to the camera

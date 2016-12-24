@@ -1,4 +1,5 @@
-﻿Shader "Ellioman/Shading/Blinn-Phong"
+﻿
+Shader "Ellioman/Shading/Blinn-Phong"
 {
 	// What variables do we want sent in to the shader?
 	Properties
@@ -46,7 +47,7 @@
 				{
 					VSOutput OUT;
 					OUT.screenPosition = mul(UNITY_MATRIX_MVP, IN.position);
-					OUT.normal = normalize(mul(IN.normal, _World2Object));
+					OUT.normal = normalize(mul(IN.normal, unity_WorldToObject));
 					OUT.position = IN.position;
 					return OUT;
 				}

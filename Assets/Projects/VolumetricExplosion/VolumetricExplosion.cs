@@ -34,10 +34,9 @@ public class VolumetricExplosion : MonoBehaviour
 	{
 		float animationStatus = ((Time.time - startTime) / duration);
 		transform.localScale = endSize * animationStatus;
-
-		float ramp = (animationStatus - 0.75f);
-		mat.SetFloat("_RampOffset", ramp);
-		if (ramp >= 1.5f)
+		float ramp = (animationStatus - 1f);
+		mat.SetFloat("_RampOffset", animationStatus);
+		if (ramp >= 1f)
 		{
 			enabled = false;
 			Destroy(gameObject);

@@ -11,6 +11,11 @@ Shader "Ellioman/BlackWhite"
 	{
 		SubShader
 		{
+		Tags
+		{
+			"Queue" = "Transparent"
+		}
+		
 			Pass
 			{
 				CGPROGRAM
