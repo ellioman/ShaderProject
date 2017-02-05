@@ -20,10 +20,11 @@ public class GPUInstancingScript : MonoBehaviour
 			return;
 		}
 
+		float space = 2.0f;
 		Camera cam = FindObjectOfType<Camera>();
 		if (cam)
 		{
-			cam.transform.position = new Vector3(spaceSize * 0.5f, 17.5f, -spaceSize * 0.5f);
+			cam.transform.position = new Vector3(spaceSize * 0.5f * space, 70f, -spaceSize * 0.5f * space);
 		}
 
 		objects = new GameObject[numOfObjects];
@@ -32,10 +33,11 @@ public class GPUInstancingScript : MonoBehaviour
 
 		float x = 0f;
 		float z = 0f;
-		float space = 2.0f;
+
 		for (int i = 0; i < numOfObjects; i++)
 		{
 			objects[i] = Instantiate(objPrefab) as GameObject;
+			objects[i].name = "Object" + i;
 
 			float r = Random.Range(0.0f, 1.0f);
 			float g = Random.Range(0.0f, 1.0f);
@@ -44,8 +46,8 @@ public class GPUInstancingScript : MonoBehaviour
 			renderer = objects[i].GetComponent<MeshRenderer>();
 			renderer.SetPropertyBlock(props);
 
-			x = - spaceSize * 0.5f + i % spaceSize * space;
-			z = - spaceSize * 0.5f + Mathf.Floor(i / spaceSize) * space;
+			x = - spaceSize * 0.5f * space + i % spaceSize * space;
+			z = - spaceSize * 0.5f * space  + Mathf.Floor(i / spaceSize) * space;
 			objects[i].transform.position = new Vector3(x, 0f, z);
 		}	
 	}
