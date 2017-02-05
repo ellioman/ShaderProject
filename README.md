@@ -22,6 +22,7 @@ If you have any questions, something to contribute or just want to chat then fee
 * FlatColor
 * FlatRGBColor
 * GeometryShaders
+* GPU Instancing
 * GrabPass
 	* BlackWhite
 	* Blur
