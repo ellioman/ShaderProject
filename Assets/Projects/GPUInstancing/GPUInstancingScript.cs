@@ -12,43 +12,55 @@ public class GPUInstancingScript : MonoBehaviour
 	// Private Variables
 	private GameObject[] objects = null;
 
-	// Use this for initialization
-	private void Start ()
+
+	private void Start()
 	{
 		if (numOfObjects <= 0 || spaceSize <= 0f)
 		{
 			return;
 		}
 
-		float space = 2.0f;
 		Camera cam = FindObjectOfType<Camera>();
 		if (cam)
 		{
-			cam.transform.position = new Vector3(spaceSize * 0.5f * space, 70f, -spaceSize * 0.5f * space);
+			cam.transform.position = new Vector3(spaceSize * 0.75f, cam.transform.position.y, -spaceSize * 0.75f);
 		}
-
+		
+		int numObjectsEachLine = (int) Mathf.Sqrt(numOfObjects);
+		float spacing = spaceSize / ((float)numObjectsEachLine);
 		objects = new GameObject[numOfObjects];
+
 		MaterialPropertyBlock props = new MaterialPropertyBlock();
 		MeshRenderer renderer;
-
-		float x = 0f;
-		float z = 0f;
-
-		for (int i = 0; i < numOfObjects; i++)
+		int i = 0;
+		float startPos = - spaceSize * 0.5f;
+		for (int xIter = 0; xIter < numObjectsEachLine; xIter++)
 		{
-			objects[i] = Instantiate(objPrefab) as GameObject;
-			objects[i].name = "Object" + i;
+			for (int zIter = 0; zIter < numObjectsEachLine; zIter++)
+			{
+				objects[i] = Instantiate(objPrefab) as GameObject;
+				objects[i].name = "Object" + i;
+				objects[i].transform.parent = transform;
+				objects[i].transform.localScale = new Vector3(
+					spacing,
+					spacing,
+					spacing
+				);
+				props.SetColor("_Color", new Color(
+					Random.Range(0.0f, 1.0f), 
+					Random.Range(0.0f, 1.0f), 
+					Random.Range(0.0f, 1.0f)
+				));
+				renderer = objects[i].GetComponent<MeshRenderer>();
+				renderer.SetPropertyBlock(props);
 
-			float r = Random.Range(0.0f, 1.0f);
-			float g = Random.Range(0.0f, 1.0f);
-			float b = Random.Range(0.0f, 1.0f);
-			props.SetColor("_Color", new Color(r, g, b));
-			renderer = objects[i].GetComponent<MeshRenderer>();
-			renderer.SetPropertyBlock(props);
-
-			x = - spaceSize * 0.5f * space + i % spaceSize * space;
-			z = - spaceSize * 0.5f * space  + Mathf.Floor(i / spaceSize) * space;
-			objects[i].transform.position = new Vector3(x, 0f, z);
-		}	
+				objects[i].transform.position = new Vector3(
+					startPos + xIter * spacing, 
+					0f, 
+					startPos + zIter * spacing
+				);
+				i++;
+			}
+		}
 	}
 }
