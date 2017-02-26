@@ -11,16 +11,22 @@ If you have any questions, something to contribute or just want to chat then fee
 
 ### List of Shaders-Projects in this Repository ###
 	
-
+* 2DSpritesOutline
+* 3DTexture
 * ApplyTexture
 * Blending
 	* AdditiveBlending
 	* AlphaBlending
+* CameraFader
 * CombineTextures
+* DeferredRendering
+	* DeferredTextures
+* DepthTexture
 * Dissolve
 * DiscardingFragments
 * FlatColor
 * FlatRGBColor
+* Fog
 * GeometryShaders
 * GPU Instancing
 * GrabPass
@@ -30,20 +36,20 @@ If you have any questions, something to contribute or just want to chat then fee
 	* Pixelation
 	* PixelShifting
 	* Tint
-	* Zoom
 * Heatmaps
 * Masks
 	* AlphaMask
 	* ColorMask
 	* ColorAlphaMask
 * NormalExtrusion
+	* Heart
+	* Sphere
 * NormalMapping
 * PostProcessing
 	* BlackWhite
 	* BlendModes
 	* BrightnessSaturationContrast
 	* Camera Fading (Circle and Black bars)
-	* DepthTexture
 	* Overlay
 	* Pixelation
 	* Tint
@@ -66,7 +72,7 @@ If you have any questions, something to contribute or just want to chat then fee
 * Waves
 
 ## Requirements ##
-The project must be run on Unity3D version 5 or newer.
+The project must be run on Unity3D version 5.6 or newer.
 
 ## Thank Yous / Resources ##
 
