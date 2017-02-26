@@ -29,7 +29,7 @@ Shader "Ellioman/DepthTexture"
 				uniform sampler2D _MainTex;
 				uniform sampler2D _CameraDepthTexture; // Build in texture from UnityCG.cginc that gives us depth info
 				uniform fixed _DepthPower;
-				
+
 				// The Fragment Shader
 				fixed4 fragmentShader(v2f_img IN) : COLOR
 				{
