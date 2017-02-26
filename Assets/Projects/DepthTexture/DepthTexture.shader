@@ -33,11 +33,9 @@ Shader "Ellioman/DepthTexture"
 				// The Fragment Shader
 				fixed4 fragmentShader(v2f_img IN) : COLOR
 				{
-					// Get the colors from the RenderTexture and the uv's 
-					// from the v2f_img struct
+					// Get the colors from the RenderTexture and the uv's from the v2f_img struct
 					float d = UNITY_SAMPLE_DEPTH(tex2D(_CameraDepthTexture, IN.uv.xy));
-					d = pow(Linear01Depth(d), _DepthPower);
-					return d;
+					return pow(Linear01Depth(d), _DepthPower);
 				}
 			ENDCG
 		}

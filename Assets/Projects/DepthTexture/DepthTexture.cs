@@ -8,7 +8,7 @@ public class DepthTexture : MonoBehaviour
 
 	// Unity Editor Variables
 	[SerializeField] protected Shader shader;
-	[SerializeField] protected float depthPower;
+	[SerializeField] [Range(0f, 1f)] protected float depthPower;
 
 	// Protected Instance Variables
 	protected Material mat;
