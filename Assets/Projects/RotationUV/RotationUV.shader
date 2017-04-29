@@ -1,4 +1,6 @@
-﻿// Rotates the uv coordinates of the texture
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+// Rotates the uv coordinates of the texture
 Shader "Ellioman/RotateUV"
 {
 	// What variables do we want sent in to the shader?
@@ -76,7 +78,7 @@ Shader "Ellioman/RotateUV"
 				VSOutput vertexShader(VSInput IN)
 				{
 					VSOutput OUT;
-					OUT.position = mul(UNITY_MATRIX_MVP, IN.vertex);
+					OUT.position = UnityObjectToClipPos(IN.vertex);
 					OUT.texcoord0.xy = CalculateRotation(IN.texcoord0);
 					return OUT;
 				}

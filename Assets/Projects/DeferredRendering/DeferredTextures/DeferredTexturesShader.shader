@@ -1,4 +1,4 @@
-﻿Shader "Unlit/DeferredTexturesShader"
+﻿Shader "Ellioman/Deferred/DeferredTexturesShader"
 {
 	Properties
 	{

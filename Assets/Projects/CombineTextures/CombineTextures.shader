@@ -1,4 +1,6 @@
-﻿// The Shader takes two textures and blends them together using the _BlendValue
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+// The Shader takes two textures and blends them together using the _BlendValue
 Shader "Ellioman/CombineTextures"
 {
 	// What variables do we want sent in to the shader?
@@ -49,7 +51,7 @@ Shader "Ellioman/CombineTextures"
 				vertexOutput vertexShader(vertexInput IN)
 				{
 					vertexOutput OUT;
-					OUT.position = mul(UNITY_MATRIX_MVP, IN.vertex);
+					OUT.position = UnityObjectToClipPos(IN.vertex);
 					
 					// We use Unity's TRANSFORM_TEX macro to scale and offset the texture
 					// coordinates using the tiling and offset from the Unity editor.

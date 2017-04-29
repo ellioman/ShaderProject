@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 // Per pixel bumped refraction.
 // Uses a normal map to distort the image behind, and
 // an additional texture to tint the color.
@@ -83,7 +85,7 @@ Shader "Ellioman/Glass/GlassStained"
 					VSOutput vertexShader(VSInput IN)
 					{
 						VSOutput OUT;
-						OUT.vertex = mul(UNITY_MATRIX_MVP, IN.vertex);
+						OUT.vertex = UnityObjectToClipPos(IN.vertex);
 						#if UNITY_UV_STARTS_AT_TOP
 						OUT.vertex.y *= -1;
 						#endif

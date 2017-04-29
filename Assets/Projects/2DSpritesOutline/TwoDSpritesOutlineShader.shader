@@ -1,4 +1,6 @@
-﻿// Author Ryan Nielson
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+// Author Ryan Nielson
 // http://nielson.io/2016/04/2d-sprite-outlines-in-unity/
 Shader "Ellioman/TwoDSpritesOutlineShader"
 {
@@ -64,7 +66,7 @@ Shader "Ellioman/TwoDSpritesOutlineShader"
 			v2f vert(appdata_t IN)
 			{
 				v2f OUT;
-				OUT.vertex = mul(UNITY_MATRIX_MVP, IN.vertex);
+				OUT.vertex = UnityObjectToClipPos(IN.vertex);
 				OUT.texcoord = IN.texcoord;
 				OUT.color = IN.color * _Color;
 				#ifdef PIXELSNAP_ON

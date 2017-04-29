@@ -1,4 +1,6 @@
-﻿// The Shader outputs adds the fragment output color to the color in the framebuffer by using additive blending 
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+// The Shader outputs adds the fragment output color to the color in the framebuffer by using additive blending 
 Shader "Ellioman/Blending/AdditiveBlending"
 {
 	// What variables do we want sent in to the shader?
@@ -54,7 +56,7 @@ Shader "Ellioman/Blending/AdditiveBlending"
 				VSOutput vertexShader(VSInput IN)
 				{
 					VSOutput OUT;
-					OUT.position = mul(UNITY_MATRIX_MVP, IN.vertex);
+					OUT.position = UnityObjectToClipPos(IN.vertex);
 					OUT.texcoord0 = IN.texcoord0;
 					return OUT;
 				}

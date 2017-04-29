@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 // 
 Shader "Ellioman/BlackWhiteGrabPass"
 {
@@ -81,7 +83,7 @@ Shader "Ellioman/BlackWhiteGrabPass"
 					VSOutput vertexShader(VSInput IN)
 					{
 						VSOutput OUT;
-						OUT.vertex = mul(UNITY_MATRIX_MVP, IN.vertex);
+						OUT.vertex = UnityObjectToClipPos(IN.vertex);
 						OUT.uv = IN.texcoord.xy;
 						
 						#if UNITY_UV_STARTS_AT_TOP

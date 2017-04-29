@@ -1,4 +1,6 @@
-﻿// The Shader uses the vertex positions to color the object
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+// The Shader uses the vertex positions to color the object
 Shader "Ellioman/FlatRGBColor"
 {
 	SubShader
@@ -27,7 +29,7 @@ Shader "Ellioman/FlatRGBColor"
 				VSOutput vertexShader(VSInput IN)
 				{
 					VSOutput OUT;
-					OUT.pos = mul(UNITY_MATRIX_MVP, IN.vertex);
+					OUT.pos = UnityObjectToClipPos(IN.vertex);
 					
 					// We add 0.5 to the x, y, and z coordinates, because the coordinates of
 					// the cube are between -0.5 and 0.5 but we need them between 0.0 and 1.0.

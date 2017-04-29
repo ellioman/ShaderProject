@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 // Blurs the contents of the screen behind the object
 Shader "Ellioman/TintGrabPass"
 {
@@ -81,7 +83,7 @@ Shader "Ellioman/TintGrabPass"
 					VSOutput vertexShader(VSInput v)
 					{
 						VSOutput OUT;
-						OUT.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+						OUT.vertex = UnityObjectToClipPos(v.vertex);
 						OUT.uv = v.texcoord.xy;
 						
 						#if UNITY_UV_STARTS_AT_TOP

@@ -1,4 +1,6 @@
-﻿// The Shader outputs a transparent object using alpha blending
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+// The Shader outputs a transparent object using alpha blending
 Shader "Ellioman/Blending/AlphaBlending"
 {
 	// What variables do we want sent in to the shader?
@@ -70,7 +72,7 @@ Shader "Ellioman/Blending/AlphaBlending"
 				VSOutput vertexShader(VSInput IN)
 				{
 					VSOutput OUT;
-					OUT.position = mul(UNITY_MATRIX_MVP, IN.vertex);
+					OUT.position = UnityObjectToClipPos(IN.vertex);
 					OUT.texcoord0 = IN.texcoord0;
 					return OUT;
 				}

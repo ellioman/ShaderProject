@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 // WATCH FULL EXPLANATION ON YOUTUBE-VIDEO: https://www.youtube.com/watch?v=3qBDTh9zWrQ 
 Shader "Ellioman/ToonShader"
 {
@@ -77,7 +79,7 @@ Shader "Ellioman/ToonShader"
 					);
 					
 					// fragmentInput output;
-					OUT.pos = mul(UNITY_MATRIX_MVP, IN.vertex);  
+					OUT.pos = UnityObjectToClipPos(IN.vertex);  
 					
 					// UV-Map
 					OUT.uv = IN.texcoord;

@@ -1,4 +1,6 @@
-﻿// Rotates the vertices of the object
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+// Rotates the vertices of the object
 Shader "Ellioman/RotateVertices"
 {
 	// What variables do we want sent in to the shader?
@@ -60,7 +62,7 @@ Shader "Ellioman/RotateVertices"
 					VSOutput OUT;
 					float4 k = float4(i.vertex.x, i.vertex.z, 1.0, 1.0);
 					k = CalculateRotation(k);
-					OUT.position = mul(UNITY_MATRIX_MVP, float4(k.x, i.vertex.y, k.y, i.vertex.w));
+					OUT.position = UnityObjectToClipPos(float4(k.x, i.vertex.y, k.y, i.vertex.w));
 					OUT.texcoord0.xy = TRANSFORM_TEX(i.texcoord0, _MainTex);
 					return OUT;
 				}

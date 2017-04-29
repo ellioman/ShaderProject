@@ -5,7 +5,8 @@ using System.IO;
 [ExecuteInEditMode]
 public class DeferredTexturesScript : MonoBehaviour
 {
-	public Shader shader;
+	[SerializeField] private Shader shader;
+
 	private Material mat = null;
 
 	private void OnEnable()

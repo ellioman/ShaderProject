@@ -1,4 +1,6 @@
-﻿
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+
 Shader "Ellioman/Water"
 {
 	Properties
@@ -79,7 +81,7 @@ Shader "Ellioman/Water"
 					{
 						VSOutput OUT;
 						OUT.vertex.y += sin(_Time.w) * 0.01;
-						OUT.vertex = mul(UNITY_MATRIX_MVP, IN.vertex);
+						OUT.vertex = UnityObjectToClipPos(IN.vertex);
 						_NormalMap_ST.z += _Time.x;
 						
 						OUT.uvmain = IN.texcoord;

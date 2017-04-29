@@ -1,4 +1,6 @@
-﻿// The Shader uses the _Color input given and colors the object with it.
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+// The Shader uses the _Color input given and colors the object with it.
 Shader "Ellioman/FlatColor"
 {
 	// What variables do we want sent in to the shader?
@@ -33,7 +35,7 @@ Shader "Ellioman/FlatColor"
 				VSOutput vertexShader(appdata_base IN)
 				{
 					VSOutput OUT;
-					OUT.pos = mul(UNITY_MATRIX_MVP, IN.vertex);
+					OUT.pos = UnityObjectToClipPos(IN.vertex);
 					return OUT;
 				}
 				

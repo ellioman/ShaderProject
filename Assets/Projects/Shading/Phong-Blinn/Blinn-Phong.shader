@@ -1,4 +1,6 @@
-﻿
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+
 Shader "Ellioman/Shading/Blinn-Phong"
 {
 	// What variables do we want sent in to the shader?
@@ -46,7 +48,7 @@ Shader "Ellioman/Shading/Blinn-Phong"
 				VSOutput vertexShader(VSInput IN)
 				{
 					VSOutput OUT;
-					OUT.screenPosition = mul(UNITY_MATRIX_MVP, IN.position);
+					OUT.screenPosition = UnityObjectToClipPos(IN.position);
 					OUT.normal = normalize(mul(IN.normal, unity_WorldToObject));
 					OUT.position = IN.position;
 					return OUT;

@@ -1,4 +1,6 @@
-﻿// This shader is used to write the "Ref" number, in the Stencil part, to the Stencil Buffer.
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+// This shader is used to write the "Ref" number, in the Stencil part, to the Stencil Buffer.
 Shader "Ellioman/Stencils/StencilMask"
 {
 	// What variables do we want sent in to the shader?
@@ -50,7 +52,7 @@ Shader "Ellioman/Stencils/StencilMask"
 				VSOutput vertexShader(VSInput IN) 
 				{
 					VSOutput OUT;
-					OUT.pos = mul(UNITY_MATRIX_MVP, IN.vertex);
+					OUT.pos = UnityObjectToClipPos(IN.vertex);
 					return OUT;
 				}
 				

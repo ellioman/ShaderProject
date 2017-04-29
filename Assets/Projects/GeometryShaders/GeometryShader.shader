@@ -1,4 +1,6 @@
-﻿Shader "Ellioman/GeometryShader"
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Ellioman/GeometryShader"
 {
 	Properties
 	{
@@ -54,7 +56,7 @@
 			VSOutput vertexShader(VSInput IN)
 			{
 				VSOutput OUT;
-				OUT.vertex = mul(UNITY_MATRIX_MVP, IN.vertex);
+				OUT.vertex = UnityObjectToClipPos(IN.vertex);
 				OUT.uv = TRANSFORM_TEX(IN.uv, _MainTex);
 				OUT.normal = IN.normal;
 				OUT.worldPosition = mul(unity_ObjectToWorld, IN.vertex).xyz;
@@ -80,7 +82,7 @@
 						
 						float4 a = float4((curSize * input[i].worldPosition.xyz + curOffset), 1.0);
 						a = mul(unity_WorldToObject, a);
-						OUT.vertex = mul(UNITY_MATRIX_MVP, a);
+						OUT.vertex = UnityObjectToClipPos(a);
 						OutputStream.Append(OUT);
 					}
 					

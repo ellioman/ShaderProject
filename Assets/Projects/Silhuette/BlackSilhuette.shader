@@ -1,4 +1,6 @@
-﻿// Tutorial: https://en.wikibooks.org/wiki/Cg_Programming/Unity/Silhouette_Enhancement
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+// Tutorial: https://en.wikibooks.org/wiki/Cg_Programming/Unity/Silhouette_Enhancement
 Shader "Ellioman/SilhouetteBlack"
 {
 	// What variables do we want sent in to the shader?
@@ -60,7 +62,7 @@ Shader "Ellioman/SilhouetteBlack"
 					OUT.viewDir = normalize(_WorldSpaceCameraPos - mul(unity_ObjectToWorld, IN.vertex).xyz);
 					OUT.normal = normalize(mul(float4(IN.normal, 0.0), unity_ObjectToWorld).xyz);
 					IN.vertex.xyz += OUT.normal * 0.15;
-					OUT.pos = mul(UNITY_MATRIX_MVP, IN.vertex);
+					OUT.pos = UnityObjectToClipPos(IN.vertex);
 					return OUT;
 				}
 				
@@ -111,7 +113,7 @@ Shader "Ellioman/SilhouetteBlack"
 				vertexOutput vertexShader(vertexInput input) 
 				{
 					vertexOutput output;
-					output.pos = mul(UNITY_MATRIX_MVP, input.vertex);
+					output.pos = UnityObjectToClipPos(input.vertex);
 					return output;
 				}
 				

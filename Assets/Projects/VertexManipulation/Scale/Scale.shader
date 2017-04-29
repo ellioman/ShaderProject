@@ -1,4 +1,6 @@
-﻿// 
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+// 
 Shader "Ellioman/VertexManipulation/Scale"
 {
 	// What variables do we want sent in to the shader?
@@ -42,7 +44,7 @@ Shader "Ellioman/VertexManipulation/Scale"
 	            {
 	                vertexOutput o;
 	                i.vertex.xz *= clamp((_SinTime.w + 3.0) * 0.5, 1.0, 2.0);
-	                o.position = mul(UNITY_MATRIX_MVP, i.vertex);
+	                o.position = UnityObjectToClipPos(i.vertex);
 	                o.texcoord0.xy = TRANSFORM_TEX(i.texcoord0, _MainTex);
 	                return o;
 	            }
