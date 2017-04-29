@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class WavePoints : MonoBehaviour
+public class WaveController : MonoBehaviour
 {
 	#region Variables
 
 	// Unity Editor Variables
+	[SerializeField] protected float waveDelayInSeconds;
 	[SerializeField] protected Material _material;
 	[SerializeField] protected Vector3 centerPos = new Vector3(0f, 2f, 0f);
 	[SerializeField] protected float waveheight;
@@ -40,6 +41,7 @@ public class WavePoints : MonoBehaviour
 	protected void Start()
 	{
 		_material.hideFlags = HideFlags.DontSave;
+		StartCoroutine(CreateWavesRoutine());
 	}
 
 	// Called every fixed framerate frame
@@ -64,18 +66,21 @@ public class WavePoints : MonoBehaviour
 		{
 			CalculateVertices(waves[w]);
 		}
-
-
-		if (Input.GetKeyUp(KeyCode.A))
-		{
-			CreateWaveBatchAndPoints();
-		}
 	}
 
 	#endregion
 
 
 	#region Protected Functions
+
+	protected IEnumerator CreateWavesRoutine()
+	{
+		while(true)
+		{
+			CreateWaveBatchAndPoints();
+			yield return new WaitForSeconds(waveDelayInSeconds);
+		}
+	}
 
 	// Creates the wave and calculates the points on the wave
 	protected void CreateWaveBatchAndPoints()
