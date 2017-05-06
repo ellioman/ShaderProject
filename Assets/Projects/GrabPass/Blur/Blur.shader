@@ -6,7 +6,7 @@ Shader "Ellioman/Blur"
 	// What variables do we want sent in to the shader?
 	Properties
 	{
-		_Blurryness ("Blur Amount", range (0,1024)) = 10
+		_Blurryness ("Blur Amount", range (0, 32)) = 0
 	}
 	
 	Category

@@ -16,10 +16,18 @@ public class VolumetricExplosionController : MonoBehaviour
 	// Update is called once per frame
 	protected void Update ()
 	{
-		if (Input.GetKeyUp(KeyCode.A))
+		if (Input.GetKeyUp(KeyCode.Space))
 		{
 			Instantiate(explosionPrefab);
 		}
+	}
+
+	private void OnGUI()
+	{
+		GUI.Label (
+			new Rect (10, 10, 1000, 100),
+			"Space: Create Explosion"
+		);
 	}
 
 	#endregion
