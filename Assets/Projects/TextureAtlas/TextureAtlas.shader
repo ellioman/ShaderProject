@@ -5,8 +5,7 @@
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
 		_TextureColumns ("Texture Columns", float) = 1
 		_TextureRows ("Texture Rows", float) = 1
-		_AnimationSpeed ("Animation Speed", float) = 1
-		_AnimationTime ("Animation Time", float) = 1
+		_Speed ("Speed", float) = 1
 	}
 
 	SubShader 
@@ -26,9 +25,9 @@
 			uniform sampler2D _MainTex;
 			uniform float _TextureColumns;
 			uniform float _TextureRows;
-			uniform float _AnimationSpeed;
+			uniform float _Speed;
 			uniform float _AnimationTime;
-			
+
 			// Base Input Structs
 			struct Input 
 			{
@@ -38,10 +37,9 @@
 			// The Vertex Shader
 			void vertexShader(inout appdata_full IN, out Input OUT)
 			{
-				float time = floor(_AnimationTime * _AnimationSpeed);
-
-				float xPos = floor(time) % _TextureColumns; 
-				float yPos = floor(time / _TextureColumns) % _TextureRows;
+				_AnimationTime *= _Speed;
+				float xPos = floor(_AnimationTime) % _TextureColumns; 
+				float yPos = floor(_AnimationTime / _TextureColumns) % _TextureRows;
 
 				float texWidth = (1.0 / _TextureColumns);
 				float texHeight = (1.0 / _TextureRows);
