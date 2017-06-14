@@ -17,7 +17,6 @@ If you have any questions, something to contribute or just want to chat then fee
 * Blending
 	* AdditiveBlending
 	* AlphaBlending
-* CameraFader
 * CombineTextures
 * DeferredRendering
 	* DeferredTextures
@@ -26,7 +25,6 @@ If you have any questions, something to contribute or just want to chat then fee
 * DiscardingFragments
 * FlatColor
 * FlatRGBColor
-* Fog
 * GeometryShaders
 * GPU Instancing
 * GrabPass
@@ -53,14 +51,14 @@ If you have any questions, something to contribute or just want to chat then fee
 	* Overlay
 	* Pixelation
 	* Tint
-* RotationUV
-* RotationVertices
+* Rotation
+	* RotationUV
+	* RotationVertices
 * Shading
 	* Diffuse
 	* DiffuseLighting
 	* Phong
 	* Phong-Blinn
-* Silhuette
 * StencilBuffer
 * TextureAtlas
 * ToonShading
