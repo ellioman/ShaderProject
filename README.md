@@ -39,6 +39,7 @@ If you have any questions, something to contribute or just want to chat then fee
 	* AlphaMask
 	* ColorMask
 	* ColorAlphaMask
+* Multiple Render Targets
 * NormalExtrusion
 	* Heart
 	* Sphere

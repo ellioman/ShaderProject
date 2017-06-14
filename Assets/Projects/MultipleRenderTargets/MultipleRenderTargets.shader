@@ -1,4 +1,7 @@
-﻿Shader "Ellioman/MultipleRenderTargets"
+﻿// Thanks to Keijiro Takahashi for this example!
+// https://github.com/keijiro/UnityMrtTest
+
+Shader "Ellioman/MultipleRenderTargets"
 {
     Properties
     {

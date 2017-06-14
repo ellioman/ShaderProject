@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿// Thanks to Keijiro Takahashi for this example!
+// https://github.com/keijiro/UnityMrtTest
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
