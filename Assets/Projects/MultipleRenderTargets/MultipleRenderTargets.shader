@@ -33,7 +33,7 @@ Shader "Ellioman/MultipleRenderTargets"
         FragmentOutput o;
         o.dest0 = frac(i.uv.x);
         o.dest1 = frac(i.uv.y);
-        o.dest2 = frac(max(i.uv.x, i.uv.y) * _Time.y);
+        o.dest2 = frac(1.0 / i.uv.x);
         return o;
     }
 
@@ -50,7 +50,8 @@ Shader "Ellioman/MultipleRenderTargets"
         //return t3;
 
         half4 t4 = tex2D(_FourthTex, i.uv);
-//        return t4;
+        t4 *= 2.5;
+        //return t4;
 
         //return min(frac(t2 - t3), frac(t2 + t3));
         return t4 * half4(t1.r, t2.g, t3.b, 1);

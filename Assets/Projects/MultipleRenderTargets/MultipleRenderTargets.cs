@@ -30,9 +30,12 @@ public class MultipleRenderTargets : MonoBehaviour
 
 	private void OnRenderImage(RenderTexture source, RenderTexture destination)
 	{
-		RenderTexture rt1 = RenderTexture.GetTemporary(source.width, source.height, 0, RenderTextureFormat.Default);
-		RenderTexture rt2 = RenderTexture.GetTemporary(source.width, source.height, 0, RenderTextureFormat.DefaultHDR);
-		RenderTexture rt3 = RenderTexture.GetTemporary(source.width, source.height, 0, RenderTextureFormat.DefaultHDR);
+		float multiplier = 0.25f;
+		int width = (int)(source.width * multiplier);
+		int height = (int)(source.height * multiplier);
+		RenderTexture rt1 = RenderTexture.GetTemporary(width, height, 0, RenderTextureFormat.Default);
+		RenderTexture rt2 = RenderTexture.GetTemporary(width, height, 0, RenderTextureFormat.DefaultHDR);
+		RenderTexture rt3 = RenderTexture.GetTemporary(width, height, 0, RenderTextureFormat.DefaultHDR);
 
 		multipleRenderTargetsArray[0] = rt1.colorBuffer;
 		multipleRenderTargetsArray[1] = rt2.colorBuffer;
