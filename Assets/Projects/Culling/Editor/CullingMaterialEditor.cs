@@ -5,6 +5,16 @@ using UnityEditor;
 [ExecuteInEditMode]
 public class CullingMaterialEditor : MaterialEditor
 {
+	#region Variables
+
+	// Consts
+	private const string CULL_MODE_EDITOR_NAME = "Cull mode:";
+	private const string CULLING_SHADER_PROPERTY_NAME = "_CullMode";
+
+	#endregion
+
+	#region MonoBehaviour
+
 	public override void OnInspectorGUI()
 	{
 		if (!isVisible)
@@ -12,14 +22,10 @@ public class CullingMaterialEditor : MaterialEditor
 			return;
 		}
 
-		// Const strings
-		const string CULLING_ON_EDITOR_NAME = "Culling mode:";
-		const string CULLING_SHADER_PROPERTY_NAME = "_CullMode";
-
 		// Get the current state
 		Material material = target as Material;
 		MaterialProperty[] properties = GetMaterialProperties(targets);
-		UnityEngine.Rendering.CullMode cullMode = (UnityEngine.Rendering.CullMode) material.GetInt(CULLING_SHADER_PROPERTY_NAME);
+		CullMode cullMode = (CullMode) material.GetInt(CULLING_SHADER_PROPERTY_NAME);
 
 		// Start the check if anything has changed...
 		EditorGUI.BeginChangeCheck();
@@ -30,7 +36,7 @@ public class CullingMaterialEditor : MaterialEditor
 		EditorGUILayout.Separator();
 
 		// Show the Culling dropdown
-		cullMode = (UnityEngine.Rendering.CullMode) EditorGUILayout.EnumPopup(CULLING_ON_EDITOR_NAME, cullMode);
+		cullMode = (CullMode) EditorGUILayout.EnumPopup(CULL_MODE_EDITOR_NAME, cullMode);
 
 		// End the check if anything had changed
 		if (EditorGUI.EndChangeCheck())
@@ -40,4 +46,6 @@ public class CullingMaterialEditor : MaterialEditor
 			EditorUtility.SetDirty(material);
 		}
 	}
+
+	#endregion
 }

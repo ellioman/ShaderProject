@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -9,11 +9,12 @@ public class CullingScript : MonoBehaviour
 {
 	#region Variables
 
-
 	// Private Instance Variables
 	private int cullModePropertyID = 0;
 	private Material material = null;
 	private CullMode cullMode = CullMode.Off;
+
+	// Consts
 	private const string CULLING_SHADER_PROPERTY_NAME = "_CullMode";
 
 	#endregion
@@ -37,7 +38,7 @@ public class CullingScript : MonoBehaviour
 		}
 
 		if (GUI.Button(
-			new Rect(5f, 5f, 200f, 40f),
+			new Rect(5f, 5f, 300f, 40f),
 			"Culling Mode: " + cullMode.ToString())
 		)
 		{
