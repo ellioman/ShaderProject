@@ -10,8 +10,7 @@ Everything in this repository is purely meant to be educational so don't hesitat
 If you have any questions, something to contribute or just want to chat then feel free hit me up on  [Twitter](https://twitter.com/ellioman) or by email: ellioman at ellioman.com 
 
 ### List of Shaders-Projects in this Repository ###
-	
-* 2DSpritesOutline
+
 * 3DTexture
 * ApplyTexture
 * Blending
