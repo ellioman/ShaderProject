@@ -11,21 +11,19 @@ If you have any questions, something to contribute or just want to chat then fee
 
 ### List of Shaders-Projects in this Repository ###
 
-* 3DTexture
-* ApplyTexture
+* _BasicShader
 * Blending
-	* AdditiveBlending
-	* AlphaBlending
-* CombineTextures
+* Compute
+* Culling
 * DeferredRendering
 	* DeferredTextures
-* DepthTexture
-* Dissolve
 * DiscardingFragments
+* Dissolve
 * FlatColor
-* FlatRGBColor
+	* FlatColor
+	* FlatRGBColor
 * GeometryShaders
-* GPU Instancing
+* GPUInstancing
 * GrabPass
 	* BlackWhite
 	* Blur
@@ -36,21 +34,20 @@ If you have any questions, something to contribute or just want to chat then fee
 * Heatmaps
 * Masks
 	* AlphaMask
-	* ColorMask
 	* ColorAlphaMask
-* Multiple Render Targets
+	* ColorMask
+* MultipleRenderTargets
 * NormalExtrusion
-	* Heart
-	* Sphere
 * NormalMapping
 * PostProcessing
 	* BlackWhite
-	* BlendModes
+	* BlendModeAdd
+	* BlendModeMultiply
+	* BlendModeOverlay
+	* BlendModeScreenBlend
 	* BrightnessSaturationContrast
-	* Camera Fading (Circle and Black bars)
+	* CameraFader
 	* Overlay
-	* Pixelation
-	* Tint
 * Rotation
 	* RotationUV
 	* RotationVertices
@@ -61,8 +58,14 @@ If you have any questions, something to contribute or just want to chat then fee
 	* Phong-Blinn
 * StencilBuffer
 * TextureAtlas
+* Textures
+	* 3DTexture
+	* ApplyTexture
+	* CombineTextures
+	* DepthTexture
 * ToonShading
 * VertexManipulation
+	* CurvedWorld
 	* Flag
 	* Scale
 * VolumetricExplosion
@@ -70,7 +73,7 @@ If you have any questions, something to contribute or just want to chat then fee
 * Waves
 
 ## Requirements ##
-The project must be run on Unity3D version 5.6 or newer.
+The project must be run on Unity3D 2017.1.0f2 or newer.
 
 ## Thank Yous / Resources ##
 
@@ -83,3 +86,5 @@ The project must be run on Unity3D version 5.6 or newer.
 * cgcookie for their free [beginner](https://cgcookie.com/archive/noob-to-pro-shader-writing-for-unity-4-beginner/), [intermediate](https://cgcookie.com/archive/noob-to-pro-shader-writing-for-unity-4-intermediate/) and [surface shader](https://cgcookie.com/archive/introduction-to-surface-shaders-in-unity/) tutorials
 * Alastair Aitchison for his [shader examples](https://alastaira.wordpress.com/)
 * digitalerr0r for his [Diffuse](https://digitalerr0r.wordpress.com/2015/09/18/unity-5-shader-programming-2-diffuse-light/) and [Phong & Blinn-Phong](https://digitalerr0r.wordpress.com/2015/10/26/unity-5-shader-programming-3-specular-light/) tutorials
+* Mike Hearn for [transparenttextures.com](http://transparenttextures.com)
+* Max Boughen for [his free textures](http://www.mb3d.co.uk/mb3d/maxTextures_Home_-_Free_Seamless_and_Tileable_High_Res_Textures.html)
