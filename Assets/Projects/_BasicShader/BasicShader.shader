@@ -5,14 +5,14 @@
 		_MainTex ("Main Texture", 2D) = "white" {}
 		_Color ("Color", Color) = (1,1,1,1)
 
-		[Enum(Zero, 0, One,1, DstColor,2, SrcColor,3, OneMinusDstColor,4, SrcAlpha, 5, OneMinusSrcColor, 6, DstAlpha, 7, OneMinusDstAlpha, 8, SrcAlphaSaturate, 9, OneMinusSrcAlpha,10)] _BlendModeSourceColor ("Source Color BlendMode", Int) = 1
-		[Enum(Zero, 0, One,1, DstColor,2, SrcColor,3, OneMinusDstColor,4, SrcAlpha, 5, OneMinusSrcColor, 6, DstAlpha, 7, OneMinusDstAlpha, 8, SrcAlphaSaturate, 9, OneMinusSrcAlpha,10)] _BlendModeDestinationColor ("Destination Color BlendMode", Int) = 0
-		[Enum(Zero, 0, One,1, DstColor,2, SrcColor,3, OneMinusDstColor,4, SrcAlpha, 5, OneMinusSrcColor, 6, DstAlpha, 7, OneMinusDstAlpha, 8, SrcAlphaSaturate, 9, OneMinusSrcAlpha,10)] _BlendModeSourceAlpha ("Source Alpha BlendMode", Int) = 1
-		[Enum(Zero, 0, One,1, DstColor,2, SrcColor,3, OneMinusDstColor,4, SrcAlpha, 5, OneMinusSrcColor, 6, DstAlpha, 7, OneMinusDstAlpha, 8, SrcAlphaSaturate, 9, OneMinusSrcAlpha,10)] _BlendModeDestinationAlpha ("Destination Alpha BlendMode", Int) = 0
-		[Enum(Add, 0, Subtract, 1, ReverseSubtract, 2, Min, 3, Max, 4, LogicalClear, 5, LogicalSet, 6, LogicalCopy, 7, LogicalCopyInverted, 8, LogicalNoop, 9, LogicalInvert, 10, LogicalAnd, 11, LogicalNand, 12, LogicalOr, 13, LogicalNor, 14, LogicalXor, 15, LogicalEquivalence, 16, LogicalAndReverse, 17, LogicalAndInverted, 18, LogicalOrReverse, 19, LogicalOrInverted, 20, Multiply, 21, Screen, 22, Overlay, 23, Darken, 24, Lighten, 25, ColorDodge, 26, ColorBurn, 27, HardLight, 28, SoftLight, 29, Difference, 30, Exclusion, 31, HSLHue, 32, HSLSaturation, 33, HSLColor, 34, HSLLuminosity, 35, )] _BlendOpColor ("Blend Op Color", Int) = 0
-		[Enum(Add, 0, Subtract, 1, ReverseSubtract, 2, Min, 3, Max, 4, LogicalClear, 5, LogicalSet, 6, LogicalCopy, 7, LogicalCopyInverted, 8, LogicalNoop, 9, LogicalInvert, 10, LogicalAnd, 11, LogicalNand, 12, LogicalOr, 13, LogicalNor, 14, LogicalXor, 15, LogicalEquivalence, 16, LogicalAndReverse, 17, LogicalAndInverted, 18, LogicalOrReverse, 19, LogicalOrInverted, 20, Multiply, 21, Screen, 22, Overlay, 23, Darken, 24, Lighten, 25, ColorDodge, 26, ColorBurn, 27, HardLight, 28, SoftLight, 29, Difference, 30, Exclusion, 31, HSLHue, 32, HSLSaturation, 33, HSLColor, 34, HSLLuminosity, 35, )] _BlendOpAlpha ("Blend Op Alpha", Int) = 0
-
-		[Enum(Off, 0,Front,1,Back,2)] _CullMode ("CullMode", Int) = 2
+		//[Enum(Zero, 0, One,1, DstColor,2, SrcColor,3, OneMinusDstColor,4, SrcAlpha, 5, OneMinusSrcColor, 6, DstAlpha, 7, OneMinusDstAlpha, 8, SrcAlphaSaturate, 9, OneMinusSrcAlpha,10)] _BlendModeSourceColor ("Source Color BlendMode", Int) = 1
+		[Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSourceColor ("Source Color BlendMode", Int) = 1
+		[Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDestinationColor ("Destination Color BlendMode", Int) = 0
+		[Enum(UnityEngine.Rendering.BlendMode)] _BlendModeSourceAlpha ("Source Alpha BlendMode", Int) = 1
+		[Enum(UnityEngine.Rendering.BlendMode)] _BlendModeDestinationAlpha ("Destination Alpha BlendMode", Int) = 0
+		[Enum(UnityEngine.Rendering.BlendOp)] _BlendOpColor ("Blend Op Color", Int) = 0
+		[Enum(UnityEngine.Rendering.BlendOp)] _BlendOpAlpha ("Blend Op Alpha", Int) = 0
+		[Enum(UnityEngine.Rendering.CullMode)] _CullMode ("CullMode", Int) = 2
 		[Enum(Less, 0, Greater, 1, LEqual, 2, GEqual, 3, Equal, 4, NotEqual, 5, Always, 6)] _ZTestMode ("Z Test Mode", Int) = 3
 		[Enum(On, 0, Off,1)] _ZWriteMode ("Z Write Mode", Int) = 0
 		_DepthOffsetFactor ("Depth Offset Factor", Float) = 0
